@@ -939,7 +939,7 @@ function stockHoldings(body){
         ${h.map(x=>{ const cur=(q&&q.data&&q.data[x.code])?q.data[x.code].price:x.current; const mv=(cur||0)*(x.shares||0); const pnl=mv-(x.cost||0)*(x.shares||0); const pct=x.cost?pnl/((x.cost||0)*(x.shares||0))*100:0;
           return `<tr><td><b>${esc(x.name)}</b><br><span class="muted-small">${esc(x.code)}</span></td><td>${esc(x.market||'A股')}</td><td class="num">${(x.shares||0).toLocaleString()}</td><td class="num">${fmtMoney(x.cost,x.cur)}</td><td class="num">${cur!=null?fmtMoney(cur,x.cur):'—'}</td><td class="num">${fmtMoney(mv,x.cur)}</td><td class="num ${clsForPct(pct)}">${fmtPct(pct)}</td><td><div class="row-actions"><button class="mini-btn" data-edit="${x.id}">编辑</button><button class="mini-btn danger" data-del="${x.id}">删</button></div></td></tr>`;
         }).join('')}
-      </tbody></table>` : emptyState('💼','暂无持仓，点击右上角「新建」添加','添加持仓',null) }
+      </tbody></table>` : emptyState('💼','暂无持仓，点击右上角「新建」添加','添加持仓',null)+`<div class="muted-small mt" style="text-align:center;max-width:540px;margin:14px auto 0;line-height:1.8">数据保存在<b>当前浏览器 + 当前网址</b>下（按网址隔离，不跨设备/浏览器）。若你是在另一台设备、另一个浏览器、或用 <code>file://</code> 打开本地文件、或清过网站缓存时查看，这里就会是空的。<br>请回到你平时录入持仓的<b>公网链接</b>打开并硬刷新（Mac Cmd+Shift+R / Win Ctrl+F5）；并建议到「设置 → 导出全部数据」存一份 JSON 备份，以后用「导入备份」即可随时恢复。</div>` }
     </div>
     ${ relatedBookNotesHtml() }
     ${ relatedKbHtml() }`;
