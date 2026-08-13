@@ -2639,23 +2639,46 @@ function taskReminder(body){
   $$('[data-chk]',body).forEach(c=>c.onchange=()=>{ let a=COL.reminders(); const x=a.find(z=>z.id===c.getAttribute('data-chk')); if(x){ x.done=c.checked; SAVE.reminders(a); renderTask('reminder'); renderRightbar(); } });
   $$('[data-del]',body).forEach(b2=>b2.onclick=async()=>{ if(await confirmDialog('删除','确认删除？','删除')){ let a=COL.reminders(); SAVE.reminders(a.filter(x=>x.id!==b2.getAttribute('data-del'))); renderTask('reminder'); renderRightbar(); } });
 }
+let calendarYM=null;
 function taskCalendar(body){
-  const now=new Date(); const y=now.getFullYear(), m=now.getMonth();
+  const now=new Date(); const cur=calendarYM||{y:now.getFullYear(), m:now.getMonth()};
+  const y=cur.y, m=cur.m;
   const first=new Date(y,m,1); const startDow=(first.getDay()+6)%7; const days=new Date(y,m+1,0).getDate();
   const tasks=COL.tasks(), rem=COL.reminders();
+  const qte=t=>esc(t).replace(/'/g,'&#39;');
   const cellFor=(d,out)=>{ const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const tk=tasks.filter(t=>t.due===ds), rk=rem.filter(r=>r.time&&r.time.startsWith(ds));
     const isToday=ds===todayStr();
-    return `<div class="cal-cell ${out?'out':''} ${isToday?'today':''}" data-date="${ds}" style="cursor:pointer"><div class="d-num">${d}</div>${tk.map(()=>'<span class="cal-dot"></span>').join('')}${rk.map(()=>'<span class="cal-dot" style="background:#ea580c"></span>').join('')}</div>`;
+    const chips=[
+      ...tk.map(t=>`<div class="cal-chip task-chip" data-task="${t.id}" title="${qte(t.title)}">${esc(t.title)}</div>`),
+      ...rk.map(r=>`<div class="cal-chip rem-chip" data-rem="${r.id}" title="${qte(r.title)}">${esc(r.title)}</div>`)
+    ].join('');
+    return `<div class="cal-cell ${out?'out':''} ${isToday?'today':''}" data-date="${ds}" style="cursor:pointer">
+      <div class="cal-cell-top"><div class="d-num">${d}</div></div>
+      <div class="cal-items">${chips}</div>
+    </div>`;
   };
   let cells=''; for(let i=0;i<startDow;i++){ const pd=new Date(y,m,0).getDate()-startDow+1+i; cells+=cellFor(pd,true); }
   for(let d=1;d<=days;d++) cells+=cellFor(d,false);
   const tail=(7-(startDow+days)%7)%7; for(let i=1;i<=tail;i++) cells+=cellFor(i,true);
-  body.innerHTML=`<div class="panel"><h2>📅 本月日历（${y}年${m+1}月）</h2>
-    <div class="muted-small mb">蓝点=有任务截止，橙点=有提醒；点击日期可直接添加任务/提醒</div>
+  body.innerHTML=`<div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px">
+      <h2 style="margin:0;font-size:18px">📅 ${y}年${m+1}月</h2>
+      <div style="display:flex;gap:6px">
+        <button class="btn" id="calPrev">‹ 上月</button>
+        <button class="btn" id="calToday">今天</button>
+        <button class="btn" id="calNext">下月 ›</button>
+      </div>
+    </div>
+    <div class="muted-small mb">蓝色=任务，橙色=提醒；点击日期可直接添加任务/提醒，点击条目可切换完成状态</div>
     <div class="cal-grid">${['一','二','三','四','五','六','日'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}${cells}</div>
   </div>`;
-  $$('.cal-cell:not(.out)',body).forEach(cell=>cell.onclick=function(e){ e.stopPropagation(); openDateAction(cell.getAttribute('data-date')); });
+  $('#calPrev',body).onclick=()=>{ calendarYM={y:m===0?y-1:y, m:m===0?11:m-1}; taskCalendar(body); };
+  $('#calNext',body).onclick=()=>{ calendarYM={y:m===11?y+1:y, m:m===11?0:m+1}; taskCalendar(body); };
+  $('#calToday',body).onclick=()=>{ calendarYM=null; taskCalendar(body); };
+  $$('.cal-cell:not(.out)',body).forEach(cell=>cell.onclick=function(e){ if(e.target.closest('.cal-chip')) return; e.stopPropagation(); openDateAction(cell.getAttribute('data-date')); });
+  $$('[data-task]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); let a=COL.tasks(); const x=a.find(t=>t.id===ch.getAttribute('data-task')); if(x){ x.done=!x.done; SAVE.tasks(a); taskCalendar(body); renderRightbar(); toast(x.done?'任务已标记完成':'任务已恢复'); } });
+  $$('[data-rem]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); let a=COL.reminders(); const x=a.find(r=>r.id===ch.getAttribute('data-rem')); if(x){ x.done=!x.done; SAVE.reminders(a); taskCalendar(body); renderRightbar(); toast(x.done?'提醒已标记完成':'提醒已恢复'); } });
 }
 function openDateAction(ds){
   const [yy,mm,dd]=ds.split('-');
