@@ -190,6 +190,15 @@
   .cal-chip:hover{opacity:.85}
   .task-chip{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}
   .rem-chip{background:#ffedd5;color:#9a3412;border-color:#fed7aa}
+  .cal-chip.done{text-decoration:line-through;opacity:.45;filter:grayscale(1)}
+  .cal-detail-head{font-size:13px;font-weight:600;margin:2px 0 10px}
+  .cal-detail{max-height:240px;overflow:auto;display:flex;flex-direction:column;gap:6px}
+  .cal-detail-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f8fafc;border:1px solid var(--line);border-radius:8px}
+  .cal-detail-ico{flex:none}
+  .cal-detail-title{flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cal-detail-title.done{text-decoration:line-through;opacity:.5}
+  .cal-detail-meta{font-size:11px;color:var(--muted);font-family:ui-monospace,monospace;flex:none}
+  .cal-detail-row .mini-btn{flex:none;padding:2px 9px;font-size:12px}
   .cal-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);display:inline-block;margin:1px}
 
   /* timeline */
