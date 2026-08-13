@@ -2677,8 +2677,8 @@ function taskCalendar(body){
   $('#calNext',body).onclick=()=>{ calendarYM={y:m===11?y+1:y, m:m===11?0:m+1}; taskCalendar(body); };
   $('#calToday',body).onclick=()=>{ calendarYM=null; taskCalendar(body); };
   $$('.cal-cell:not(.out)',body).forEach(cell=>cell.onclick=function(e){ if(e.target.closest('.cal-chip')) return; e.stopPropagation(); openDateAction(cell.getAttribute('data-date')); });
-  $$('[data-task]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); let a=COL.tasks(); const x=a.find(t=>t.id===ch.getAttribute('data-task')); if(x){ x.done=!x.done; SAVE.tasks(a); taskCalendar(body); renderRightbar(); toast(x.done?'任务已标记完成':'任务已恢复'); } });
-  $$('[data-rem]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); let a=COL.reminders(); const x=a.find(r=>r.id===ch.getAttribute('data-rem')); if(x){ x.done=!x.done; SAVE.reminders(a); taskCalendar(body); renderRightbar(); toast(x.done?'提醒已标记完成':'提醒已恢复'); } });
+  $$('[data-task]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); const ds=ch.closest('.cal-cell').getAttribute('data-date'); openDateAction(ds); });
+  $$('[data-rem]',body).forEach(ch=>ch.onclick=function(e){ e.stopPropagation(); const ds=ch.closest('.cal-cell').getAttribute('data-date'); openDateAction(ds); });
 }
 function openDateAction(ds){
   const [yy,mm,dd]=ds.split('-');
