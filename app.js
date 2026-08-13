@@ -2686,6 +2686,7 @@ function openDateAction(ds){
   const itemRow=(type,obj)=>`<div class="cal-detail-row"><span class="cal-detail-ico">${type==='task'?'✅':'⏰'}</span>
     <span class="cal-detail-title${obj.done?' done':''}">${esc(obj.title)}</span>
     <span class="cal-detail-meta">${type==='rem'&&obj.time?obj.time.slice(11):(type==='task'&&obj.priority?obj.priority:'')}</span>
+    <button class="mini-btn" data-edit="${type}:${obj.id}">✎</button>
     <button class="mini-btn" data-toggle="${type}:${obj.id}">${obj.done?'↺':'✓'}</button></div>`;
   const detailHtml=tasks.length||rem.length
     ? `<div class="cal-detail">${tasks.concat(rem).length?tasks.map(t=>itemRow('task',t)).join('')+rem.map(r=>itemRow('rem',r)).join(''):''}</div>`
@@ -2708,28 +2709,42 @@ function openDateAction(ds){
     else { let a=COL.reminders(); const x=a.find(r=>r.id===id); if(x){ x.done=!x.done; SAVE.reminders(a);} }
     openDateAction(ds); renderRightbar();
   });
+  $$('[data-edit]',modalEl).forEach(b=>b.onclick=function(){
+    const [type,id]=b.getAttribute('data-edit').split(':');
+    closeModal();
+    if(type==='task'){ const x=COL.tasks().find(t=>t.id===id); if(x) openTaskForm(x); }
+    else { const x=COL.reminders().find(r=>r.id===id); if(x) openReminderForm(x); }
+  });
 }
 function openTaskForm(preset){
   preset=preset||{};
-  openModal(`<div class="modal-head"><h3>新建任务</h3><button class="x-close" data-x>×</button></div>
+  const editing=preset.id||null;
+  openModal(`<div class="modal-head"><h3>${editing?'编辑任务':'新建任务'}</h3><button class="x-close" data-x>×</button></div>
     <div class="modal-body">
       <div class="field"><label>任务标题</label><input id="f_title" value="${esc(preset.title||'')}"></div>
       <div class="field"><label>备注</label><textarea id="f_note">${esc(preset.note||'')}</textarea></div>
-      <div class="field-row"><div class="field"><label>优先级</label><select id="f_pri"><option>普通</option><option>高</option><option>低</option></select></div>
+      <div class="field-row"><div class="field"><label>优先级</label><select id="f_pri">${['普通','高','低'].map(p=>`<option ${p===preset.priority?'selected':''}>${p}</option>`).join('')}</select></div>
       <div class="field"><label>截止日期</label><input type="date" id="f_due" value="${esc(preset.due||'')}"></div></div>
       ${linkPickerField(preset.link,['book','kb','stock'])}
     </div>
     <div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveT">保存</button></div>`);
   modalEl.querySelector('[data-x]').onclick=closeModal;
-  $('#saveT').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写标题');return;} let a=COL.tasks(); a.push({id:uid('tk'),title,note:$('#f_note').value.trim(),priority:$('#f_pri').value,due:$('#f_due').value||null,link:readLinkPicker(),done:false}); SAVE.tasks(a); logActivity('新建任务','task',title); closeModal(); if(parseHash().module==='task') renderTask(parseHash().sub||'list'); renderRightbar(); toast('已保存'); };
+  $('#saveT').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写标题');return;} let a=COL.tasks();
+    if(editing){ const x=a.find(t=>t.id===editing); if(x){ x.title=title; x.note=$('#f_note').value.trim(); x.priority=$('#f_pri').value; x.due=$('#f_due').value||null; x.link=readLinkPicker(); } logActivity('编辑任务','task',title); }
+    else { a.push({id:uid('tk'),title,note:$('#f_note').value.trim(),priority:$('#f_pri').value,due:$('#f_due').value||null,link:readLinkPicker(),done:false}); logActivity('新建任务','task',title); }
+    SAVE.tasks(a); closeModal(); if(parseHash().module==='task') renderTask(parseHash().sub||'list'); renderRightbar(); toast('已保存'); };
 }
 function openReminderForm(preset){
   preset=preset||{};
-  openModal(`<div class="modal-head"><h3>添加提醒</h3><button class="x-close" data-x>×</button></div>
-    <div class="modal-body"><div class="field"><label>提醒内容</label><input id="f_title"></div><div class="field"><label>时间</label><input type="datetime-local" id="f_time" value="${esc(preset.time||'')}"></div></div>
+  const editing=preset.id||null;
+  openModal(`<div class="modal-head"><h3>${editing?'编辑提醒':'添加提醒'}</h3><button class="x-close" data-x>×</button></div>
+    <div class="modal-body"><div class="field"><label>提醒内容</label><input id="f_title" value="${esc(preset.title||'')}"></div><div class="field"><label>时间</label><input type="datetime-local" id="f_time" value="${esc(preset.time||'')}"></div></div>
     <div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveR">保存</button></div>`);
   modalEl.querySelector('[data-x]').onclick=closeModal;
-  $('#saveR').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写内容');return;} let a=COL.reminders(); a.push({id:uid('rm'),title,time:$('#f_time').value||'',done:false}); SAVE.reminders(a); logActivity('添加提醒','task',title); closeModal(); if(parseHash().module==='task') renderTask('reminder'); renderRightbar(); toast('已保存'); };
+  $('#saveR').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写内容');return;} let a=COL.reminders();
+    if(editing){ const x=a.find(r=>r.id===editing); if(x){ x.title=title; x.time=$('#f_time').value||''; } logActivity('编辑提醒','task',title); }
+    else { a.push({id:uid('rm'),title,time:$('#f_time').value||'',done:false}); logActivity('添加提醒','task',title); }
+    SAVE.reminders(a); closeModal(); if(parseHash().module==='task') renderTask('reminder'); renderRightbar(); toast('已保存'); };
 }
 
 /* =========================================================================
