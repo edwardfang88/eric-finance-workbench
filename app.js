@@ -478,12 +478,13 @@ function secidOf(h){
   if(/^60/.test(raw)) return '1.'+raw;
   return '0.'+raw;
 }
+function hashString(s){ let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; } return h>>>0; }
 function getKline(id){
   const sk=store.raw(PREFIX+'stock_kline_'+id,null);
   if(sk&&sk.length>=20){ sk._sample=false; return sk; }
   const h=COL.holdings().find(function(x){ return x.id===id; });
   const q=COL.stockQuotes(); const price=(q&&q.data&&h&&q.data[h.code])?q.data[h.code].price:30;
-  const rnd=mulberry32((id||'x').length*97+13);
+  const rnd=mulberry32(hashString(id||'x'));
   const arr=[]; let p=price*0.92;
   for(let i=0;i<200;i++){ const ch=(rnd()-0.48)*0.04; p=p*(1+ch); const o=p*(1+(rnd()-0.5)*0.02); const hi=Math.max(o,p)*(1+rnd()*0.015); const lo=Math.min(o,p)*(1-rnd()*0.015); const v=5e6*(0.55+rnd()*0.9); arr.push({close:p,open:o,high:hi,low:lo,vol:v}); }
   const f=price/arr[arr.length-1].close; arr.forEach(function(k){ k.close*=f; k.open*=f; k.high*=f; k.low*=f; }); arr._sample=true; return arr;
