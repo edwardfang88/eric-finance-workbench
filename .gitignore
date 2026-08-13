@@ -1,0 +1,5 @@
+# 私有/部署无关文件，不推到公开仓库
+.workbuddy/
+*.zip
+app_副本.js
+.DS_Store
