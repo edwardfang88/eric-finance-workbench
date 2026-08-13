@@ -2650,8 +2650,8 @@ function taskCalendar(body){
     const tk=tasks.filter(t=>t.due===ds), rk=rem.filter(r=>r.time&&r.time.startsWith(ds));
     const isToday=ds===todayStr();
     const chips=[
-      ...tk.map(t=>`<div class="cal-chip task-chip" data-task="${t.id}" title="${qte(t.title)}">${esc(t.title)}</div>`),
-      ...rk.map(r=>`<div class="cal-chip rem-chip" data-rem="${r.id}" title="${qte(r.title)}">${esc(r.title)}</div>`)
+      ...tk.map(t=>`<div class="cal-chip task-chip${t.done?' done':''}" data-task="${t.id}" title="${qte(t.title)}">${esc(t.title)}</div>`),
+      ...rk.map(r=>`<div class="cal-chip rem-chip${r.done?' done':''}" data-rem="${r.id}" title="${qte(r.title)}">${esc(r.title)}</div>`)
     ].join('');
     return `<div class="cal-cell ${out?'out':''} ${isToday?'today':''}" data-date="${ds}" style="cursor:pointer">
       <div class="cal-cell-top"><div class="d-num">${d}</div></div>
@@ -2682,14 +2682,32 @@ function taskCalendar(body){
 }
 function openDateAction(ds){
   const [yy,mm,dd]=ds.split('-');
+  const tasks=COL.tasks().filter(t=>t.due===ds), rem=COL.reminders().filter(r=>r.time&&r.time.startsWith(ds));
+  const itemRow=(type,obj)=>`<div class="cal-detail-row"><span class="cal-detail-ico">${type==='task'?'✅':'⏰'}</span>
+    <span class="cal-detail-title${obj.done?' done':''}">${esc(obj.title)}</span>
+    <span class="cal-detail-meta">${type==='rem'&&obj.time?obj.time.slice(11):(type==='task'&&obj.priority?obj.priority:'')}</span>
+    <button class="mini-btn" data-toggle="${type}:${obj.id}">${obj.done?'↺':'✓'}</button></div>`;
+  const detailHtml=tasks.length||rem.length
+    ? `<div class="cal-detail">${tasks.concat(rem).length?tasks.map(t=>itemRow('task',t)).join('')+rem.map(r=>itemRow('rem',r)).join(''):''}</div>`
+    : `<p class="muted-small" style="text-align:center;margin:6px 0 0">当天暂无条目</p>`;
   openModal(`<div class="modal-head"><h3>${parseInt(mm,10)}月${parseInt(dd,10)}日</h3><button class="x-close" data-x>×</button></div>
-    <div class="modal-body" style="display:flex;gap:12px;justify-content:center;padding:28px 18px">
-      <button class="btn primary" id="addTask">✅ 新建任务</button>
-      <button class="btn primary" id="addRem">⏰ 添加提醒</button>
+    <div class="modal-body">
+      <div class="cal-detail-head">当天条目（${tasks.length+rem.length}）</div>
+      ${detailHtml}
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:18px">
+        <button class="btn primary" id="addTask">✅ 新建任务</button>
+        <button class="btn primary" id="addRem">⏰ 添加提醒</button>
+      </div>
     </div>`);
   modalEl.querySelector('[data-x]').onclick=closeModal;
   $('#addTask').onclick=function(){ closeModal(); openTaskForm({due:ds}); };
   $('#addRem').onclick=function(){ closeModal(); openReminderForm({time:ds+'T09:00'}); };
+  $$('[data-toggle]',modalEl).forEach(b=>b.onclick=function(){
+    const [type,id]=b.getAttribute('data-toggle').split(':');
+    if(type==='task'){ let a=COL.tasks(); const x=a.find(t=>t.id===id); if(x){ x.done=!x.done; SAVE.tasks(a);} }
+    else { let a=COL.reminders(); const x=a.find(r=>r.id===id); if(x){ x.done=!x.done; SAVE.reminders(a);} }
+    openDateAction(ds); renderRightbar();
+  });
 }
 function openTaskForm(preset){
   preset=preset||{};
