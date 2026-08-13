@@ -1,7 +1,12 @@
 手机访问「Eric复盘台」说明
 ================================
 
-【当前可用的手机地址】（手机和电脑需连同一 WiFi）
+【🌐 公网链接（推荐·任何设备/任何网络都能开）】
+  https://edwardfang88.github.io/eric-finance-workbench/
+  电脑/手机用流量也能直接开；想看股票深度复盘版，把地址末尾改成：
+  https://edwardfang88.github.io/eric-finance-workbench/eric-review.html
+
+【当前可用的手机地址】（手机和电脑需连同一 WiFi，仅局域网】
   http://192.168.81.52:8080/eric-review.html
 
 也可直接扫描同目录下的「手机访问二维码.png」，手机相机扫一下就能打开。
