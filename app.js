@@ -2646,15 +2646,27 @@ function taskCalendar(body){
   const cellFor=(d,out)=>{ const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const tk=tasks.filter(t=>t.due===ds), rk=rem.filter(r=>r.time&&r.time.startsWith(ds));
     const isToday=ds===todayStr();
-    return `<div class="cal-cell ${out?'out':''} ${isToday?'today':''}"><div class="d-num">${d}</div>${tk.map(()=>'<span class="cal-dot"></span>').join('')}${rk.map(()=>'<span class="cal-dot" style="background:#ea580c"></span>').join('')}</div>`;
+    return `<div class="cal-cell ${out?'out':''} ${isToday?'today':''}" data-date="${ds}" style="cursor:pointer"><div class="d-num">${d}</div>${tk.map(()=>'<span class="cal-dot"></span>').join('')}${rk.map(()=>'<span class="cal-dot" style="background:#ea580c"></span>').join('')}</div>`;
   };
   let cells=''; for(let i=0;i<startDow;i++){ const pd=new Date(y,m,0).getDate()-startDow+1+i; cells+=cellFor(pd,true); }
   for(let d=1;d<=days;d++) cells+=cellFor(d,false);
   const tail=(7-(startDow+days)%7)%7; for(let i=1;i<=tail;i++) cells+=cellFor(i,true);
   body.innerHTML=`<div class="panel"><h2>📅 本月日历（${y}年${m+1}月）</h2>
-    <div class="muted-small mb">蓝点=有任务截止，橙点=有提醒</div>
+    <div class="muted-small mb">蓝点=有任务截止，橙点=有提醒；点击日期可直接添加任务/提醒</div>
     <div class="cal-grid">${['一','二','三','四','五','六','日'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}${cells}</div>
   </div>`;
+  $$('.cal-cell:not(.out)',body).forEach(cell=>cell.onclick=function(e){ e.stopPropagation(); openDateAction(cell.getAttribute('data-date')); });
+}
+function openDateAction(ds){
+  const [yy,mm,dd]=ds.split('-');
+  openModal(`<div class="modal-head"><h3>${parseInt(mm,10)}月${parseInt(dd,10)}日</h3><button class="x-close" data-x>×</button></div>
+    <div class="modal-body" style="display:flex;gap:12px;justify-content:center;padding:28px 18px">
+      <button class="btn primary" id="addTask">✅ 新建任务</button>
+      <button class="btn primary" id="addRem">⏰ 添加提醒</button>
+    </div>`);
+  modalEl.querySelector('[data-x]').onclick=closeModal;
+  $('#addTask').onclick=function(){ closeModal(); openTaskForm({due:ds}); };
+  $('#addRem').onclick=function(){ closeModal(); openReminderForm({time:ds+'T09:00'}); };
 }
 function openTaskForm(preset){
   preset=preset||{};
@@ -2663,16 +2675,17 @@ function openTaskForm(preset){
       <div class="field"><label>任务标题</label><input id="f_title" value="${esc(preset.title||'')}"></div>
       <div class="field"><label>备注</label><textarea id="f_note">${esc(preset.note||'')}</textarea></div>
       <div class="field-row"><div class="field"><label>优先级</label><select id="f_pri"><option>普通</option><option>高</option><option>低</option></select></div>
-      <div class="field"><label>截止日期</label><input type="date" id="f_due"></div></div>
+      <div class="field"><label>截止日期</label><input type="date" id="f_due" value="${esc(preset.due||'')}"></div></div>
       ${linkPickerField(preset.link,['book','kb','stock'])}
     </div>
     <div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveT">保存</button></div>`);
   modalEl.querySelector('[data-x]').onclick=closeModal;
   $('#saveT').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写标题');return;} let a=COL.tasks(); a.push({id:uid('tk'),title,note:$('#f_note').value.trim(),priority:$('#f_pri').value,due:$('#f_due').value||null,link:readLinkPicker(),done:false}); SAVE.tasks(a); logActivity('新建任务','task',title); closeModal(); if(parseHash().module==='task') renderTask(parseHash().sub||'list'); renderRightbar(); toast('已保存'); };
 }
-function openReminderForm(){
+function openReminderForm(preset){
+  preset=preset||{};
   openModal(`<div class="modal-head"><h3>添加提醒</h3><button class="x-close" data-x>×</button></div>
-    <div class="modal-body"><div class="field"><label>提醒内容</label><input id="f_title"></div><div class="field"><label>时间</label><input type="datetime-local" id="f_time"></div></div>
+    <div class="modal-body"><div class="field"><label>提醒内容</label><input id="f_title"></div><div class="field"><label>时间</label><input type="datetime-local" id="f_time" value="${esc(preset.time||'')}"></div></div>
     <div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveR">保存</button></div>`);
   modalEl.querySelector('[data-x]').onclick=closeModal;
   $('#saveR').onclick=()=>{ const title=$('#f_title').value.trim(); if(!title){toast('请填写内容');return;} let a=COL.reminders(); a.push({id:uid('rm'),title,time:$('#f_time').value||'',done:false}); SAVE.reminders(a); logActivity('添加提醒','task',title); closeModal(); if(parseHash().module==='task') renderTask('reminder'); renderRightbar(); toast('已保存'); };
