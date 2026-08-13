@@ -1933,10 +1933,13 @@ function defaultTopByCategory(){
   });
 }
 function topCard(b){
-  return '<div class="card clickable" data-top="'+esc(b.title)+'"><div class="flex" style="gap:8px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
+  const durl=b.doubanUrl||doubanSearch(b.title);
+  return '<div class="card clickable" data-top="'+esc(b.title)+'" title="点击跳转到豆瓣"><div class="flex" style="gap:8px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
     '<div style="min-width:0;flex:1"><div><b>'+esc(b.title)+'</b></div>'+
     '<div class="muted-small">'+esc(b.author||'')+(b.year?(' · '+b.year):'')+'</div>'+
-    '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分'+(b.doubanRaters?(' · '+esc(b.doubanRaters)+' 人评'):'')+'</div></div></div></div>';
+    '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分'+(b.doubanRaters?(' · '+esc(b.doubanRaters)+' 人评'):'')+'</div>'+
+    '<div class="row-actions mt" style="gap:6px"><button class="btn sm primary" data-addtop="'+esc(b.title)+'">＋书架</button>'+
+    '<a class="btn sm" href="'+esc(durl)+'" target="_blank" rel="noopener" data-douban="'+esc(b.title)+'" onclick="event.stopPropagation();">豆瓣↗</a></div></div></div></div>';
 }
 function defaultTopHtml(){
   const data=defaultTopByCategory(); let h='';
@@ -1951,7 +1954,12 @@ function defaultTopHtml(){
   return h;
 }
 function bindDefaultTop(body){
-  $$('[data-top]',body).forEach(function(c){ c.onclick=function(){ const b=BOOK_BRAIN.find(function(x){return x.title===c.getAttribute('data-top');}); if(b){ var img=c.querySelector('img.cov-img'); var cov=(img&&img.getAttribute('src')&&img.getAttribute('src').indexOf('openlibrary')>=0)?img.getAttribute('src'):(b.cover||''); openBookForm(null,{title:b.title,author:b.author,category:b.category,doubanRating:b.doubanRating,doubanRaters:b.doubanRaters,year:b.year,doubanUrl:b.doubanUrl,cover:cov}); } }; });
+  $$('[data-top]',body).forEach(function(c){
+    const b=BOOK_BRAIN.find(function(x){return x.title===c.getAttribute('data-top');});
+    if(!b) return;
+    c.onclick=function(){ window.open(b.doubanUrl||doubanSearch(b.title),'_blank','noopener,noreferrer'); };
+  });
+  $$('[data-addtop]',body).forEach(function(btn){ btn.onclick=function(event){ event.stopPropagation(); const b=BOOK_BRAIN.find(function(x){return x.title===btn.getAttribute('data-addtop');}); if(!b) return; var img=btn.closest('[data-top]').querySelector('img.cov-img'); var cov=(img&&img.getAttribute('src')&&img.getAttribute('src').indexOf('openlibrary')>=0)?img.getAttribute('src'):(b.cover||''); openBookForm(null,{title:b.title,author:b.author,category:b.category,doubanRating:b.doubanRating,doubanRaters:b.doubanRaters,year:b.year,doubanUrl:b.doubanUrl,cover:cov}); }; });
 }
 function smartCard(b,i){
   return '<div class="card"><div class="flex" style="gap:10px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
