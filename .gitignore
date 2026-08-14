@@ -1,0 +1,19 @@
+# WorkBuddy 内部数据（记忆/日志/缓存），不入库
+.workbuddy/
+
+# 旧版单文件工作台（已迁移到 app.js + index.html）
+eric-review.html
+public/eric-review.html
+
+# Windows 本机便捷访问辅助文件，非应用本身
+手机访问二维码.png
+手机访问链接.txt
+打开工作台.url
+
+# 项目说明（非部署所需）
+overview.md
+
+# 操作系统/编辑器临时文件
+.DS_Store
+Thumbs.db
+*.log

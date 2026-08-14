@@ -1,0 +1,144 @@
+{
+  "settings": {
+    "name": "Eric",
+    "marketRiskPct": -8,
+    "reviewIntervalDays": 7,
+    "disclaimer": true,
+    "createdAt": "2026-08-13 16:27"
+  },
+  "tags": [
+    { "id": "tag_msrcnretb6ua5", "name": "手机摄影", "color": "#2563eb" },
+    { "id": "tag_msrcnretzpl75", "name": "夜景", "color": "#16a34a" },
+    { "id": "tag_msrcnret0qf7c", "name": "风控", "color": "#ea580c" },
+    { "id": "tag_msrcnretoo3lo", "name": "资产配置", "color": "#9333ea" },
+    { "id": "tag_msrcnretiaa46", "name": "时间管理", "color": "#0891b2" }
+  ],
+  "recent": [
+    { "module": "settings", "title": "设置 / 数据备份与恢复", "sub": "data", "ts": 1786673411307 },
+    { "module": "settings", "title": "设置", "sub": "", "ts": 1786673406123 },
+    { "module": "home", "title": "工作台首页", "sub": "", "ts": 1786673403821 },
+    { "module": "stock", "title": "股票复盘", "sub": "", "ts": 1786673293205 },
+    { "module": "book", "title": "读书笔记", "sub": "", "ts": 1786673264731 },
+    { "module": "stock", "title": "股票复盘 / 持仓管理", "sub": "holdings", "ts": 1786673248859 },
+    { "module": "stock", "title": "股票复盘 / 行情速览", "sub": "quotes", "ts": 1786673244514 },
+    { "module": "kb", "title": "个人知识库", "sub": "", "ts": 1786673241707 },
+    { "module": "task", "title": "任务与提醒 / 日历", "sub": "calendar", "ts": 1786673191450 },
+    { "module": "task", "title": "任务与提醒", "sub": "", "ts": 1786673189452 },
+    { "module": "book", "title": "读书笔记 / 书籍推荐", "sub": "recs", "ts": 1786615608093 },
+    { "module": "book", "title": "读书笔记 / 主题地图", "sub": "topics", "ts": 1786615607452 },
+    { "module": "book", "title": "读书笔记 / 待复习", "sub": "review", "ts": 1786615606941 },
+    { "module": "book", "title": "读书笔记 / 读书笔记", "sub": "notes", "ts": 1786615606535 },
+    { "module": "book", "title": "读书笔记 / 我的书架", "sub": "library", "ts": 1786615606071 },
+    { "module": "stock", "title": "股票复盘 / 新股申购", "sub": "ipo", "ts": 1786615408381 },
+    { "module": "stock", "title": "股票复盘 / 板块数据", "sub": "sector", "ts": 1786615406606 },
+    { "module": "stock", "title": "股票复盘 / 公告事件", "sub": "ann", "ts": 1786615402949 },
+    { "module": "stock", "title": "股票复盘 / 复盘记录", "sub": "review", "ts": 1786615401342 },
+    { "module": "stock", "title": "股票复盘 / 个股诊断", "sub": "diag", "ts": 1786615393639 }
+  ],
+  "books": [
+    { "id": "bk_msr98tn11hlki", "title": "投资中最简单的事", "author": "邱国鹭", "publisher": "中国人民大学出版社", "status": "已读", "currentPage": 248, "totalPages": 248, "myRating": 9, "recommendLevel": "强烈推荐", "category": "投资", "doubanRating": 8.5, "doubanRaters": "12000", "doubanUrl": "https://book.douban.com/subject/25752977/", "readingLog": [{ "date": "2026-08-01", "minutes": 60 }], "relatedStocks": ["688777.SH"], "summary": "价值投资框架：便宜是硬道理，定价权与护城河优先。", "tags": [], "sample": true, "createdAt": 1784881630477 },
+    { "id": "bk_msr98tn1s2s4s", "title": "穷查理宝典", "author": "查理·芒格", "publisher": "中信出版社", "status": "在读", "currentPage": 120, "totalPages": 460, "myRating": 9, "recommendLevel": "强烈推荐", "category": "投资", "doubanRating": 8.7, "doubanRaters": "30000", "doubanUrl": "https://book.douban.com/subject/10786655/", "readingLog": [{ "date": "2026-08-10", "minutes": 40 }], "relatedStocks": [], "summary": "多元思维模型与逆向思考，能力圈原则。", "tags": [], "sample": true, "createdAt": 1786177630477 }
+  ],
+  "booknotes": [
+    { "id": "bn_msr98tn1bmx7z", "title": "便宜是硬道理：估值与安全边际", "bookId": "bk_msr98tn11hlki", "type": "核心观点", "content": "好公司也要有好价格；均值回归终将发生，逆向布局需要耐心。", "quote": "“买好的不如买得好。”", "keyPoint": "估值与安全边际优先于成长性叙事。", "inspiration": "对成长股需区分“真成长”与“贵成长”。", "relatedStocks": ["688777.SH", "002891.SZ"], "relatedTopics": ["价值投资", "估值"], "noteStatus": "新建", "tags": [], "createdAt": 1786350430477 }
+  ],
+  "booktopics": [
+    { "id": "tp_msr98tn21r6vd", "name": "价值投资", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2xmq3o", "name": "成长投资", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2z957i", "name": "竞争优势", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn27y6o2", "name": "现金流", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn23x77i", "name": "估值", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2ajogz", "name": "行为金融", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2k3wqk", "name": "市场情绪", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2dqjt1", "name": "风险控制", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2s2gzc", "name": "宏观经济", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn21sd8h", "name": "企业经营", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn2f2xfx", "name": "个人成长", "isDefault": true, "createdAt": 1786609630478 },
+    { "id": "tp_msr98tn260r6k", "name": "写作与表达", "isDefault": true, "createdAt": 1786609630478 }
+  ],
+  "bookreviews": [
+    { "id": "rv_msr98tn21vojb", "noteId": "bn_msr98tn1bmx7z", "noteTitle": "便宜是硬道理：估值与安全边际", "nextDate": "2026-08-13", "stage": 0, "done": false, "history": [] }
+  ],
+  "bookrecs": [
+    { "id": "rc_msr98tn20zpgt", "title": "聪明的投资者", "author": "本杰明·格雷厄姆", "cover": "", "doubanRating": 9, "doubanRaters": "80000", "year": 2016, "category": "投资", "recReason": "价值投资圣经，市场先生与安全边际概念的基础。", "suitableStage": "入门到进阶", "difficulty": "中", "relatedDirection": "价值投资/估值", "doubanUrl": "https://book.douban.com/subject/26786391/", "fetchedAt": "(示例数据)", "status": "推荐", "sample": true, "createdAt": 1786436830478 }
+  ],
+  "kb": [
+    { "id": "kb_msrcnresefs3z", "title": "手机拍摄夜景的 6 个实操要点", "url": "https://www.xiaohongshu.com/example/night", "domain": "xiaohongshu.com", "platform": "小红书", "author": "摄影日记", "publishedAt": "2026-07-20", "cover": "", "isbn": "", "type": "攻略", "origSummary": "", "mySummary": "夜景用专业模式：低 ISO、慢快门、对焦亮处、用三脚架、RAW 格式、后期降噪。", "whySave": "周末想拍城市夜景样片，可复用的方法论。", "keyPoints": "ISO 100-400、快门 1/10-2s、对焦霓虹灯、稳定支撑、拍 RAW、Lightroom 降噪。", "steps": "1)开专业模式 2)ISO 调低 3)快门 1s 起 4)对焦亮部 5)三脚架 6)连拍", "methods": "同一机位拍 3 张不同快门做堆栈。", "scenarios": "城市天台、江边、车流。", "cautions": "手持必糊，必须支撑物。", "myRating": 5, "worthPractice": "yes", "theme": "摄影", "subTheme": "夜景", "tags": ["tag_msrcnretb6ua5", "tag_msrcnretzpl75"], "relatedBooks": [], "relatedStocks": [], "relatedIndustries": [], "relatedTasks": [], "relatedProjects": [], "relatedNotes": [], "status": "已读", "nextAction": "周末拍 3 组夜景样片", "planDate": "2026-08-13", "practiceStatus": "已加入计划", "practiceResult": "", "neededMaterials": "手机+三脚架", "reviewNote": "", "reuseCount": 0, "lastReuse": null, "archived": false, "createdAt": 1786096966277, "updatedAt": "2026-08-13 18:02", "sample": true },
+    { "id": "kb_msrcnret2yo7j", "title": "创新药出海 License-out 交易结构笔记", "url": "https://mp.weixin.qq.com/example/licenseout", "domain": "mp.weixin.qq.com", "platform": "微信公众号", "author": "医药投研", "publishedAt": "2026-08-01", "cover": "", "isbn": "", "type": "文章", "origSummary": "", "mySummary": "首付款+里程碑+销售分成的典型结构；关注首付比例与销售峰值假设。", "whySave": "理解创新药出海估值，可对照荣昌生物 BD。", "keyPoints": "首付/里程碑/分成三段；峰值销售决定分成价值。", "steps": "", "methods": "用交易结构反推管线峰值预期。", "scenarios": "评估 BD 事件对股价影响。", "cautions": "里程碑能否达成存在不确定性。", "myRating": 4, "worthPractice": "yes", "theme": "投资理财", "subTheme": "医药", "tags": ["tag_msrcnret0qf7c"], "relatedBooks": [], "relatedStocks": ["688331.SH", "09995.HK"], "relatedIndustries": ["创新药"], "relatedTasks": [], "relatedProjects": [], "relatedNotes": ["bn_msr98tn1bmx7z"], "status": "待读", "nextAction": "", "planDate": "", "practiceStatus": "未计划", "practiceResult": "", "neededMaterials": "", "reviewNote": "", "reuseCount": 0, "lastReuse": null, "archived": false, "createdAt": 1786356166277, "updatedAt": "2026-08-13 18:02", "sample": true },
+    { "id": "kb_msrcnretux0r8", "title": "宠物经济：主粮国产化替代趋势", "url": "", "domain": "", "platform": "手动输入", "author": "", "publishedAt": "", "cover": "", "isbn": "", "type": "待验证信息", "origSummary": "", "mySummary": "中宠股份所在赛道，国产品牌份额提升，需验证最新市占率数据。", "whySave": "关联持仓中宠股份，跟踪行业趋势。", "keyPoints": "国产替代、渠道线上化、高端化。", "steps": "", "methods": "", "scenarios": "中宠股份基本面跟踪。", "cautions": "需核实最新份额数据，标记为待验证。", "myRating": "", "worthPractice": "no", "theme": "投资理财", "subTheme": "宠物经济", "tags": ["tag_msrcnretoo3lo"], "relatedBooks": [], "relatedStocks": ["002891.SZ"], "relatedIndustries": ["宠物经济"], "relatedTasks": [], "relatedProjects": [], "relatedNotes": [], "status": "待读", "nextAction": "", "planDate": "", "practiceStatus": "未计划", "practiceResult": "", "neededMaterials": "", "reviewNote": "", "reuseCount": 0, "lastReuse": null, "archived": false, "createdAt": 1786442566277, "updatedAt": "2026-08-13 18:02", "sample": true },
+    { "id": "kb_msrcnretc8h6t", "title": "番茄工作法实操清单", "url": "https://example.com/pomodoro", "domain": "example.com", "platform": "普通网页", "author": "效率笔记", "publishedAt": "2026-06-15", "cover": "", "isbn": "", "type": "清单", "origSummary": "", "mySummary": "25 分钟专注 + 5 分钟休息，4 轮后长休；任务拆小、记录打断。", "whySave": "提升日常复盘与写作效率。", "keyPoints": "单任务、计时、记录打断、每日回顾。", "steps": "1)列任务 2)设 25min 3)专注 4)休息 5)循环", "methods": "配合纸笔记录打断原因。", "scenarios": "写复盘、读财报时。", "cautions": "任务要小到 25 分钟内可完成。", "myRating": 4, "worthPractice": "unknown", "theme": "工作效率", "subTheme": "时间管理", "tags": ["tag_msrcnretiaa46"], "relatedBooks": [], "relatedStocks": [], "relatedIndustries": [], "relatedTasks": [], "relatedProjects": [], "relatedNotes": [], "status": "待整理", "nextAction": "", "planDate": "", "practiceStatus": "未计划", "practiceResult": "", "neededMaterials": "", "reviewNote": "", "reuseCount": 0, "lastReuse": null, "archived": false, "createdAt": 1786528966277, "updatedAt": "2026-08-13 18:02", "sample": true }
+  ],
+  "kbtopics": [
+    { "id": "kt_msrcnretedurb", "name": "做饭", "desc": "菜谱与下厨技巧", "tags": ["家常菜", "烘焙", "快手菜", "减脂餐", "汤羹", "面食", "调味"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretpxpyj", "name": "摄影", "desc": "拍摄与修图", "tags": ["手机摄影", "人像", "构图", "夜景", "后期", "风光"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretikzcn", "name": "视频剪辑", "desc": "短视频制作", "tags": ["剪辑技巧", "转场", "字幕", "调色", "脚本", "BGM"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretaduot", "name": "旅游规划", "desc": "出行与攻略", "tags": ["路线", "住宿", "预算", "交通", "景点", "美食", "签证"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnret56peg", "name": "家居生活", "desc": "居家与好物", "tags": ["收纳", "清洁", "布置", "好物", "绿植"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnrethpcro", "name": "健身健康", "desc": "运动与身体管理", "tags": ["力量训练", "有氧", "饮食", "睡眠", "拉伸"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretmr3rx", "name": "数码工具", "desc": "工具与软件", "tags": ["App推荐", "效率软件", "硬件", "插件", "AI工具"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretlh4jc", "name": "工作效率", "desc": "方法与提效", "tags": ["时间管理", "会议", "复盘", "自动化", "笔记法"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretfbsa5", "name": "投资理财", "desc": "理财与投资", "tags": ["基金", "股票", "资产配置", "财报", "风控"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnrethk2vr", "name": "读书写作", "desc": "阅读与表达", "tags": ["读书方法", "写作技巧", "卡片笔记", "选题"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnret40ip7", "name": "审美设计", "desc": "设计与审美", "tags": ["配色", "排版", "字体", "灵感", "UI"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretdvaih", "name": "个人成长", "desc": "自我提升", "tags": ["习惯", "目标", "心态", "学习", "副业"], "isDefault": true, "createdAt": 1786615366277 },
+    { "id": "kt_msrcnretxxlre", "name": "待分类", "desc": "尚未归类的内容", "tags": [], "isDefault": true, "createdAt": 1786615366277 }
+  ],
+  "stock_holdings": [
+    { "id": "h_msr98tn143qc2", "name": "荣昌生物", "code": "688331.SH", "market": "A股", "cur": "¥", "shares": 1975, "cost": 67.329, "current": 133.39, "sample": false },
+    { "id": "h_msr98tn14syu0", "name": "荣昌生物", "code": "09995.HK", "market": "港股", "cur": "HK$", "shares": 3000, "cost": 90.133, "current": 83.25, "sample": false },
+    { "id": "h_msr98tn1ef5fu", "name": "中控技术", "code": "688777.SH", "market": "A股", "cur": "¥", "shares": 1348, "cost": 84.325, "current": 94.05, "sample": false },
+    { "id": "h_msr98tn1e7qdm", "name": "中宠股份", "code": "002891.SZ", "market": "A股", "cur": "¥", "shares": 1600, "cost": 28.118, "current": 30.6, "sample": false }
+  ],
+  "stock_pnl": [
+    { "date": "2026-08-14", "totalValue": 398197, "totalPnl": 201151 }
+  ],
+  "stock_ann": [
+    { "id": "a_msr98tn1wyg9b", "title": "【示例】某公司拟回购股份不超过10亿元", "date": "2026-08-12", "market": "A股", "sample": true },
+    { "id": "a_msr98tn1c0a5e", "title": "【示例】行业政策：算力基础设施扶持细则落地", "date": "2026-08-11", "market": "A股", "sample": true },
+    { "id": "a_msr98tn189bvd", "title": "【示例】港股通标的调整，多只生物科技股纳入", "date": "2026-08-10", "market": "港股", "sample": true }
+  ],
+  "stock_sectors": [
+    { "name": "稀土", "pct": 3.75, "lead": "中国稀土", "flow": 7.83848032, "kind": "" },
+    { "name": "航海装备Ⅲ", "pct": 3.15, "lead": "亚星锚链", "flow": 2.97818656, "kind": "" },
+    { "name": "航海装备Ⅱ", "pct": 3.15, "lead": "亚星锚链", "flow": 2.97818656, "kind": "" },
+    { "name": "电子化学品Ⅲ", "pct": 2.99, "lead": "中石科技", "flow": 3.18701168, "kind": "" },
+    { "name": "电子化学品Ⅱ", "pct": 2.99, "lead": "中石科技", "flow": 3.18701168, "kind": "" },
+    { "name": "玻纤制造", "pct": 2.56, "lead": "中材科技", "flow": 7.8617528, "kind": "" },
+    { "name": "噪声防治", "pct": 2.25, "lead": "九州一轨", "flow": -0.40544914, "kind": "" },
+    { "name": "被动元件", "pct": 2.21, "lead": "艾华集团", "flow": 5.36068416, "kind": "" },
+    { "name": "锦纶", "pct": 2.04, "lead": "海阳科技", "flow": 0.38094954, "kind": "" },
+    { "name": "会展服务", "pct": 2.02, "lead": "米奥会展", "flow": 0.25072577, "kind": "" },
+    { "name": "综合电商", "pct": 0.59, "lead": "国联股份", "flow": 0.20735969, "kind": "" },
+    { "name": "其他通信设备", "pct": 0.59, "lead": "朗威股份", "flow": -0.10211998, "kind": "" },
+    { "name": "无机盐", "pct": 0.6, "lead": "三祥新材", "flow": 0.06387355, "kind": "" },
+    { "name": "工控设备", "pct": 0.6, "lead": "大豪科技", "flow": -1.3884776, "kind": "" },
+    { "name": "自动化设备", "pct": 0.62, "lead": "大豪科技", "flow": -1.1510568, "kind": "" },
+    { "name": "铁矿石", "pct": 0.63, "lead": "广东明珠", "flow": 0.04702586, "kind": "" }
+  ],
+  "stock_ipo": [
+    { "id": "ipo_601123.SH", "name": "马矿股份", "code": "601123.SH", "date": "2026-08-21", "price": null, "pe": null, "board": "沪市主板", "online": 29640000, "limit": 29500, "win": "2026-08-25", "pay": "2026-08-25", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_301688.SZ", "name": "格林生物", "code": "301688.SZ", "date": "2026-08-20", "price": null, "pe": null, "board": "创业板", "online": 7000000, "limit": 7000, "win": "2026-08-24", "pay": "2026-08-24", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_301697.SZ", "name": "贝特利", "code": "301697.SZ", "date": "2026-08-19", "price": null, "pe": null, "board": "创业板", "online": 13797000, "limit": 13500, "win": "2026-08-21", "pay": "2026-08-21", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_920288.BJ", "name": "华大海天", "code": "920288.BJ", "date": "2026-08-17", "price": 12.57, "pe": 13.5, "board": "北交所", "online": 15198000, "limit": 894000, "win": "2026-08-20", "pay": "-", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_688835.SH", "name": "高凯技术", "code": "688835.SH", "date": "2026-08-14", "price": 61.36, "pe": 48.33, "board": "科创板", "online": 5997000, "limit": 5500, "win": "2026-08-18", "pay": "2026-08-18", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_920093.BJ", "name": "信胜科技", "code": "920093.BJ", "date": "2026-08-12", "price": 14.35, "pe": 9.2, "board": "北交所", "online": 25200000, "limit": 1260000, "win": "2026-08-17", "pay": "-", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_301655.SZ", "name": "绿控传动", "code": "301655.SZ", "date": "2026-08-10", "price": 8.5, "pe": 27.56, "board": "创业板", "online": 19135500, "limit": 9500, "win": "2026-08-12", "pay": "2026-08-12", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_688836.SH", "name": "宇树科技", "code": "688836.SH", "date": "2026-08-10", "price": 150.8, "pe": 219.23, "board": "科创板", "online": 9707000, "limit": 6000, "win": "2026-08-12", "pay": "2026-08-12", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_920059.BJ", "name": "双英集团", "code": "920059.BJ", "date": "2026-08-10", "price": 11.13, "pe": 12.99, "board": "北交所", "online": 32318326, "limit": 1615900, "win": "2026-08-13", "pay": "-", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_688826.SH", "name": "频准激光", "code": "688826.SH", "date": "2026-08-07", "price": 186.88, "pe": 49.42, "board": "科创板", "online": 3211500, "limit": 2000, "win": "2026-08-11", "pay": "2026-08-11", "list": null, "status": "未申购", "live": true },
+    { "id": "ipo_920107.BJ", "name": "恒兴股份", "code": "920107.BJ", "date": "2026-08-05", "price": 16.02, "pe": 13.67, "board": "北交所", "online": 18873000, "limit": 943600, "win": "2026-08-10", "pay": "-", "list": "2026-08-17", "status": "未申购", "live": true },
+    { "id": "ipo_920138.BJ", "name": "杰理科技", "code": "920138.BJ", "date": "2026-08-03", "price": 18.86, "pe": 14.99, "board": "北交所", "online": 29700000, "limit": 1485000, "win": "2026-08-06", "pay": "-", "list": "2026-08-12", "status": "未申购", "live": true }
+  ],
+  "stock_quotes": {
+    "live": true,
+    "updated": "2026-08-14 10:06",
+    "asof": "腾讯财经公开接口",
+    "data": {
+      "688331.SH": { "name": "荣昌生物", "price": 133.39, "prev": 131.87, "open": 131.3, "high": 133.88, "low": 127.5, "vol": 2703983, "amount": 35354, "change": 1.52, "pct": 1.15 },
+      "09995.HK": { "name": "荣昌生物", "price": 83.25, "prev": 82.5, "open": 82.85, "high": 83.35, "low": 80.75, "vol": 592000, "amount": 48354425, "change": 0.75, "pct": 0.91 },
+      "688777.SH": { "name": "中控技术", "price": 94.05, "prev": 96.35, "open": 96.02, "high": 97.68, "low": 93.51, "vol": 7158265, "amount": 68220, "change": -2.3, "pct": -2.39 },
+      "002891.SZ": { "name": "中宠股份", "price": 30.6, "prev": 31.65, "open": 31.6, "high": 31.6, "low": 30.55, "vol": 45728, "amount": 14198, "change": -1.05, "pct": -3.32 }
+    }
+  },
+  "_meta": { "app": "个人研究与知识工作台", "exportedAt": "2026-08-14 10:10", "version": 1 }
+}
