@@ -177,10 +177,10 @@ function seedSampleData(){
     store.set('seededKb',true);
     const nb=COL.books()[0];
     SAVE.kb([
-      {id:uid('kb'),title:'手机拍摄夜景的 6 个实操要点',url:'https://www.xiaohongshu.com/example/night',domain:'xiaohongshu.com',platform:'小红书',author:'摄影日记',publishedAt:'2026-07-20',cover:'',isbn:'',type:'攻略',origSummary:'',mySummary:'夜景用专业模式：低 ISO、慢快门、对焦亮处、用三脚架、RAW 格式、后期降噪。',whySave:'周末想拍城市夜景样片，可复用的方法论。',keyPoints:'ISO 100-400、快门 1/10-2s、对焦霓虹灯、稳定支撑、拍 RAW、Lightroom 降噪。',steps:'1)开专业模式 2)ISO 调低 3)快门 1s 起 4)对焦亮部 5)三脚架 6)连拍',methods:'同一机位拍 3 张不同快门做堆栈。',scenarios:'城市天台、江边、车流。',cautions:'手持必糊，必须支撑物。',myRating:5,worthPractice:'yes',theme:'摄影',subTheme:'夜景',tags:[ensureTag('手机摄影').id,ensureTag('夜景').id],relatedBooks:[],relatedStocks:[],relatedIndustries:[],relatedTasks:[],relatedProjects:[],relatedNotes:[],status:'已读',nextAction:'周末拍 3 组夜景样片',planDate:todayStr(),practiceStatus:'已加入计划',practiceResult:'',neededMaterials:'手机+三脚架',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*6,updatedAt:nowStr(),sample:true},
-      {id:uid('kb'),title:'创新药出海 License-out 交易结构笔记',url:'https://mp.weixin.qq.com/example/licenseout',domain:'mp.weixin.qq.com',platform:'微信公众号',author:'医药投研',publishedAt:'2026-08-01',cover:'',isbn:'',type:'文章',origSummary:'',mySummary:'首付款+里程碑+销售分成的典型结构；关注首付比例与销售峰值假设。',whySave:'理解创新药出海估值，可对照荣昌生物 BD。',keyPoints:'首付/里程碑/分成三段；峰值销售决定分成价值。',steps:'',methods:'用交易结构反推管线峰值预期。',scenarios:'评估 BD 事件对股价影响。',cautions:'里程碑能否达成存在不确定性。',myRating:4,worthPractice:'yes',theme:'投资理财',subTheme:'医药',tags:[ensureTag('风控').id],relatedBooks:[],relatedStocks:['688331.SH','09995.HK'],relatedIndustries:['创新药'],relatedTasks:[],relatedProjects:[],relatedNotes:nb?[(function(){var n=COL.booknotes()[0];return n?n.id:null;})()].filter(Boolean):[],status:'待读',nextAction:'',planDate:'',practiceStatus:'未计划',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*3,updatedAt:nowStr(),sample:true},
-      {id:uid('kb'),title:'宠物经济：主粮国产化替代趋势',url:'',domain:'',platform:'手动输入',author:'',publishedAt:'',cover:'',isbn:'',type:'待验证信息',origSummary:'',mySummary:'中宠股份所在赛道，国产品牌份额提升，需验证最新市占率数据。',whySave:'关联持仓中宠股份，跟踪行业趋势。',keyPoints:'国产替代、渠道线上化、高端化。',steps:'',methods:'',scenarios:'中宠股份基本面跟踪。',cautions:'需核实最新份额数据，标记为待验证。',myRating:'',worthPractice:'no',theme:'投资理财',subTheme:'宠物经济',tags:[ensureTag('资产配置').id],relatedBooks:[],relatedStocks:['002891.SZ'],relatedIndustries:['宠物经济'],relatedTasks:[],relatedProjects:[],relatedNotes:[],status:'待读',nextAction:'',planDate:'',practiceStatus:'未计划',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*2,updatedAt:nowStr(),sample:true},
-      {id:uid('kb'),title:'番茄工作法实操清单',url:'https://example.com/pomodoro',domain:'example.com',platform:'普通网页',author:'效率笔记',publishedAt:'2026-06-15',cover:'',isbn:'',type:'清单',origSummary:'',mySummary:'25 分钟专注 + 5 分钟休息，4 轮后长休；任务拆小、记录打断。',whySave:'提升日常复盘与写作效率。',keyPoints:'单任务、计时、记录打断、每日回顾。',steps:'1)列任务 2)设 25min 3)专注 4)休息 5)循环',methods:'配合纸笔记录打断原因。',scenarios:'写复盘、读财报时。',cautions:'任务要小到 25 分钟内可完成。',myRating:4,worthPractice:'unknown',theme:'工作效率',subTheme:'时间管理',tags:[ensureTag('时间管理').id],relatedBooks:[],relatedStocks:[],relatedIndustries:[],relatedTasks:[],relatedProjects:[],relatedNotes:[],status:'待整理',nextAction:'',planDate:'',practiceStatus:'未计划',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*1,updatedAt:nowStr(),sample:true}
+      {id:uid('kb'),title:'手机拍摄夜景的 6 个实操要点',url:'https://www.xiaohongshu.com/example/night',domain:'xiaohongshu.com',platform:'小红书',author:'摄影日记',publishedAt:'2026-07-20',cover:'',isbn:'',type:'攻略',origSummary:'',mySummary:'夜景用专业模式：低 ISO、慢快门、对焦亮处、用三脚架、RAW 格式、后期降噪。',whySave:'周末想拍城市夜景样片，可复用的方法论。',keyPoints:'ISO 100-400、快门 1/10-2s、对焦霓虹灯、稳定支撑、拍 RAW、Lightroom 降噪。',steps:'1)开专业模式 2)ISO 调低 3)快门 1s 起 4)对焦亮部 5)三脚架 6)连拍',methods:'同一机位拍 3 张不同快门做堆栈。',scenarios:'城市天台、江边、车流。',cautions:'手持必糊，必须支撑物。',myRating:5,worthPractice:'yes',theme:'摄影',subTheme:'夜景',tags:[ensureTag('手机摄影').id,ensureTag('夜景').id],tpl:{scene:'城市夜景',light:'蓝调时刻',composition:'三分法+对称',params:'ISO100 快门1-2s',gear:'手机+三脚架',post:'Lightroom 降噪'},relatedBooks:[],relatedStocks:[],relatedIndustries:[],relatedTasks:[],relatedProjects:[],relatedNotes:[],stage:'已整理',aiPending:false,aiRaw:null,nextAction:'周末拍 3 组夜景样片',planDate:todayStr(),practiceStatus:'进行中',practiceResult:'',neededMaterials:'手机+三脚架',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*6,updatedAt:nowStr(),sample:true},
+      {id:uid('kb'),title:'创新药出海 License-out 交易结构笔记',url:'https://mp.weixin.qq.com/example/licenseout',domain:'mp.weixin.qq.com',platform:'微信公众号',author:'医药投研',publishedAt:'2026-08-01',cover:'',isbn:'',type:'文章',origSummary:'',mySummary:'首付款+里程碑+销售分成的典型结构；关注首付比例与销售峰值假设。',whySave:'理解创新药出海估值，可对照荣昌生物 BD。',keyPoints:'首付/里程碑/分成三段；峰值销售决定分成价值。',steps:'',methods:'用交易结构反推管线峰值预期。',scenarios:'评估 BD 事件对股价影响。',cautions:'里程碑能否达成存在不确定性。',myRating:4,worthPractice:'yes',theme:'投资理财',subTheme:'医药',tags:[ensureTag('风控').id],tpl:{},relatedBooks:[],relatedStocks:['688331.SH','09995.HK'],relatedIndustries:['创新药'],relatedTasks:[],relatedProjects:[],relatedNotes:nb?[(function(){var n=COL.booknotes()[0];return n?n.id:null;})()].filter(Boolean):[],stage:'已整理',aiPending:false,aiRaw:null,nextAction:'',planDate:'',practiceStatus:'未开始',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*3,updatedAt:nowStr(),sample:true},
+      {id:uid('kb'),title:'宠物经济：主粮国产化替代趋势',url:'',domain:'',platform:'手动输入',author:'',publishedAt:'',cover:'',isbn:'',type:'待验证信息',origSummary:'',mySummary:'中宠股份所在赛道，国产品牌份额提升，需验证最新市占率数据。',whySave:'关联持仓中宠股份，跟踪行业趋势。',keyPoints:'国产替代、渠道线上化、高端化。',steps:'',methods:'',scenarios:'中宠股份基本面跟踪。',cautions:'需核实最新份额数据，标记为待验证。',myRating:'',worthPractice:'no',theme:'投资理财',subTheme:'宠物经济',tags:[ensureTag('资产配置').id],tpl:{},relatedBooks:[],relatedStocks:['002891.SZ'],relatedIndustries:['宠物经济'],relatedTasks:[],relatedProjects:[],relatedNotes:[],stage:'已整理',aiPending:false,aiRaw:null,nextAction:'',planDate:'',practiceStatus:'未开始',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*2,updatedAt:nowStr(),sample:true},
+      {id:uid('kb'),title:'番茄工作法实操清单',url:'https://example.com/pomodoro',domain:'example.com',platform:'普通网页',author:'效率笔记',publishedAt:'2026-06-15',cover:'',isbn:'',type:'清单',origSummary:'',mySummary:'25 分钟专注 + 5 分钟休息，4 轮后长休；任务拆小、记录打断。',whySave:'提升日常复盘与写作效率。',keyPoints:'单任务、计时、记录打断、每日回顾。',steps:'1)列任务 2)设 25min 3)专注 4)休息 5)循环',methods:'配合纸笔记录打断原因。',scenarios:'写复盘、读财报时。',cautions:'任务要小到 25 分钟内可完成。',myRating:4,worthPractice:'unknown',theme:'工作效率',subTheme:'时间管理',tags:[ensureTag('时间管理').id],tpl:{},relatedBooks:[],relatedStocks:[],relatedIndustries:[],relatedTasks:[],relatedProjects:[],relatedNotes:[],stage:'已整理',aiPending:false,aiRaw:null,nextAction:'',planDate:'',practiceStatus:'未开始',practiceResult:'',neededMaterials:'',reviewNote:'',reuseCount:0,lastReuse:null,archived:false,createdAt:Date.now()-86400000*1,updatedAt:nowStr(),sample:true}
     ]);
   }
 }
@@ -663,8 +663,8 @@ const SUBNAV={
     {key:'home',label:'阅读首页',ico:'🏠'},{key:'library',label:'我的书架',ico:'📚'},{key:'notes',label:'读书笔记',ico:'📝'},{key:'review',label:'待复习',ico:'⏰'},{key:'topics',label:'主题地图',ico:'🗺️'},{key:'recs',label:'书籍推荐',ico:'⭐'}
   ],
   kb:[
-    {key:'home',label:'知识库首页',ico:'🏠'},{key:'inbox',label:'待整理',ico:'📥'},{key:'collection',label:'全部收藏',ico:'🗃️'},
-    {key:'themes',label:'主题分类',ico:'🏷️'},{key:'practice',label:'待实践',ico:'🛠️'},{key:'featured',label:'精选内容',ico:'✨'},{key:'archive',label:'归档',ico:'📦'}
+    {key:'home',label:'知识库首页',ico:'🏠'},{key:'inbox',label:'收件箱',ico:'📥'},{key:'collection',label:'我的收藏',ico:'🗃️'},
+    {key:'practice',label:'待实践',ico:'🛠️'}
   ],
   task:[
     {key:'list',label:'任务列表',ico:'✅'},{key:'reminder',label:'提醒',ico:'🔔'},{key:'calendar',label:'日历',ico:'📅'}
@@ -2379,15 +2379,15 @@ function openNoteForm(opts){
    个人知识库模块
    发现 → 保存 → 整理 → 提炼 → 实践 → 归档
    ========================================================================= */
-const KB_PLATFORMS=['小红书','微信公众号','普通网页','视频平台','图片','PDF或文件','手动输入'];
+const KB_PLATFORMS=['小红书','抖音','微信公众号','普通网页','视频平台','图片/截图','PDF或文件','手动输入'];
 const KB_TYPES=['文章','攻略','教程','视频','清单','工具推荐','案例','灵感','商品','地点','菜谱','待验证信息'];
-const KB_PRACTICE=['未计划','已加入计划','实践中','已完成','已验证有效','已验证无效','暂不实践'];
-const KB_STATUS=['待整理','待读','已读'];
+const KB_PRACTICE=['未开始','进行中','已完成','验证有效','验证无效'];
+const KB_STATUS=['新收藏','待确认','已整理','待实践','已完成'];
 const DEFAULT_KB_THEMES=[
   {name:'做饭',tags:['家常菜','烘焙','快手菜','减脂餐','汤羹','面食','调味'],desc:'菜谱与下厨技巧'},
   {name:'摄影',tags:['手机摄影','人像','构图','夜景','后期','风光'],desc:'拍摄与修图'},
   {name:'视频剪辑',tags:['剪辑技巧','转场','字幕','调色','脚本','BGM'],desc:'短视频制作'},
-  {name:'旅游规划',tags:['路线','住宿','预算','交通','景点','美食','签证'],desc:'出行与攻略'},
+  {name:'旅行',tags:['路线','住宿','预算','交通','景点','美食','签证'],desc:'出行与攻略'},
   {name:'家居生活',tags:['收纳','清洁','布置','好物','绿植'],desc:'居家与好物'},
   {name:'健身健康',tags:['力量训练','有氧','饮食','睡眠','拉伸'],desc:'运动与身体管理'},
   {name:'数码工具',tags:['App推荐','效率软件','硬件','插件','AI工具'],desc:'工具与软件'},
@@ -2398,13 +2398,54 @@ const DEFAULT_KB_THEMES=[
   {name:'个人成长',tags:['习惯','目标','心态','学习','副业'],desc:'自我提升'},
   {name:'待分类',tags:[],desc:'尚未归类的内容'}
 ];
+/* 主题动态模板：选择主主题后展示专属字段；仅这些主题有专属字段，其余走通用字段 */
+const KB_TEMPLATES={
+  '做饭':[
+    {k:'ingredients',label:'食材',type:'lines',ph:'如 鸡胸肉 200g、西兰花 1 颗'},
+    {k:'amounts',label:'用量',type:'lines',ph:'如 盐 2g、生抽 1 勺'},
+    {k:'steps',label:'步骤',type:'lines',ph:'每步一行，如 1) 腌制 10 分钟'},
+    {k:'cookTime',label:'烹饪时间',type:'text',ph:'如 20 分钟'},
+    {k:'difficulty',label:'难度',type:'select',opts:['简单','一般','中等','较难']},
+    {k:'substitutes',label:'可替代食材',type:'lines',ph:'如 鸡胸肉→豆腐'}
+  ],
+  '旅行':[
+    {k:'location',label:'地点',type:'text',ph:'如 杭州'},
+    {k:'itinerary',label:'行程',type:'lines',ph:'每日安排，每行一项'},
+    {k:'transport',label:'交通',type:'text',ph:'如 高铁 + 地铁'},
+    {k:'lodging',label:'住宿',type:'text',ph:'如 西湖附近民宿'},
+    {k:'budget',label:'预算',type:'text',ph:'如 人均 800 元'},
+    {k:'season',label:'适合季节',type:'text',ph:'如 春秋'},
+    {k:'cautions',label:'注意事项',type:'lines',ph:'如 提前订票'}
+  ],
+  '摄影':[
+    {k:'scene',label:'拍摄场景',type:'text',ph:'如 城市夜景'},
+    {k:'light',label:'光线',type:'text',ph:'如 蓝调时刻'},
+    {k:'composition',label:'构图方法',type:'text',ph:'如 三分法'},
+    {k:'params',label:'拍摄参数',type:'text',ph:'如 ISO100 快门1s'},
+    {k:'gear',label:'器材',type:'text',ph:'如 手机+三脚架'},
+    {k:'post',label:'后期方法',type:'text',ph:'如 Lightroom 降噪'}
+  ],
+  '视频剪辑':[
+    {k:'vTheme',label:'视频主题',type:'text',ph:'如 旅行 vlog'},
+    {k:'structure',label:'剪辑结构',type:'lines',ph:'如 开头钩子-主体-结尾'},
+    {k:'transition',label:'转场',type:'text',ph:'如 遮罩转场'},
+    {k:'subtitle',label:'字幕',type:'text',ph:'如 花字+语音识别'},
+    {k:'bgm',label:'BGM',type:'text',ph:'如 轻快纯音乐'},
+    {k:'reuseTpl',label:'可复用模板',type:'text',ph:'如 固定片头 3s'}
+  ]
+};
+/* 阶段兼容：旧数据 status（待整理/待读/已读）映射到新阶段，新数据直接用 stage */
+const KB_STAGE_MAP={'待整理':'待确认','待读':'已整理','已读':'已整理'};
+function kbStage(k){ if(!k) return ''; if(k.stage && KB_STATUS.indexOf(k.stage)>=0) return k.stage; return KB_STAGE_MAP[k.status]||'已整理'; }
+function isWorthPractice(k){ return k.worthPractice==='yes'; }
 var KB_THEME_FILTER='';
 var kbF={};
 function kbPlatformIco(p){ const m={'小红书':'📕','微信公众号':'🟢','普通网页':'🌐','视频平台':'🎬','图片':'🖼️','PDF或文件':'📄','手动输入':'✍️'}; return m[p]||'🔗'; }
 function kbTypeIco(t){ const m={'文章':'📄','攻略':'🗺️','教程':'📘','视频':'🎬','清单':'📋','工具推荐':'🛠️','案例':'📁','灵感':'💡','商品':'🛒','地点':'📍','菜谱':'🍳','待验证信息':'❓'}; return m[t]||'📄'; }
 function kbIsInbox(k){
   if(k.archived) return false;
-  if(k.status==='待整理') return true;
+  const st=kbStage(k);
+  if(st==='新收藏'||st==='待确认') return true;
   if(!k.theme || k.theme==='待分类') return true;
   if(!k.mySummary || !k.mySummary.trim()) return true;
   if(!k.tags || !k.tags.length) return true;
@@ -2416,14 +2457,109 @@ function kbStats(){
   const nonArch=all.filter(function(k){return !k.archived;});
   const inbox=nonArch.filter(kbIsInbox).length;
   const collection=nonArch.length;
-  const toRead=nonArch.filter(function(k){return k.status==='待读';}).length;
-  const toPractice=nonArch.filter(function(k){return k.worthPractice==='yes'&&k.practiceStatus!=='已验证有效'&&k.practiceStatus!=='已验证无效';}).length;
-  const practiced=nonArch.filter(function(k){return k.worthPractice==='yes'&&(k.practiceStatus==='已验证有效'||k.practiceStatus==='已验证无效');}).length;
+  const toPractice=nonArch.filter(function(k){return isWorthPractice(k)&&kbStage(k)!=='已完成';}).length;
+  const done=nonArch.filter(function(k){return isWorthPractice(k)&&kbStage(k)==='已完成';}).length;
   const weekNew=all.filter(function(k){return k.createdAt && (Date.now()-k.createdAt)<=7*86400000;}).length;
   const archived=all.filter(function(k){return k.archived;}).length;
-  return {inbox:inbox,collection:collection,toRead:toRead,toPractice:toPractice,practiced:practiced,weekNew:weekNew,archived:archived};
+  return {inbox:inbox,collection:collection,toPractice:toPractice,done:done,weekNew:weekNew,archived:archived};
 }
 function kbCover(k){ return coverImg(k.cover,k.title,'',k.isbn); }
+/* 本地启发式“AI 识别”：根据链接/文字自动猜测字段；不确定字段标 pending，绝不编造 */
+function extractList(text){
+  const out=[];
+  text.split(/\r?\n/).forEach(function(line){
+    const m=line.trim().match(/^(?:\d+[、.．)）]|[①-⑩]|[-•·*])\s*(.+)$/);
+    if(m) out.push(m[1]);
+  });
+  return out;
+}
+function extractTplField(text,f){
+  if(f.k==='steps'){ return extractList(text).join('\n'); }
+  const lines=text.split(/\r?\n/);
+  if(f.type==='lines'){
+    const ls=lines.filter(function(l){ return /^\s*(?:\d+[、.．)）]|[①-⑩]|[-•·*])\s*\S/.test(l); });
+    if(ls.length) return ls.map(function(l){return l.replace(/^\s*(?:\d+[、.．)）]|[①-⑩]|[-•·*])\s*/,'').trim();}).join('\n');
+  }
+  const hit=lines.find(function(l){ return l.indexOf(f.label)>=0 && /[:：]/.test(l); });
+  if(hit){ const m=hit.split(/[:：]/); if(m[1]&&m[1].trim()) return m[1].trim(); }
+  return '';
+}
+function kbAutoIdentify(input){
+  input=input||{};
+  const text=String(input.text||'').trim();
+  const url=String(input.url||'').trim();
+  const u=url.toLowerCase();
+  const blob=(text+'\n'+text);
+  const res={}, pending={};
+  // 来源平台
+  let pf=input.platform||'';
+  if(!pf && url){
+    if(u.indexOf('xiaohongshu')>=0||u.indexOf('xhslink')>=0) pf='小红书';
+    else if(u.indexOf('douyin')>=0||u.indexOf('tiktok')>=0) pf='抖音';
+    else if(u.indexOf('weixin.qq')>=0||u.indexOf('mp.weixin')>=0) pf='微信公众号';
+    else if(u.indexOf('bilibili')>=0) pf='视频平台';
+    else if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) pf='图片/截图';
+    else if(u.indexOf('http')===0) pf='普通网页';
+  }
+  res.platform=pf||'手动输入'; pending.platform=!pf;
+  // 标题
+  const lines=text.split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
+  let title='';
+  if(lines.length && lines[0].length<=40) title=lines[0];
+  else if(url){ const m=url.split(/[?#]/)[0].split('/').filter(Boolean).pop()||''; title=m.replace(/\.\w+$/,'').replace(/[-_]/g,' '); }
+  res.title=title||'未命名收藏'; pending.title=!title;
+  // 作者
+  let am=text.match(/(?:作者|博主|up主|来源)[:：]\s*([^\n，。]{1,20})/);
+  if(!am) am=text.match(/@([^\s，。：:]+)/);
+  res.author=am?am[1]:''; pending.author=!am;
+  // 发布时间
+  let pub=''; const pm=text.match(/(\d{4})[-/年.](\d{1,2})[-/月.](\d{1,2})/);
+  if(pm) pub=pm[1]+'-'+String(pm[2]).padStart(2,'0')+'-'+String(pm[3]).padStart(2,'0');
+  res.publishedAt=pub; pending.publishedAt=!pub;
+  // 主题
+  let theme='待分类', subTheme='';
+  DEFAULT_KB_THEMES.forEach(function(t){
+    if(t.name==='待分类') return;
+    const hit=t.tags.some(function(tg){return blob.indexOf(tg)>=0;}) || blob.indexOf(t.name)>=0 || (t.desc&&blob.indexOf(t.desc)>=0);
+    if(hit && theme==='待分类') theme=t.name;
+  });
+  if(theme==='待分类'){
+    if(/菜谱|做法|食谱|配方|烹饪|食材|下厨房|红烧|清蒸|炖|烘焙|减脂餐/.test(blob)) theme='做饭';
+    else if(/路线|行程|攻略|打卡|景点|住宿|民宿|旅行|出游|自驾游|徒步|签证/.test(blob)) theme='旅行';
+    else if(/拍摄|摄影|构图|夜景|参数|器材|后期|人像|风光|快门|手机摄影/.test(blob)) theme='摄影';
+    else if(/剪辑|视频|vlog|转场|字幕|调色|脚本|短视频/.test(blob)) theme='视频剪辑';
+  }
+  if(theme!=='待分类'){ const tt=DEFAULT_KB_THEMES.find(function(t){return t.name===theme;}); if(tt){ tt.tags.some(function(tg){ if(blob.indexOf(tg)>=0){ subTheme=tg; return true; } return false; }); } }
+  res.theme=theme; pending.theme=(theme==='待分类'); res.subTheme=subTheme;
+  // 摘要
+  res.summary=text.slice(0,90).replace(/\s+/g,' ').trim(); pending.summary=!res.summary;
+  // 类型
+  let type='';
+  if(/菜谱|做法|食谱|配方|烹饪|步骤/.test(blob)) type='菜谱';
+  else if(/攻略|路线|行程|玩法|打卡/.test(blob)) type='攻略';
+  else if(/教程|教学|怎么|如何|技巧/.test(blob)) type='教程';
+  else if(/视频|vlog|剪辑/.test(blob)) type='视频';
+  else if(/\d+[、.．)）]/.test(text) && /清单|要点|步骤/.test(blob)) type='清单';
+  res.type=type; pending.type=!type;
+  // 标签
+  const tags=[];
+  if(theme!=='待分类'){ const tt=DEFAULT_KB_THEMES.find(function(t){return t.name===theme;}); if(tt) tt.tags.forEach(function(tg){ if(blob.indexOf(tg)>=0) tags.push(tg); }); }
+  if(subTheme && tags.indexOf(subTheme)<0) tags.push(subTheme);
+  res.tags=tags.slice(0,4); pending.tags=(tags.length===0);
+  // 关键步骤
+  res.steps=extractList(text).join('\n');
+  // 是否值得实践
+  let wp='unknown';
+  if(['菜谱','攻略','教程','清单','工具推荐'].indexOf(type)>=0) wp='yes';
+  res.worthPractice=wp; pending.worthPractice=(wp==='unknown');
+  // 动态模板字段
+  const tpl={};
+  if(KB_TEMPLATES[theme] && text){
+    KB_TEMPLATES[theme].forEach(function(f){ const val=extractTplField(text,f); if(val) tpl[f.k]=val; });
+  }
+  res.tpl=tpl;
+  return {res:res, pending:pending};
+}
 function kbRelHtml(k){
   k=k||{};
   const bookSel=COL.books().map(function(b){return '<option value="'+b.id+'" '+((k.relatedBooks||[]).indexOf(b.id)>=0?'selected':'')+'>'+esc(b.title)+'</option>';}).join('');
@@ -2450,37 +2586,33 @@ function kbThemeOptions(sel){
   return ts.map(function(n){return '<option '+(sel===n?'selected':'')+'>'+esc(n)+'</option>';}).join('');
 }
 function kbCard(k){
-  const ext = k.url? '<a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知域名')+'">'+esc(k.url)+'</a>' : '';
-  const badges = '<span class="badge '+(k.archived?'gray':k.status==='待整理'?'sample':k.status==='待读'?'warn':'ok')+'">'+esc(k.archived?'已归档':k.status)+'</span>'+
-    (k.worthPractice==='yes'?'<span class="badge warn">待实践</span>':'')+
+  const st=kbStage(k);
+  const summary=k.mySummary||k.origSummary||'';
+  const badges='<span class="badge '+(st==='新收藏'||st==='待确认'?'sample':st==='待实践'?'warn':st==='已完成'?'ok':'')+'">'+esc(st)+'</span>'+
+    (isWorthPractice(k)?'<span class="badge warn">待实践</span>':'')+
     (k.myRating?('<span class="badge">'+esc(k.myRating)+'★</span>'):'');
-  return '<div class="card mb" data-kb="'+k.id+'">'+
-    '<div class="flex" style="gap:10px;align-items:flex-start">'+
-      kbCover(k)+
-      '<div style="flex:1;min-width:0">'+
-        '<div class="flex between"><b>'+esc(k.title)+'</b>'+badges+'</div>'+
-        '<div class="muted-small" style="margin:4px 0">'+kbPlatformIco(k.platform)+' '+(k.platform||'')+(k.author?(' · '+esc(k.author)):'')+(k.domain?(' · '+esc(k.domain)):'')+'</div>'+
-        (k.url?('<div class="muted-small" style="margin:4px 0;word-break:break-all">'+ext+'</div>'):'')+
-        (k.mySummary?('<p class="muted-small" style="margin:6px 0;white-space:pre-wrap">'+esc(k.mySummary)+'</p>'):(k.origSummary?('<p class="muted-small" style="margin:6px 0;white-space:pre-wrap">'+esc(k.origSummary)+'</p>'):''))+
-        (k.theme?('<div class="muted-small">主题：'+esc(k.theme)+(k.subTheme?(' / '+esc(k.subTheme)):'')+'</div>'):'')+
-        '<div class="flex flex-wrap" style="gap:6px;margin-top:6px">'+tagsHtml(k.tags)+'</div>'+
-      '</div>'+
-    '</div>'+
+  const showConfirm=(st==='新收藏'||st==='待确认');
+  let h='<div class="card mb" data-kb="'+k.id+'">'+
+    '<div class="flex between" style="align-items:flex-start"><b class="kb-card-title">'+esc(k.title)+'</b>'+badges+'</div>'+
+    (summary?('<p class="muted-small" style="margin:6px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+esc(summary)+'</p>'):'')+
+    '<div class="muted-small" style="margin:4px 0">'+kbPlatformIco(k.platform)+' '+(k.platform||'')+(k.theme&&k.theme!=='待分类'?(' · '+esc(k.theme)):'')+'</div>'+
     '<div class="row-actions mt">'+
-      '<button class="mini-btn" data-act="view:'+k.id+'">查看</button>'+
+      (showConfirm?'<button class="mini-btn primary" data-act="confirm:'+k.id+'">确认整理</button>':'')+
+      (isWorthPractice(k)?'':'<button class="mini-btn" data-act="practice:'+k.id+'">加入实践</button>')+
+      (k.url?'<a class="mini-btn" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">打开原文</a>':'')+
       '<button class="mini-btn" data-act="edit:'+k.id+'">编辑</button>'+
-      '<button class="mini-btn" data-act="note:'+k.id+'">转笔记</button>'+
-      '<button class="mini-btn" data-act="task:'+k.id+'">转任务</button>'+
-      '<button class="mini-btn" data-act="arch:'+k.id+'">'+(k.archived?'取消归档':'归档')+'</button>'+
-      '<button class="mini-btn danger" data-act="del:'+k.id+'">删</button>'+
+      '<button class="mini-btn" data-act="view:'+k.id+'">详情</button>'+
     '</div>'+
   '</div>';
+  return h;
 }
 function handleKbAct(act){
   const i=act.indexOf(':'); const kind=act.slice(0,i), id=act.slice(i+1);
   const k=COL.kb().find(function(x){return x.id===id;}); if(!k) return;
   if(kind==='view') openKbDetail(id);
   else if(kind==='edit') openKbForm(id);
+  else if(kind==='confirm'){ k.stage='已整理'; k.aiPending=false; if(!k.mySummary||!k.mySummary.trim()) k.mySummary=(k.origSummary||'').slice(0,90); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); logActivity('确认整理','kb',k.title); toast('已确认整理，进入我的收藏'); renderKb(parseHash().sub||'collection'); }
+  else if(kind==='practice'){ k.worthPractice='yes'; const st=kbStage(k); if(st==='已整理'||st==='新收藏'||st==='待确认') k.stage='待实践'; k.updatedAt=nowStr(); SAVE.kb(COL.kb()); logActivity('加入实践','kb',k.title); toast('已加入待实践'); renderKb(parseHash().sub||'collection'); }
   else if(kind==='note') openNoteForm({title:k.title,content:k.mySummary||k.origSummary,link:{type:'kb',id:id,title:k.title}});
   else if(kind==='task') openTaskForm({title:k.title,link:{type:'kb',id:id,title:k.title}});
   else if(kind==='arch'){ k.archived=!k.archived; k.updatedAt=nowStr(); SAVE.kb(COL.kb()); toast(k.archived?'已归档':'已取消归档'); renderKb(parseHash().sub); }
@@ -2491,168 +2623,173 @@ function handleKbAct(act){
 function bindKbBody(body){
   body.addEventListener('click',function(e){
     const ext=e.target.closest('[data-ext]'); if(ext){ return; }
+    const fchip=e.target.closest('[data-fchip]'); if(fchip){ const key=fchip.getAttribute('data-fchip'); if(key==='theme') KB_THEME_FILTER=''; if(kbF[key]!==undefined) delete kbF[key]; renderKb('collection'); return; }
     const act=e.target.closest('[data-act]'); if(act){ handleKbAct(act.getAttribute('data-act')); return; }
+    const go=e.target.closest('[data-go]'); if(go){ location.hash=go.getAttribute('data-go'); return; }
     const th=e.target.closest('[data-theme]'); if(th){ KB_THEME_FILTER=th.getAttribute('data-theme'); renderKb('collection'); return; }
     const card=e.target.closest('[data-kb]'); if(card){ openKbDetail(card.getAttribute('data-kb')); }
   });
 }
 function renderKb(sub){
   sub=sub||'home'; const view=$('#view');
-  view.innerHTML=pageHead('个人知识库','发现 → 保存 → 整理 → 提炼 → 实践 → 归档', `<button class="btn primary" id="kbAdd">＋ 新建收藏</button>`,'🔗')+subnav('kb',sub);
+  view.innerHTML=pageHead('个人知识库','先收进来 → AI 自动整理 → 你确认 → 需要时再实践', `<button class="btn primary" id="kbAdd">＋ 快速保存</button>`,'🔗')+subnav('kb',sub);
   const body=document.createElement('div'); view.appendChild(body);
   ({home:kbHome,inbox:kbInbox,collection:kbCollection,themes:kbThemes,practice:kbPracticePage,featured:kbFeatured,archive:kbArchive})[sub](body);
   bindSubnav('kb');
-  $('#kbAdd').onclick=function(){ openKbForm(); };
+  $('#kbAdd').onclick=function(){ const el=$('#qs_url',view); if(el){ el.scrollIntoView({behavior:'smooth'}); el.focus(); } else { openKbForm(); } };
 }
 /* ---------------- 首页 ---------------- */
 function kbQuickSaveHtml(){
-  return '<div class="panel quick-save"><div class="panel-head"><h2>⚡ 快速保存</h2><span class="muted-small">粘贴链接或手动记录，自动进入「待整理」</span></div>'+
-    '<div class="field-row"><div class="field" style="flex:2"><label>链接 URL（小红书 / 公众号 / 网页 / 视频等）</label><input id="qs_url" placeholder="https://…"></div>'+
-    '<div class="field"><label>标题</label><input id="qs_title" placeholder="内容标题"></div></div>'+
-    '<div class="field-row"><div class="field"><label>来源平台</label><select id="qs_platform">'+KB_PLATFORMS.map(function(p){return '<option>'+p+'</option>';}).join('')+'</select></div>'+
-    '<div class="field"><label>作者 / 账号</label><input id="qs_author"></div>'+
-    '<div class="field"><label>封面图 / 截图</label><input id="qs_img" type="file" accept="image/*"></div></div>'+
-    '<div class="field"><label>原文摘要（无法读取外部页面时请手动粘贴；本工作台不自动编造标题/作者/摘要）</label><textarea id="qs_summary" placeholder="粘贴原文摘要或你的初步记录"></textarea></div>'+
-    '<div class="row-actions"><button class="btn primary" id="qs_save">保存到待整理</button>'+
-    '<button class="btn" id="qs_full">展开完整表单</button>'+
-    '<span class="muted-small" id="qs_hint"></span></div></div>';
+  return '<div class="panel quick-save"><div class="panel-head"><h2>⚡ 快速保存</h2><span class="muted-small">粘贴链接 / 传截图 / 粘贴文字，10 秒先存进来，AI 帮你自动整理</span></div>'+
+    '<div class="field"><label>① 粘贴链接（小红书 / 抖音 / 公众号 / 网页 / 视频，可空）</label><input id="qs_url" placeholder="https://…"></div>'+
+    '<div class="field"><label>② 上传截图（可空：自动作封面；读不到原文时也能用）</label><input id="qs_img" type="file" accept="image/*"></div>'+
+    '<div class="field"><label>③ 粘贴文字（可空：原文、你的笔记，或截图里的字）</label><textarea id="qs_text" placeholder="把内容文字粘贴到这里，AI 会从中识别 标题 / 主题 / 步骤 / 摘要 …"></textarea></div>'+
+    '<div class="field"><label>④ 我的备注（可选）</label><input id="qs_note" placeholder="一句话备注，如：周末想试试这道菜"></div>'+
+    '<div class="row-actions"><button class="btn primary" id="qs_save">保存并 AI 整理</button>'+
+    '<button class="btn" id="qs_full">手动完整填写</button>'+
+    '<span class="muted-small" id="qs_hint"></span></div>'+
+    '<div class="muted-small" style="margin-top:6px">⚠️ 本工作台不读取外部页面、也不会编造内容；识别结果来自你粘贴的链接 / 文字，标「待确认」的请手动补全。</div></div>';
 }
 function bindQuickSave(scope){
-  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），保存时作为封面'; }; r.readAsDataURL(f); });
-  const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname+'（本工作台不自动读取外部页面，请手动补充摘要）'; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
+  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; }; r.readAsDataURL(f); });
+  const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
   const save=$('#qs_save',scope); if(save) save.onclick=function(){
-    const title=$('#qs_title',scope).value.trim(); const urlv=$('#qs_url',scope).value.trim();
-    if(!title&&!urlv){ toast('请填写标题或链接'); return; }
+    const urlv=$('#qs_url',scope).value.trim();
+    const text=$('#qs_text',scope).value.trim();
+    const note=$('#qs_note',scope).value.trim();
+    if(!urlv && !text && !scope._qsCover){ toast('请至少粘贴链接、文字或上传截图'); return; }
     let domain=''; if(urlv){ try{ domain=new URL(urlv).hostname; }catch(e){} }
-    const t=title||'(未命名收藏)';
-    const obj={ id:uid('kb'), title:t, url:urlv, domain:domain, platform:$('#qs_platform',scope).value, author:$('#qs_author',scope).value.trim(),
-      publishedAt:'', cover:scope._qsCover||'', isbn:'', type:'', origSummary:$('#qs_summary',scope).value.trim(),
-      mySummary:'', whySave:'', keyPoints:'', steps:'', methods:'', scenarios:'', cautions:'', myRating:'', worthPractice:'unknown',
-      theme:'待分类', subTheme:'', tags:[], relatedBooks:[], relatedStocks:[], relatedIndustries:[], relatedTasks:[], relatedProjects:[], relatedNotes:[],
-      status:'待整理', nextAction:'', planDate:'', practiceStatus:'未计划', practiceResult:'', neededMaterials:'', reviewNote:'', reuseCount:0, lastReuse:null,
+    const ai=kbAutoIdentify({url:urlv, text:text, platform:'', cover:scope._qsCover});
+    const t=ai.res.title||'(未命名收藏)';
+    const obj={ id:uid('kb'), title:t, url:urlv, domain:domain, platform:ai.res.platform, author:ai.res.author, publishedAt:ai.res.publishedAt, cover:scope._qsCover||'', isbn:'',
+      type:ai.res.type, origSummary:text, mySummary:ai.res.summary, whySave:note, keyPoints:ai.res.steps, steps:ai.res.steps, methods:'', scenarios:'', cautions:'',
+      myRating:'', worthPractice:ai.res.worthPractice, theme:ai.res.theme, subTheme:ai.res.subTheme, tags:ai.res.tags.slice(),
+      tpl:ai.res.tpl||{}, relatedBooks:[], relatedStocks:[], relatedIndustries:[], relatedTasks:[], relatedProjects:[], relatedNotes:[],
+      stage:'新收藏', aiRaw:ai, aiPending:true, nextAction:'', planDate:'', practiceStatus:'未开始', practiceResult:'', neededMaterials:'', reviewNote:'', reuseCount:0, lastReuse:null,
       archived:false, createdAt:Date.now(), updatedAt:nowStr(), sample:false };
-    let a=COL.kb(); a.push(obj); SAVE.kb(a); logActivity('快速收藏','kb',t); toast('已保存到待整理'); renderKb('inbox');
+    let a=COL.kb(); a.push(obj); SAVE.kb(a); logActivity('快速收藏','kb',t); toast('已保存，进入收件箱待确认'); renderKb('inbox');
   };
   const full=$('#qs_full',scope); if(full) full.onclick=function(){ openKbForm(); };
 }
 function kbHome(body){
   const s=kbStats(); const all=COL.kb();
-  const recent=all.slice().sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0);}).slice(0,6);
-  const updated=all.slice().sort(function(a,b){return (b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0);}).slice(0,6);
-  const themeCount={};
-  all.forEach(function(k){ const t=k.theme||'待分类'; themeCount[t]=(themeCount[t]||0)+1; });
-  const hot=Object.keys(themeCount).map(function(t){return {name:t,c:themeCount[t]};}).sort(function(a,b){return b.c-a.c;}).slice(0,8);
-  const pending=all.filter(function(k){return !k.archived && (kbIsInbox(k) || (k.worthPractice==='yes'&&k.practiceStatus!=='已验证有效'&&k.practiceStatus!=='已验证无效'));}).slice(0,6);
-  const stat=function(num,label,go,cls){ return '<div class="card clickable" data-go="'+go+'"><div class="stat-row"><div class="stat-num '+(cls||'')+'">'+num+'</div><div class="stat-label">'+label+'</div></div></div>'; };
+  const recent=all.slice().sort(function(a,b){return (b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0);}).slice(0,5);
+  const pathCard=function(num,label,desc,go,ico,cls){ return '<div class="card clickable" data-go="'+go+'"><div class="flex between"><div><div class="stat-num '+(cls||'')+'">'+num+'</div><div class="stat-label">'+label+'</div></div><div style="font-size:26px">'+ico+'</div></div><div class="muted-small" style="margin-top:4px">'+desc+'</div></div>'; };
   let h=kbQuickSaveHtml();
-  h+='<div class="grid cards-4" style="margin-top:14px">'+
-    stat(s.inbox,'待整理','#/kb/inbox')+
-    stat(s.collection,'全部收藏','#/kb/collection')+
-    stat(s.toRead,'待读','#/kb/collection')+
-    stat(s.toPractice,'待实践','#/kb/practice')+
-    stat(s.practiced,'已实践','#/kb/featured')+
-    stat(s.weekNew,'本周新增','#/kb/collection')+
-  '</div>';
-  h+='<div class="row-actions mt mb"><button class="btn sm primary" id="qa_add">＋ 新增收藏</button>'+
-    '<button class="btn sm" id="qa_theme">＋ 新增主题</button>'+
-    '<button class="btn sm" id="qa_prac">＋ 新增待实践事项</button>'+
-    '<button class="btn sm" id="qa_search">🔍 搜索内容</button>'+
-    '<button class="btn sm" id="qa_inbox">查看待整理</button></div>';
-  h+='<div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;align-items:start">';
-  h+='<div><div class="panel"><div class="panel-head"><h2>🆕 最近收藏</h2></div>'+(recent.length?recent.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b></span><span class="v muted-small">'+(k.platform||'')+'</span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>'+
-    '<div class="panel mt"><div class="panel-head"><h2>🕘 最近更新</h2></div>'+(updated.length?updated.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b></span><span class="v muted-small">'+(k.updatedAt||'')+'</span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div></div>';
-  h+='<div><div class="panel"><div class="panel-head"><h2>🔥 热门主题</h2></div><div class="flex flex-wrap" style="gap:8px">'+(hot.length?hot.map(function(t){return '<span class="chip" data-theme="'+esc(t.name)+'">'+esc(t.name)+' <b>'+t.c+'</b></span>';}).join(''):'<p class="muted-small">暂无</p>')+'</div></div>'+
-    '<div class="panel mt"><div class="panel-head"><h2>📌 待处理事项</h2></div>'+(pending.length?pending.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b>'+(kbIsInbox(k)?' <span class="badge sample">待整理</span>':' <span class="badge warn">待实践</span>')+'</span><span class="v"><button class="mini-btn" data-act="view:'+k.id+'">处理</button></span></div>';}).join(''):'<p class="muted-small">全部处理完毕 🎉</p>')+'</div></div>';
+  h+='<div class="grid cards-3" style="margin-top:14px">';
+  h+=pathCard(s.inbox,'收件箱','待 AI 识别 / 你确认','#/kb/inbox','📥','warn');
+  h+=pathCard(s.collection,'我的收藏','已整理，可搜可实践','#/kb/collection','🗃️','ok');
+  h+=pathCard(s.toPractice,'待实践','标记值得尝试的内容','#/kb/practice','🛠️','');
   h+='</div>';
+  h+='<div class="row-actions mt mb"><span class="muted-small">二级入口：</span>'+
+    '<button class="chip" data-go="#/kb/themes">🏷️ 主题分类</button>'+
+    '<button class="chip" data-go="#/kb/featured">✨ 精选</button>'+
+    '<button class="chip" data-go="#/kb/archive">📦 归档</button>'+
+    '<button class="chip" data-go="#/search">🔍 搜索</button></div>';
+  h+='<div class="panel mt"><div class="panel-head"><h2>🕘 最近更新</h2></div>'+(recent.length?recent.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b></span><span class="v muted-small">'+kbPlatformIco(k.platform)+' '+(k.platform||'')+'</span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
   body.innerHTML=h;
-  bindQuickSave(body);
-  bindKbBody(body);
-  $('#qa_add').onclick=function(){ openKbForm(); };
-  $('#qa_theme').onclick=function(){ openKbThemeForm(); };
-  $('#qa_prac').onclick=function(){ openKbForm({worthPractice:'yes',practiceStatus:'已加入计划',status:'待读'}); };
-  $('#qa_search').onclick=function(){ location.hash='#/search'; };
-  $('#qa_inbox').onclick=function(){ renderKb('inbox'); };
+  bindQuickSave(body); bindKbBody(body);
 }
 /* ---------------- 待整理 ---------------- */
 function kbInbox(body){
   const all=COL.kb().filter(kbIsInbox);
-  let h='<div class="banner warn" style="margin-bottom:10px"><span class="b-ico">📥</span><div>待整理 = 缺少主题 / 标签 / 我的摘要，或尚未判断是否值得实践的内容。快速补全后即可进入「全部收藏」。</div></div>';
-  if(!all.length){ h+=emptyState('📥','待整理已清空','去收藏一条',null); body.innerHTML=h; return; }
+  let h='<div class="banner info" style="margin-bottom:10px"><span class="b-ico">🤖</span><div>收件箱 = 刚保存、待 AI 识别、待你确认的内容。AI 已根据你的链接 / 文字自动猜测字段（标「待确认」的请补全），确认后即可进入「我的收藏」。</div></div>';
+  if(!all.length){ h+=emptyState('📥','收件箱已清空','去首页快速保存一条',null); body.innerHTML=h; return; }
   h+='<div class="grid">';
-  all.forEach(function(k){
-    h+='<div class="card mb" data-kb="'+k.id+'"><div class="flex between"><b>'+esc(k.title)+'</b><span class="badge sample">待整理</span></div>'+
-      (k.url?'<div class="muted-small" style="margin:4px 0;word-break:break-all"><a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">'+esc(k.url)+'</a></div>':'')+
-      missingHint(k)+
-      '<div class="field-row" style="margin-top:8px"><div class="field"><label>主题</label><select id="in_theme_'+k.id+'">'+kbThemeOptions(k.theme)+'</select></div>'+
-      '<div class="field"><label>值得实践</label><select id="in_wp_'+k.id+'">'+['unknown','yes','no'].map(function(v){return '<option value="'+v+'" '+((k.worthPractice||'unknown')===v?'selected':'')+'>'+(v==='unknown'?'未定':v==='yes'?'值得':'不值得')+'</option>';}).join('')+'</select></div></div>'+
-      '<div class="field"><label>我的摘要（一句话）</label><input id="in_sum_'+k.id+'" value="'+esc(k.mySummary||'')+'" placeholder="一句话总结这条内容"></div>'+
-      '<div class="field"><label>标签</label><div id="in_tags_'+k.id+'" class="flex flex-wrap" style="gap:6px;border:1px solid var(--line-strong);border-radius:9px;padding:8px;min-height:38px"></div></div>'+
-      '<div class="row-actions mt">'+
-      (k.url?'<a class="mini-btn" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">打开链接</a>':'')+
-      '<button class="mini-btn primary" data-act="savein:'+k.id+'">保存整理</button>'+
-      '<button class="mini-btn" data-act="edit:'+k.id+'">编辑</button>'+
-      '<button class="mini-btn" data-act="task:'+k.id+'">加入任务</button>'+
-      '<button class="mini-btn" data-act="arch:'+k.id+'">归档</button>'+
-      '<button class="mini-btn danger" data-act="del:'+k.id+'">删</button></div></div>';
-  });
+  all.forEach(function(k){ h+=aiConfirmCard(k); });
   h+='</div>';
   body.innerHTML=h; bindKbBody(body);
-  all.forEach(function(k){
-    const sel=[]; renderTagsInput(sel,$('#in_tags_'+k.id,body));
-    $('#in_tags_'+k.id,body)._sel=sel;
-  });
-  $$('[data-act^="savein:"]',body).forEach(function(b){ b.onclick=function(){
-    const id=b.getAttribute('data-act').slice(7); const k=COL.kb().find(function(x){return x.id===id;}); if(!k) return;
-    k.theme=$('#in_theme_'+id,body).value; k.worthPractice=$('#in_wp_'+id,body).value; k.mySummary=$('#in_sum_'+id,body).value.trim();
-    const sel=$('#in_tags_'+id,body)._sel||[]; k.tags=sel.slice();
-    k.updatedAt=nowStr();
-    if(k.theme && k.theme!=='待分类' && k.mySummary && k.tags.length && k.worthPractice!=='unknown'){ k.status='待读'; toast('整理完成，已移到全部收藏'); }
-    else { toast('已保存进度'); }
-    SAVE.kb(COL.kb()); renderKb('inbox');
-  }; });
 }
-function missingHint(k){
-  const m=[];
-  if(!k.theme||k.theme==='待分类') m.push('缺主题');
-  if(!k.tags||!k.tags.length) m.push('缺标签');
-  if(!k.mySummary||!k.mySummary.trim()) m.push('缺摘要');
-  if(k.worthPractice!=='yes'&&k.worthPractice!=='no') m.push('未判断实践');
-  if(!m.length) return '';
-  return '<div class="muted-small" style="margin:6px 0">'+m.map(function(x){return '<span class="badge sample">'+x+'</span>';}).join(' ')+'</div>';
+function aiConfirmCard(k){
+  const ai=k.aiRaw; const pending=ai&&ai.pending?ai.pending:{}; const r=ai&&ai.res?ai.res:{};
+  const fld=function(label,val,pf){ return '<div class="kv"><span class="k">'+label+(pf?' <span class="badge sample">待确认</span>':'')+'</span><span class="v">'+(val?esc(val):'<span class="muted-small">待确认</span>')+'</span></div>'; };
+  let h='<div class="card mb" data-kb="'+k.id+'">';
+  h+='<div class="flex between"><b>'+esc(k.title||'(未命名收藏)')+'</b>'+(k.aiPending?'<span class="badge sample">AI 识别待确认</span>':'<span class="badge">待整理</span>')+'</div>';
+  if(k.url) h+='<div class="muted-small" style="margin:4px 0;word-break:break-all"><a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">'+esc(k.url)+'</a></div>';
+  h+='<div class="kb-region" style="margin-top:6px"><h4>🤖 AI 识别结果</h4>';
+  h+=fld('主题',(k.theme&&k.theme!=='待分类')?k.theme:r.theme,pending.theme);
+  h+=fld('类型',k.type||r.type,pending.type);
+  h+=fld('摘要',k.mySummary||r.summary,pending.summary);
+  h+=fld('标签',(k.tags&&k.tags.length?k.tags.join('、'):(r.tags&&r.tags.join('、'))),pending.tags);
+  h+=fld('值得实践',k.worthPractice==='yes'?'值得':k.worthPractice==='no'?'不值得':(r.worthPractice==='yes'?'值得':'待确认'),pending.worthPractice);
+  h+='</div>';
+  h+='<div class="field" style="margin-top:8px"><label>我的备注</label><div class="muted-small">'+(k.whySave||'—')+'</div></div>';
+  h+='<div class="row-actions mt">'+
+    '<button class="mini-btn primary" data-act="confirm:'+k.id+'">确认保存</button>'+
+    '<button class="mini-btn" data-act="edit:'+k.id+'">修改分类/标签</button>'+
+    (k.url?'<a class="mini-btn" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">打开原文</a>':'')+
+    '<button class="mini-btn" data-act="task:'+k.id+'">转任务</button>'+
+    '<button class="mini-btn" data-act="arch:'+k.id+'">归档</button>'+
+    '<button class="mini-btn danger" data-act="del:'+k.id+'">删</button></div>';
+  h+='</div>';
+  return h;
+}
+/* 自然语言搜索 + 预算过滤：支持「适合周末的快手菜」「杭州拍照路线」「手机夜景拍摄技巧」「预算500元以内的旅行攻略」 */
+function kbNlFilter(list,q){
+  q=(q||'').trim(); if(!q) return list;
+  let budget=null;
+  const bm=q.match(/预算[约]?\s*(\d+)\s*(?:元|块|￥|RMB)?\s*(?:以内|以下|内|左右)?/);
+  if(bm) budget=parseInt(bm[1],10);
+  const stop=['找','适合','做','做的','以内','以下','用来','想','我','请','要','个','一','的','试试','看看','有','没有','什么','哪些','推荐'];
+  const kw=q.replace(/预算[约]?\s*\d+\s*(?:元|块|￥|RMB)?\s*(?:以内|以下|内|左右)?/g,'')
+            .replace(/[，。、,.\-～~]/g,' ').split(/\s+/).map(function(s){return s.trim();}).filter(Boolean)
+            .filter(function(w){return stop.indexOf(w)<0;});
+  return list.filter(function(k){
+    if(budget!=null){
+      if(k.theme!=='旅行') return false;
+      const b=(k.tpl&&k.tpl.budget)?k.tpl.budget:(k.budget||'');
+      const bm2=String(b).match(/(\d+)/);
+      if(!bm2 || parseInt(bm2[1],10)>budget) return false;
+    }
+    if(!kw.length) return true;
+    const hay=[k.title,k.origSummary,k.mySummary,k.keyPoints,k.whySave,k.author,k.domain,(k.tags||[]).join(' '),(k.relatedStocks||[]).join(' '),k.theme,k.subTheme,k.type,JSON.stringify(k.tpl||{})].join(' ').toLowerCase();
+    return kw.every(function(w){ return hay.indexOf(w.toLowerCase())>=0; });
+  });
 }
 /* ---------------- 全部收藏（搜索/筛选） ---------------- */
 function kbCollection(body){
-  const all=COL.kb();
+  const all=COL.kb().filter(function(k){ return !k.archived; }); // 我的收藏默认只看未归档，归档见二级入口
   const themes=COL.kbtopics().map(function(t){return t.name;}); if(themes.indexOf('待分类')<0) themes.push('待分类');
-  let f=Object.assign({q:'',theme:'',type:'',platform:'',status:'',practice:'',archived:''},kbF);
+  let f=Object.assign({q:'',theme:'',type:'',platform:'',practice:''},kbF);
   if(KB_THEME_FILTER){ f.theme=KB_THEME_FILTER; }
   let list=all.slice();
-  if(f.q){ const q=f.q.toLowerCase(); list=list.filter(function(k){ const hay=(k.title+' '+(k.origSummary||'')+' '+(k.mySummary||'')+' '+(k.keyPoints||'')+' '+(k.whySave||'')+' '+(k.author||'')+' '+(k.domain||'')+' '+tagsToNames(k.tags).join(' ')+' '+(k.relatedStocks||[]).join(' ')).toLowerCase(); return hay.indexOf(q)>=0; }); }
+  if(f.q){
+    const nl=kbNlFilter(list,f.q);
+    if(nl.length) list=nl;
+    else { const q=f.q.toLowerCase(); list=list.filter(function(k){ const hay=(k.title+' '+(k.origSummary||'')+' '+(k.mySummary||'')+' '+(k.keyPoints||'')+' '+(k.whySave||'')+' '+(k.author||'')+' '+(k.domain||'')+' '+tagsToNames(k.tags).join(' ')+' '+(k.relatedStocks||[]).join(' ')).toLowerCase(); return hay.indexOf(q)>=0; }); }
+  }
   if(f.theme) list=list.filter(function(k){return (k.theme||'待分类')===f.theme;});
   if(f.type) list=list.filter(function(k){return k.type===f.type;});
   if(f.platform) list=list.filter(function(k){return k.platform===f.platform;});
-  if(f.status) list=list.filter(function(k){return (k.archived?'已归档':k.status)===f.status;});
   if(f.practice==='yes') list=list.filter(function(k){return k.worthPractice==='yes';});
   else if(f.practice==='no') list=list.filter(function(k){return k.worthPractice!=='yes';});
-  if(f.archived==='yes') list=list.filter(function(k){return k.archived;});
-  else if(f.archived==='no') list=list.filter(function(k){return !k.archived;});
-  let h='';
-  if(KB_THEME_FILTER){ h+='<div class="banner" style="margin-bottom:10px"><span class="b-ico">🏷️</span><div>正在筛选主题：<b>'+esc(KB_THEME_FILTER)+'</b> <button class="mini-btn" id="clrF">清除筛选</button></div></div>'; }
-  h+='<div class="panel"><div class="panel-head"><h2>🔗 全部收藏</h2><span class="badge gray">'+list.length+' 条</span></div>';
-  h+='<div class="field-row" style="margin-bottom:10px"><div class="field" style="flex:2"><input id="f_q" value="'+esc(f.q)+'" placeholder="搜索标题/摘要/核心要点/标签/作者/关联股票"></div>'+
+  // 可见筛选 chip（始终可见、可单独删除）
+  let chips='';
+  const chip=function(key,label){ return '<button class="chip chip-x" data-fchip="'+key+'">'+label+' <span class="x">×</span></button>'; };
+  if(f.q) chips+=chip('q','搜索：'+esc(f.q));
+  if(f.theme) chips+=chip('theme','主题：'+esc(f.theme));
+  if(f.type) chips+=chip('type','类型：'+esc(f.type));
+  if(f.platform) chips+=chip('platform','平台：'+esc(f.platform));
+  if(f.practice==='yes') chips+=chip('practice','值得实践');
+  else if(f.practice==='no') chips+=chip('practice','非实践');
+  let h='<div class="panel"><div class="panel-head"><h2>🔗 我的收藏</h2><span class="badge gray">'+list.length+' 条</span>'+
+    '<span style="margin-left:auto" class="row-actions"><button class="chip" data-go="#/kb/themes">🏷️ 主题分类</button>'+
+    '<button class="chip" data-go="#/kb/featured">✨ 精选</button>'+
+    '<button class="chip" data-go="#/kb/archive">📦 归档</button></span></div>';
+  if(chips){ h+='<div class="flex flex-wrap" style="gap:6px;margin:6px 0 10px">'+chips+'<button class="chip chip-clear" id="clrAll">清除全部筛选</button></div>'; }
+  h+='<div class="field-row" style="margin-bottom:10px"><div class="field" style="flex:2"><input id="f_q" value="'+esc(f.q)+'" placeholder="试试：适合周末的快手菜 / 杭州拍照路线 / 手机夜景拍摄技巧 / 预算500元以内的旅行攻略"></div>'+
     '<div class="field"><select id="f_theme">'+['<option value="">全部主题</option>'].concat(themes.map(function(t){return '<option '+(f.theme===t?'selected':'')+'>'+esc(t)+'</option>';})).join('')+'</select></div>'+
     '<div class="field"><select id="f_type"><option value="">全部类型</option>'+KB_TYPES.map(function(t){return '<option '+(f.type===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div></div>';
   h+='<div class="field-row" style="margin-bottom:10px"><div class="field"><select id="f_platform"><option value="">全部平台</option>'+KB_PLATFORMS.map(function(t){return '<option '+(f.platform===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
-    '<div class="field"><select id="f_status"><option value="">全部状态</option>'+['待整理','待读','已读','已归档'].map(function(t){return '<option '+(f.status===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
     '<div class="field"><select id="f_practice"><option value="">是否待实践</option><option value="yes" '+(f.practice==='yes'?'selected':'')+'>值得实践</option><option value="no" '+(f.practice==='no'?'selected':'')+'>非实践</option></select></div>'+
-    '<div class="field"><select id="f_arch"><option value="">归档不限</option><option value="no" '+(f.archived==='no'?'selected':'')+'>未归档</option><option value="yes" '+(f.archived==='yes'?'selected':'')+'>已归档</option></select></div></div>';
-  h+= list.length? ('<div class="grid">'+list.map(kbCard).join('')+'</div>') : emptyState('🔗','没有符合条件的内容','去收藏一条',null);
+    '<div class="field" style="flex:2"><a class="link" href="#/kb/inbox" style="font-size:13px">📥 查看收件箱待确认 →</a></div></div>';
+  h+= list.length? ('<div class="grid">'+list.map(kbCard).join('')+'</div>') : emptyState('🔗','没有符合条件的内容','去首页快速保存一条',null);
   h+='</div>';
   body.innerHTML=h; bindKbBody(body);
-  const re=function(){ kbF={q:$('#f_q',body).value,theme:$('#f_theme',body).value,type:$('#f_type',body).value,platform:$('#f_platform',body).value,status:$('#f_status',body).value,practice:$('#f_practice',body).value,archived:$('#f_arch',body).value}; renderKb('collection'); };
-  ['f_q','f_theme','f_type','f_platform','f_status','f_practice','f_arch'].forEach(function(id){ const el=$('#'+id,body); if(el) el.onchange=re; });
+  const re=function(){ kbF={q:$('#f_q',body).value,theme:$('#f_theme',body).value,type:$('#f_type',body).value,platform:$('#f_platform',body).value,practice:$('#f_practice',body).value}; renderKb('collection'); };
+  ['f_q','f_theme','f_type','f_platform','f_practice'].forEach(function(id){ const el=$('#'+id,body); if(el) el.onchange=re; });
   const q=$('#f_q',body); if(q) q.onkeyup=function(){ kbF.q=q.value; renderKb('collection'); };
-  const clr=$('#clrF',body); if(clr) clr.onclick=function(){ KB_THEME_FILTER=''; kbF={}; renderKb('collection'); };
+  const clr=$('#clrAll',body); if(clr) clr.onclick=function(){ KB_THEME_FILTER=''; kbF={}; renderKb('collection'); };
 }
 /* ---------------- 主题分类 ---------------- */
 function kbThemes(body){
@@ -2734,7 +2871,6 @@ function openKbDetail(id){
   h+='</div>';
   h+='<div class="kb-region"><h4>② 我的整理</h4>';
   h+=row('一句话总结',k.mySummary); h+=row('为什么收藏',k.whySave); h+=row('核心要点',k.keyPoints); h+=row('关键步骤',k.steps);
-  h+=row('可复用方法',k.methods); h+=row('适用场景',k.scenarios); h+=row('注意事项',k.cautions);
   h+=row('我的评分',k.myRating?k.myRating+'★':''); h+=row('是否值得实践',k.worthPractice==='yes'?'值得':k.worthPractice==='no'?'不值得':'未定');
   h+=row('主题',(k.theme||'')+(k.subTheme?(' / '+k.subTheme):''));
   h+='<div class="kv"><span class="k">标签</span><span class="v">'+tagsHtml(k.tags)+'</span></div>';
@@ -2744,66 +2880,79 @@ function openKbDetail(id){
   h+=row('实践结果',k.practiceResult); h+=row('复盘记录',k.reviewNote);
   h+=row('复用次数',(k.reuseCount||0)+(k.lastReuse?('（最近 '+k.lastReuse+'）'):''));
   h+='</div>';
+  h+='<button class="btn sm" id="dMore" style="margin:4px 0">▸ 关联内容 / 更多信息</button>';
+  h+='<div id="relMore" style="display:none">';
   h+='<div class="kb-region"><h4>④ 关联内容</h4>';
   h+=row('关联书籍',relBooks.join('、')); h+=row('关联读书笔记',relNotes.join('、'));
   h+=row('关联股票',(k.relatedStocks||[]).map(stockName).join('、')); h+=row('关联行业',(k.relatedIndustries||[]).join('、'));
   h+=row('关联任务',relTasks.join('、')); h+=row('关联项目',(k.relatedProjects||[]).join('、'));
   h+='</div>';
+  h+='<div class="kb-region"><h4>⑤ 其他整理</h4>';
+  h+=row('可复用方法',k.methods); h+=row('适用场景',k.scenarios); h+=row('注意事项',k.cautions);
+  h+='</div>';
+  h+='</div>';
   h+='<div class="row-actions mt"><button class="btn sm" id="dEdit">编辑</button><button class="btn sm" id="dNote">转笔记</button><button class="btn sm" id="dTask">转任务</button><button class="btn sm" id="dReuse">记录复用 +1</button><button class="btn sm" id="dBroken">'+(k.linkBroken?'取消失效标记':'标记链接失效')+'</button></div>';
   h+='</div>';
   openModal(h,{wide:true});
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
+  $('#dMore').onclick=function(){ const m=$('#relMore'); const shown=m.style.display!=='none'; m.style.display=shown?'none':'block'; $('#dMore').textContent=(shown?'▸':'▾')+' 关联内容 / 更多信息'; };
   $('#dEdit').onclick=function(){ closeModal(); openKbForm(id); };
   $('#dNote').onclick=function(){ closeModal(); openNoteForm({title:k.title,content:k.mySummary||k.origSummary,link:{type:'kb',id:id,title:k.title}}); };
   $('#dTask').onclick=function(){ closeModal(); openTaskForm({title:k.title,link:{type:'kb',id:id,title:k.title}}); };
   $('#dReuse').onclick=function(){ k.reuseCount=(k.reuseCount||0)+1; k.lastReuse=nowStr(); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); closeModal(); openKbDetail(id); toast('已记录复用'); };
   $('#dBroken').onclick=function(){ k.linkBroken=!k.linkBroken; k.updatedAt=nowStr(); SAVE.kb(COL.kb()); closeModal(); openKbDetail(id); toast(k.linkBroken?'已标记链接失效':'已取消失效标记'); };
 }
-/* ---------------- 表单（全字段） ---------------- */
+/* ---------------- 表单（默认低负担，更多信息展开） ---------------- */
 function openKbForm(id,preset){
   preset=preset||{};
   const editing = id && typeof id==='string' && COL.kb().find(function(x){return x.id===id;});
   const k = editing || null;
   const base=(k||preset);
+  const curStage = k? kbStage(k) : '已整理';
+  const tplHtml=function(theme,tpl){ tpl=tpl||{}; const defs=KB_TEMPLATES[theme]; if(!defs) return ''; let h='<div class="kb-region" style="margin-top:6px"><h4>📌 '+esc(theme)+' 专属信息</h4>'; defs.forEach(function(f){ const val=tpl[f.k]||''; if(f.type==='lines'){ h+='<div class="field"><label>'+f.label+'</label><textarea id="tpl_'+f.k+'" placeholder="'+esc(f.ph||'')+'">'+esc(val)+'</textarea></div>'; } else if(f.type==='select'){ h+='<div class="field"><label>'+f.label+'</label><select id="tpl_'+f.k+'">'+['<option value="">—</option>'].concat(f.opts.map(function(o){return '<option '+(val===o?'selected':'')+'>'+o+'</option>';})).join('')+'</select></div>'; } else { h+='<div class="field"><label>'+f.label+'</label><input id="tpl_'+f.k+'" value="'+esc(val)+'" placeholder="'+esc(f.ph||'')+'"></div>'; } }); h+='</div>'; return h; };
   openModal('<div class="modal-head"><h3>'+(k?'编辑收藏':'新建收藏')+'</h3><button class="x-close" data-x>×</button></div>'+
     '<div class="modal-body">'+
     '<div class="field-row"><div class="field" style="flex:2"><label>标题 *</label><input id="f_title" value="'+esc(k?k.title:(base.title||''))+'"></div>'+
     '<div class="field"><label>来源平台</label><select id="f_platform">'+KB_PLATFORMS.map(function(p){return '<option '+(k&&k.platform===p?'selected':'')+'>'+p+'</option>';}).join('')+'</select></div></div>'+
-    '<div class="field"><label>原始链接 URL</label><input id="f_url" value="'+esc(k?k.url:(base.url||''))+'"></div>'+
-    '<div class="field-row"><div class="field"><label>作者 / 账号</label><input id="f_author" value="'+esc(k?k.author:(base.author||''))+'"></div>'+
-    '<div class="field"><label>发布时间</label><input type="date" id="f_pub" value="'+esc(k?k.publishedAt:'')+'"></div>'+
-    '<div class="field"><label>来源域名（自动提取，可改）</label><input id="f_domain" value="'+esc(k?k.domain:'')+'"></div></div>'+
-    '<div class="field-row"><div class="field"><label>内容类型</label><select id="f_type"><option value="">—</option>'+KB_TYPES.map(function(t){return '<option '+(k&&k.type===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
-    '<div class="field"><label>封面 URL</label><input id="f_cover" value="'+esc(k?k.cover:'')+'"></div>'+
-    '<div class="field"><label>上传封面/截图</label><input id="f_img" type="file" accept="image/*"></div></div>'+
-    '<div class="field"><label>原文摘要（外部页面无法读取时请手动补充，不自动编造）</label><textarea id="f_osum">'+esc(k?k.origSummary:'')+'</textarea></div>'+
-    '<div class="field" style="border-top:1px dashed var(--line);padding-top:10px"><label style="font-weight:700">我的整理</label></div>'+
-    '<div class="field"><label>一句话总结（我的摘要）</label><textarea id="f_msum">'+esc(k?k.mySummary:'')+'</textarea></div>'+
-    '<div class="field"><label>为什么收藏</label><textarea id="f_why">'+esc(k?k.whySave:'')+'</textarea></div>'+
-    '<div class="field"><label>核心要点</label><textarea id="f_kp">'+esc(k?k.keyPoints:'')+'</textarea></div>'+
-    '<div class="field"><label>关键步骤</label><textarea id="f_steps">'+esc(k?k.steps:'')+'</textarea></div>'+
-    '<div class="field"><label>可复用方法</label><textarea id="f_methods">'+esc(k?k.methods:'')+'</textarea></div>'+
-    '<div class="field"><label>适用场景</label><textarea id="f_scen">'+esc(k?k.scenarios:'')+'</textarea></div>'+
-    '<div class="field"><label>注意事项</label><textarea id="f_caut">'+esc(k?k.cautions:'')+'</textarea></div>'+
-    '<div class="field-row"><div class="field"><label>我的评分(1-5)</label><input id="f_rate" value="'+esc(k?k.myRating:'')+'" placeholder="如 5"></div>'+
+    '<div class="field"><label>原始内容 / 链接里的文字（读不到原文时粘贴到这里，不自动编造）</label><textarea id="f_osum">'+esc(k?k.origSummary:(base.origSummary||''))+'</textarea></div>'+
+    '<div class="field-row"><div class="field" style="flex:2"><label>主题</label><select id="f_theme">'+kbThemeOptions(k?k.theme:'')+'</select></div>'+
+    '<div class="field"><label>子主题</label><input id="f_sub" value="'+esc(k?k.subTheme:'')+'"></div>'+
     '<div class="field"><label>是否值得实践</label><select id="f_wp">'+['unknown','yes','no'].map(function(v){return '<option value="'+v+'" '+((k?k.worthPractice:'unknown')===v?'selected':'')+'>'+(v==='unknown'?'未定':v==='yes'?'值得':'不值得')+'</option>';}).join('')+'</select></div></div>'+
-    '<div class="field" style="border-top:1px dashed var(--line);padding-top:10px"><label style="font-weight:700">分类信息</label></div>'+
-    '<div class="field-row"><div class="field"><label>主主题</label><select id="f_theme">'+kbThemeOptions(k?k.theme:'')+'</select></div>'+
-    '<div class="field"><label>子主题</label><input id="f_sub" value="'+esc(k?k.subTheme:'')+'"></div></div>'+
+    '<div class="field"><label>我的备注（为什么收藏 / 想怎么用）</label><textarea id="f_why">'+esc(k?k.whySave:(base.whySave||''))+'</textarea></div>'+
     '<div class="field"><label>标签</label><div id="tagBox" class="flex flex-wrap" style="gap:6px;border:1px solid var(--line-strong);border-radius:9px;padding:8px;min-height:38px"></div></div>'+
-    kbRelHtml(k)+
-    '<div class="field" style="border-top:1px dashed var(--line);padding-top:10px"><label style="font-weight:700">行动信息</label></div>'+
-    '<div class="field-row"><div class="field"><label>内容状态</label><select id="f_status">'+KB_STATUS.map(function(s){return '<option '+(k&&k.status===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div>'+
-    '<div class="field"><label>实践状态</label><select id="f_pstatus">'+KB_PRACTICE.map(function(s){return '<option '+(k&&k.practiceStatus===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div></div>'+
-    '<div class="field"><label>下一步行动 / 实践目标</label><textarea id="f_next">'+esc(k?k.nextAction:'')+'</textarea></div>'+
-    '<div class="field-row"><div class="field"><label>计划实践日期</label><input type="date" id="f_pdate" value="'+esc(k?k.planDate:'')+'"></div>'+
-    '<div class="field"><label>所需材料</label><input id="f_mat" value="'+esc(k?k.neededMaterials:'')+'"></div></div>'+
-    '<div class="field"><label>实践结果</label><textarea id="f_pres">'+esc(k?k.practiceResult:'')+'</textarea></div>'+
-    '<div class="field"><label>复盘记录 / 下一步改进</label><textarea id="f_prev">'+esc(k?k.reviewNote:'')+'</textarea></div>'+
-    '<div class="field"><label><input type="checkbox" id="f_arch"'+(k&&k.archived?' checked':'')+'> 已归档</label></div>'+
+    '<div id="tplFields">'+tplHtml(k?k.theme:'', k?k.tpl:'')+'</div>'+
+    '<button class="btn sm" id="moreBtn" style="margin:6px 0">▸ 更多信息（作者 / 封面 / 类型 / 一句话总结 / 实践 / 关联 …）</button>'+
+    '<div id="moreFields" style="display:none">'+
+      '<div class="field-row"><div class="field"><label>作者 / 账号</label><input id="f_author" value="'+esc(k?k.author:(base.author||''))+'"></div>'+
+      '<div class="field"><label>发布时间</label><input type="date" id="f_pub" value="'+esc(k?k.publishedAt:'')+'"></div>'+
+      '<div class="field"><label>来源域名（自动提取，可改）</label><input id="f_domain" value="'+esc(k?k.domain:'')+'"></div></div>'+
+      '<div class="field"><label>原始链接 URL</label><input id="f_url" value="'+esc(k?k.url:(base.url||''))+'"></div>'+
+      '<div class="field-row"><div class="field"><label>内容类型</label><select id="f_type"><option value="">—</option>'+KB_TYPES.map(function(t){return '<option '+(k&&k.type===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
+      '<div class="field"><label>封面 URL</label><input id="f_cover" value="'+esc(k?k.cover:'')+'"></div>'+
+      '<div class="field"><label>上传封面/截图</label><input id="f_img" type="file" accept="image/*"></div></div>'+
+      '<div class="field"><label>一句话总结（我的摘要）</label><textarea id="f_msum">'+esc(k?k.mySummary:'')+'</textarea></div>'+
+      '<div class="field"><label>核心要点</label><textarea id="f_kp">'+esc(k?k.keyPoints:'')+'</textarea></div>'+
+      '<div class="field"><label>关键步骤</label><textarea id="f_steps">'+esc(k?k.steps:'')+'</textarea></div>'+
+      '<div class="field"><label>可复用方法</label><textarea id="f_methods">'+esc(k?k.methods:'')+'</textarea></div>'+
+      '<div class="field"><label>适用场景</label><textarea id="f_scen">'+esc(k?k.scenarios:'')+'</textarea></div>'+
+      '<div class="field"><label>注意事项</label><textarea id="f_caut">'+esc(k?k.cautions:'')+'</textarea></div>'+
+      '<div class="field-row"><div class="field"><label>我的评分(1-5)</label><input id="f_rate" value="'+esc(k?k.myRating:'')+'" placeholder="如 5"></div>'+
+      '<div class="field"><label>内容状态</label><select id="f_status">'+KB_STATUS.map(function(s){return '<option '+(curStage===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div>'+
+      '<div class="field"><label>实践状态</label><select id="f_pstatus">'+KB_PRACTICE.map(function(s){return '<option '+(k&&k.practiceStatus===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div></div>'+
+      '<div class="field"><label>下一步行动 / 实践目标</label><textarea id="f_next">'+esc(k?k.nextAction:'')+'</textarea></div>'+
+      '<div class="field-row"><div class="field"><label>计划实践日期</label><input type="date" id="f_pdate" value="'+esc(k?k.planDate:'')+'"></div>'+
+      '<div class="field"><label>所需材料</label><input id="f_mat" value="'+esc(k?k.neededMaterials:'')+'"></div></div>'+
+      '<div class="field"><label>实践结果</label><textarea id="f_pres">'+esc(k?k.practiceResult:'')+'</textarea></div>'+
+      '<div class="field"><label>复盘记录 / 下一步改进</label><textarea id="f_prev">'+esc(k?k.reviewNote:'')+'</textarea></div>'+
+      kbRelHtml(k)+
+      '<div class="field"><label><input type="checkbox" id="f_arch"'+(k&&k.archived?' checked':'')+'> 已归档</label></div>'+
+    '</div>'+
     '</div><div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveK">保存</button></div>');
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
   const sel=k?k.tags.slice():[]; renderTagsInput(sel,$('#tagBox'));
+  const refreshTpl=function(){ const t=$('#f_theme').value; const cur={}; if(k&&k.tpl){ KB_TEMPLATES[t]&&KB_TEMPLATES[t].forEach(function(f){ const el=$('#tpl_'+f.k); if(el) cur[f.k]=el.value.trim(); }); } $('#tplFields').innerHTML=tplHtml(t,cur); };
+  $('#f_theme').addEventListener('change',refreshTpl);
+  const more=$('#moreBtn'); more.onclick=function(){ const m=$('#moreFields'); const shown=m.style.display!=='none'; m.style.display=shown?'none':'block'; more.textContent=(shown?'▸':'▾')+' 更多信息（作者 / 封面 / 类型 / 一句话总结 / 实践 / 关联 …）'; };
   let covFile=null;
   const img=$('#f_img'); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ covFile=r.result; }; r.readAsDataURL(f); });
   $('#f_url').addEventListener('blur',function(){ const u=$('#f_url').value.trim(); if(u&&!$('#f_domain').value){ try{ $('#f_domain').value=new URL(u).hostname; }catch(e){} } });
@@ -2811,23 +2960,24 @@ function openKbForm(id,preset){
     const title=$('#f_title').value.trim(); if(!title){ toast('请填写标题'); return; }
     const url=$('#f_url').value.trim(); let domain=$('#f_domain').value.trim();
     if(url){ try{ domain=domain||new URL(url).hostname; }catch(e){} }
+    const tpl={}; const th=$('#f_theme').value; if(KB_TEMPLATES[th]){ KB_TEMPLATES[th].forEach(function(f){ const el=$('#tpl_'+f.k); if(el){ const v=el.value.trim(); if(v) tpl[f.k]=v; } }); }
     const doSave=function(){
       const cover=covFile||$('#f_cover').value.trim()||(k?k.cover:'');
+      const stage=$('#f_status').value;
       const obj={ title:title, platform:$('#f_platform').value, url:url, author:$('#f_author').value.trim(),
         publishedAt:$('#f_pub').value||'', domain:domain, type:$('#f_type').value, cover:cover, origSummary:$('#f_osum').value.trim(),
         mySummary:$('#f_msum').value.trim(), whySave:$('#f_why').value.trim(), keyPoints:$('#f_kp').value.trim(), steps:$('#f_steps').value.trim(),
         methods:$('#f_methods').value.trim(), scenarios:$('#f_scen').value.trim(), cautions:$('#f_caut').value.trim(),
-        myRating:$('#f_rate').value.trim(), worthPractice:$('#f_wp').value, theme:$('#f_theme').value, subTheme:$('#f_sub').value.trim(),
-        tags:sel.slice(), nextAction:$('#f_next').value.trim(), planDate:$('#f_pdate').value||'', neededMaterials:$('#f_mat').value.trim(),
+        myRating:$('#f_rate').value.trim(), worthPractice:$('#f_wp').value, theme:th, subTheme:$('#f_sub').value.trim(),
+        tags:sel.slice(), tpl:tpl, nextAction:$('#f_next').value.trim(), planDate:$('#f_pdate').value||'', neededMaterials:$('#f_mat').value.trim(),
         practiceResult:$('#f_pres').value.trim(), reviewNote:$('#f_prev').value.trim(), practiceStatus:$('#f_pstatus').value,
-        status:$('#f_status').value, archived:$('#f_arch').checked, updatedAt:nowStr(), linkBroken:k?k.linkBroken:false };
+        stage:stage, status:stage, archived:$('#f_arch').checked, updatedAt:nowStr(), linkBroken:k?k.linkBroken:false };
       const rel=readKbRel(); obj.relatedBooks=rel.books; obj.relatedStocks=rel.stocks; obj.relatedIndustries=rel.industries;
       obj.relatedTasks=rel.tasks; obj.relatedProjects=rel.projects; obj.relatedNotes=rel.notes;
       if(k){ obj.id=k.id; obj.reuseCount=k.reuseCount||0; obj.lastReuse=k.lastReuse||null; obj.createdAt=k.createdAt; obj.sample=k.sample||false; let a=COL.kb(); a=a.map(function(x){return x.id===k.id?obj:x;}); SAVE.kb(a); }
       else { obj.id=uid('kb'); obj.reuseCount=0; obj.lastReuse=null; obj.createdAt=Date.now(); obj.sample=false; let a=COL.kb(); a.push(obj); SAVE.kb(a); }
       logActivity(k?'编辑收藏':'新建收藏','kb',title); closeModal(); renderKb(parseHash().sub||'home'); toast('已保存');
     };
-    // 重复链接检测
     const dup=COL.kb().filter(function(x){return x.id!==(k&&k.id) && url && x.url===url;});
     if(dup.length){ confirmDialog('重复链接','检测到相同链接已存在（'+esc(dup[0].title)+'），仍要保存？','仍要保存').then(function(y){ if(y) doSave(); }); }
     else { doSave(); }
@@ -2848,7 +2998,7 @@ function openKbPracticeForm(id){
   $('#pf_save').onclick=function(){
     k.worthPractice=$('#pf_wp').value; k.practiceStatus=$('#pf_status').value; k.nextAction=$('#pf_next').value.trim();
     k.planDate=$('#pf_date').value||''; k.neededMaterials=$('#pf_mat').value.trim(); k.practiceResult=$('#pf_res').value.trim(); k.reviewNote=$('#pf_rev').value.trim();
-    k.updatedAt=nowStr(); SAVE.kb(COL.kb()); if(k.worthPractice==='yes'&&!k.status) k.status='待读';
+    k.updatedAt=nowStr(); SAVE.kb(COL.kb()); if(k.worthPractice==='yes'&&(!k.stage||k.stage==='新收藏'||k.stage==='待确认')) k.stage='待实践';
     logActivity('更新实践','kb',k.title); closeModal(); renderKb(parseHash().sub); toast('已保存');
   };
 }
@@ -2873,6 +3023,15 @@ function ensureDefaultKbThemes(){
   const ts=COL.kbtopics(); const have=ts.map(function(t){return t.name;});
   DEFAULT_KB_THEMES.forEach(function(d){ if(have.indexOf(d.name)<0){ ts.push({id:uid('kt'),name:d.name,desc:d.desc,tags:d.tags,isDefault:true,createdAt:Date.now()}); } });
   SAVE.kbtopics(ts);
+  // 迁移旧 KB 数据：补齐 stage / tpl / aiPending / worthPractice，保证新旧状态体系兼容
+  let kb=COL.kb(); let changed=false;
+  kb.forEach(function(k){
+    if(!k.stage){ k.stage=kbStage(k); changed=true; }
+    if(k.tpl===undefined){ k.tpl={}; changed=true; }
+    if(k.aiPending===undefined){ k.aiPending=false; changed=true; }
+    if(k.worthPractice===undefined){ k.worthPractice='unknown'; changed=true; }
+  });
+  if(changed) SAVE.kb(kb);
 }
 /* 股票持仓页弱关联：列出 relatedStocks 命中持仓代码的收藏内容（不改动股票核心逻辑） */
 function relatedKbHtml(){
