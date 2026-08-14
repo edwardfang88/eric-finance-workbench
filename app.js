@@ -2650,8 +2650,8 @@ function renderKb(sub){
 function kbQuickSaveHtml(){
   return '<div class="panel quick-save"><div class="panel-head"><h2>⚡ 快速保存</h2><span class="muted-small">看到有用内容，10 秒内先存进来；AI 自动识别，你稍后确认</span></div>'+
     '<div class="qs-section" style="border:1px dashed var(--line);border-radius:10px;padding:10px;margin-bottom:10px">'+
-      '<div class="muted-small" style="margin-bottom:6px;font-weight:600">🔗 入口一：粘贴链接</div>'+
-      '<div class="field" style="margin:0"><label>小红书 / 抖音 / 公众号 / 网页 / 视频链接</label><input id="qs_url" placeholder="https://…"></div>'+
+      '<div class="muted-small" style="margin-bottom:6px;font-weight:600">🔗 入口一：粘贴链接（小红书/抖音「复制链接」的整段分享文案也可直接粘贴）</div>'+
+      '<div class="field" style="margin:0"><label>小红书 / 抖音 / 公众号 / 网页 / 视频链接</label><input id="qs_url" placeholder="https://… 或整段「复制链接」文案"></div>'+
     '</div>'+
     '<div class="qs-section" style="border:1px dashed var(--line);border-radius:10px;padding:10px;margin-bottom:10px">'+
       '<div class="muted-small" style="margin-bottom:6px;font-weight:600">🖼️ 入口二：上传截图（自动作封面）</div>'+
@@ -2676,15 +2676,23 @@ function bindQuickSave(scope){
   const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; scope._qsName=f.name; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_preview',scope).innerHTML='<img src="'+esc(r.result)+'" style="max-height:160px;border-radius:8px;border:1px solid var(--line)">'; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; if(!$('#qs_text',scope).value.trim() && !$('#qs_ocr',scope).value.trim()){ $('#qs_hint',scope).textContent+='；AI 无法读取图片内容，可在「图片中的文字」粘贴 OCR 结果后会自动识别'; } }; r.readAsDataURL(f); });
   const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
   const save=$('#qs_save',scope); if(save) save.onclick=function(){
-    const urlv=$('#qs_url',scope).value.trim();
+    const rawUrl=$('#qs_url',scope).value.trim();
     const text=$('#qs_text',scope).value.trim();
     const ocr=$('#qs_ocr',scope).value.trim();
     const note=$('#qs_note',scope).value.trim();
     const combined=[text,ocr].filter(Boolean).join('\n');
+    // 从小红书/抖音等“复制链接”产生的分享文案里抽取真实 URL（形如 http://xhslink.com/...）
+    const urlMatch=(rawUrl+' '+combined).match(/https?:\/\/[^\s，。、）)】\]]+/);
+    const urlv=urlMatch?urlMatch[0]:rawUrl;
     if(!urlv && !combined && !scope._qsCover){ toast('请至少粘贴链接、文字，或上传截图'); return; }
     let domain=''; if(urlv){ try{ domain=new URL(urlv).hostname; }catch(e){} }
-    const ai=kbAutoIdentify({url:urlv, text:combined, platform:'', cover:scope._qsCover});
-    const t=ai.res.title||autoTitle(urlv,combined)||(scope._qsName?scope._qsName.replace(/\.\w+$/,'').replace(/[-_]/g,' ').trim():'')||'(未命名收藏)';
+    const ai=kbAutoIdentify({url:urlv, text:combined||rawUrl, platform:'', cover:scope._qsCover});
+    let t=ai.res.title||autoTitle(urlv,combined)||(scope._qsName?scope._qsName.replace(/\.\w+$/,'').replace(/[-_]/g,' ').trim():'')||'(未命名收藏)';
+    // 小红书等分享文案首行常是“x.xx 复制打开小红书…”，提纯标题
+    if((ai.res.platform==='小红书' || /xhslink|xiaohongshu/.test(urlv))){
+      const cand=(combined||rawUrl).split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){ return s && !/复制打开|http|^\d+\.\d+/.test(s); })[0];
+      if(cand && cand.length<=40) t=cand;
+    }
     const imageOnly = scope._qsCover && !urlv && !combined;
     // 把 AI 识别的标签文本转为全局标签 ID，便于统一显示
     const tagIds=(ai.res.tags||[]).map(function(nm){ const tg=ensureTag(nm); return tg?tg.id:nm; }).filter(Boolean);
