@@ -2165,11 +2165,13 @@ function defaultTopByCategory(){
   });
 }
 function topCard(b){
+  const durl=b.doubanUrl||('https://book.douban.com/subject_search?search_text='+encodeURIComponent(b.title));
   return '<div class="card clickable" data-top="'+esc(b.title)+'" title="点击查看详情"><div class="flex" style="gap:8px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
     '<div style="min-width:0;flex:1"><div><b>'+esc(b.title)+'</b></div>'+
     '<div class="muted-small">'+esc(b.author||'')+(b.year?(' · '+b.year):'')+'</div>'+
     '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分'+(b.doubanRaters?(' · '+esc(b.doubanRaters)+' 人评'):'')+'</div>'+
-    '<div class="row-actions mt" style="gap:6px"><button class="btn sm primary" data-addtop="'+esc(b.title)+'">＋书架</button>'+
+    '<div class="row-actions mt" style="gap:6px;align-items:center"><button class="btn sm primary" data-addtop="'+esc(b.title)+'">＋书架</button>'+
+    '<a class="link" href="'+esc(durl)+'" target="_blank" rel="noopener" data-douban="'+esc(b.title)+'" onclick="event.stopPropagation();">点击查看详情</a>'+
     coverSearchMenuHtml(b.title,b.author,b.isbn)+'</div></div></div></div>';
 }
 function defaultTopHtml(){
@@ -2188,7 +2190,7 @@ function bindDefaultTop(body){
   $$('[data-top]',body).forEach(function(c){
     const b=BOOK_BRAIN.find(function(x){return x.title===c.getAttribute('data-top');});
     if(!b) return;
-    c.onclick=function(){ window.open(b.doubanUrl||coverSearchUrl('jd',b.title),'_blank','noopener,noreferrer'); };
+    c.onclick=function(ev){ if(ev.target.closest('[data-douban]')||ev.target.closest('.cover-search-menu')) return; window.open(b.doubanUrl||('https://book.douban.com/subject_search?search_text='+encodeURIComponent(b.title)),'_blank','noopener,noreferrer'); };
   });
   $$('[data-addtop]',body).forEach(function(btn){ btn.onclick=function(event){ event.stopPropagation(); const b=BOOK_BRAIN.find(function(x){return x.title===btn.getAttribute('data-addtop');}); if(!b) return; var img=btn.closest('[data-top]').querySelector('img.cov-img'); var cov=(img&&img.getAttribute('src')&&img.getAttribute('src').indexOf('openlibrary')>=0)?img.getAttribute('src'):(b.cover||''); openBookForm(null,{title:b.title,author:b.author,category:b.category,doubanRating:b.doubanRating,doubanRaters:b.doubanRaters,year:b.year,doubanUrl:b.doubanUrl,cover:cov}); }; });
   bindCoverSearchMenu(body);
