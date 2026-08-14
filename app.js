@@ -1413,7 +1413,7 @@ function addDays(ds,n){ const d=new Date(ds+'T00:00:00'); d.setDate(d.getDate()+
 function tagsToNames(ids){ if(!ids||!ids.length) return []; return ids.map(id=>{const t=tagById(id);return t?t.name:null;}).filter(Boolean); }
 function stockName(code){ const h=COL.holdings().find(x=>x.code===code); return h?h.name+'('+code+')':code; }
 function attrEsc(v){ return esc(String(v==null?'':v)).replace(/"/g,'&quot;'); }
-function coverImg(url, title){
+function coverImg(url, title, author, isbn){
   var t=String(title||'书');
   var init=esc(t.slice(0,2));
   var palette=['#2563eb','#7c3aed','#db2777','#ea580c','#16a34a','#0891b2','#4f46e5','#be123c','#0f766e','#854d0e','#4338ca','#0ea5e9'];
@@ -1421,8 +1421,15 @@ function coverImg(url, title){
   var bg=palette[idx];
   var svg='<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 54 74" preserveAspectRatio="none"><rect width="54" height="74" fill="'+bg+'"/><text x="27" y="44" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="700" font-family="system-ui,-apple-system,sans-serif">'+init+'</text></svg>';
   var ph='<div class="cov-ph">'+svg+'</div>';
-  if(!url) return '<div class="cover-box">'+ph+'</div>';
-  return '<div class="cover-box">'+ph+'<img class="cov-img" src="'+attrEsc(url)+'" alt="'+attrEsc(t)+'" onload="this.previousElementSibling.style.display=\'none\'" onerror="this.style.display=\'none\'"></div>';
+  var attrs='class="cov-img" alt="'+attrEsc(t)+'"';
+  if(url){
+    return '<div class="cover-box">'+ph+'<img '+attrs+' src="'+attrEsc(url)+'" onload="this.previousElementSibling.style.display=\'none\'" onerror="this.style.display=\'none\'"></div>';
+  }
+  // 无 cover URL：显示占位，同时埋入 data-fetch 让 ensureCovers 自动抓取
+  var fetchAttrs='data-fetch="1" data-ft="'+attrEsc(t)+'"';
+  if(author) fetchAttrs+=' data-fa="'+attrEsc(author)+'"';
+  if(isbn) fetchAttrs+=' data-fi="'+attrEsc(isbn)+'"';
+  return '<div class="cover-box">'+ph+'<img '+attrs+' '+fetchAttrs+' style="display:none" onload="this.previousElementSibling.style.display=\'none\'" onerror="this.style.display=\'none\'"></div>';
 }
 var __coverCache=store.get('bookCoverCache',{});
 function saveCoverCache(){ store.set('bookCoverCache',__coverCache); }
@@ -1462,6 +1469,32 @@ function tryGoogleBooks(t,a,key,img){
       if(u){ u=u.replace('http:','https:'); __coverCache[key]=u; saveCoverCache(); img.src=u; }
       else { __coverCache[key]=null; }
     }).catch(function(){ __coverCache[key]=null; });
+}
+function fetchBookCover(title,author,isbn,callback){
+  callback=callback||function(){};
+  if(typeof fetch!=='function'){ callback(null); return; }
+  var t=String(title||'').trim(), a=String(author||'').trim(), is=String(isbn||'').trim();
+  if(!t && !is){ callback(null); return; }
+  var done=false;
+  function finish(u){ if(done) return; done=true; callback(u||null); }
+  function timed(ms,p){ return new Promise(function(resolve){ var to=setTimeout(function(){resolve(null);},ms); p.then(function(u){clearTimeout(to);resolve(u);}).catch(function(){clearTimeout(to);resolve(null);}); }); }
+  function olIsbn(){ return new Promise(function(resolve){ if(!is){resolve(null);return;} var u='https://covers.openlibrary.org/b/isbn/'+encodeURIComponent(is)+'-M.jpg?default=false'; fetch(u,{method:'HEAD',mode:'cors'}).then(function(r){ resolve(r.ok?u:null); }).catch(function(){resolve(null);}); }); }
+  function gbIsbn(){ return new Promise(function(resolve){ if(!is){resolve(null);return;} fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:'+encodeURIComponent(is)+'&maxResults=1&fields=items(volumeInfo(imageLinks))').then(function(r){return r.json();}).then(function(j){ var links=j&&j.items&&j.items[0]&&j.items[0].volumeInfo&&j.items[0].volumeInfo.imageLinks; var u=links&&(links.thumbnail||links.smallThumbnail); resolve(u?u.replace('http:','https:'):null); }).catch(function(){resolve(null);}); }); }
+  function olSearch(){ return new Promise(function(resolve){ if(!t){resolve(null);return;} fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(t)+(a?('&author='+encodeURIComponent(a)):'')+'&fields=cover_i&limit=1').then(function(r){return r.json();}).then(function(j){ var id=j&&j.docs&&j.docs[0]&&j.docs[0].cover_i; resolve(id?'https://covers.openlibrary.org/b/id/'+id+'-M.jpg':null); }).catch(function(){resolve(null);}); }); }
+  function gbSearch(){ return new Promise(function(resolve){ if(!t){resolve(null);return;} var q=encodeURIComponent(t+(a?' '+a:'')); fetch('https://www.googleapis.com/books/v1/volumes?q='+q+'&maxResults=1&fields=items(volumeInfo(imageLinks))').then(function(r){return r.json();}).then(function(j){ var links=j&&j.items&&j.items[0]&&j.items[0].volumeInfo&&j.items[0].volumeInfo.imageLinks; var u=links&&(links.thumbnail||links.smallThumbnail); resolve(u?u.replace('http:','https:'):null); }).catch(function(){resolve(null);}); }); }
+  Promise.all([timed(8000,olIsbn()),timed(8000,gbIsbn()),timed(8000,olSearch()),timed(8000,gbSearch())]).then(function(results){ finish(results.find(function(x){return !!x;})); });
+}
+function ensureCovers(scope){
+  if(!scope||!scope.querySelectorAll) return;
+  var imgs=scope.querySelectorAll('img.cov-img[data-fetch]');
+  if(!imgs||!imgs.length) return;
+  Array.prototype.forEach.call(imgs,function(img){
+    var t=img.getAttribute('data-ft'), a=img.getAttribute('data-fa'), isbn=img.getAttribute('data-fi');
+    img.removeAttribute('data-fetch');
+    var key=isbn?('isbn:'+isbn.toLowerCase()):((t+'|'+(a||'')).toLowerCase());
+    if(Object.prototype.hasOwnProperty.call(__coverCache,key)){ if(__coverCache[key]) img.src=__coverCache[key]; return; }
+    fetchBookCover(t,a,isbn,function(u){ __coverCache[key]=u||null; saveCoverCache(); if(u) img.src=u; });
+  });
 }
 function recentNoteFor(bookId){ const ns=COL.booknotes().filter(n=>n.bookId===bookId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); return ns[0]||null; }
 function kvRaw(k,v){ return '<div class="kv"><span class="k">'+esc(k)+'</span><span class="v">'+esc(v)+'</span></div>'; }
@@ -2014,7 +2047,7 @@ function openBookForm(id,preset){
     '<div class="modal-body">'+
     '<div class="field-row"><div class="field"><label>书名 *</label><input id="f_title" value="'+esc(b?b.title:(preset.title||''))+'"></div><div class="field"><label>作者</label><input id="f_author" value="'+esc(b?b.author:(preset.author||''))+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>译者</label><input id="f_trans" value="'+esc(b?b.translator:'')+'"></div><div class="field"><label>出版社</label><input id="f_pub" value="'+esc(b?b.publisher:'')+'"></div></div>'+
-    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><input id="f_cover" value="'+esc(b?b.cover:'')+'"></div></div>'+
+    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><div class="flex" style="gap:6px"><input id="f_cover" value="'+esc(b?b.cover:'')+'" style="flex:1"><button class="btn sm" id="autoCover" type="button">自动获取</button><button class="btn sm ghost" id="searchDoubanCover" type="button">去豆瓣搜</button></div></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣评分</label><input id="f_drate" placeholder="可选" value="'+esc(b&&b.doubanRating!=null?b.doubanRating:'')+'"></div><div class="field"><label>评分人数</label><input id="f_draters" value="'+esc(b?b.doubanRaters:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣链接</label><input id="f_durl" value="'+esc(b?b.doubanUrl:'')+'"></div><div class="field"><label>书籍分类</label><input id="f_cat" value="'+esc(b?b.category:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>总页数</label><input id="f_total" type="number" value="'+(b?b.totalPages:'')+'"></div><div class="field"><label>已读页数</label><input id="f_cur" type="number" value="'+(b?b.currentPage:0)+'"></div></div>'+
@@ -2027,6 +2060,17 @@ function openBookForm(id,preset){
     relatedPickerHtml(b)+
     '</div><div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveB">保存</button></div>');
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
+  $('#autoCover').onclick=function(){
+    var title=$('#f_title').value.trim(), author=$('#f_author').value.trim(), isbn=$('#f_isbn').value.trim();
+    if(!title && !isbn){ toast('请至少填写书名或 ISBN'); return; }
+    var btn=$('#autoCover'); btn.disabled=true; btn.textContent='获取中…';
+    fetchBookCover(title,author,isbn,function(u){
+      btn.disabled=false; btn.textContent='自动获取';
+      if(u){ $('#f_cover').value=u; toast('已获取封面'); }
+      else { toast('未找到封面，可点击「去豆瓣搜」手动复制图片地址'); }
+    });
+  };
+  $('#searchDoubanCover').onclick=function(){ window.open('https://www.douban.com/search?q='+encodeURIComponent($('#f_title').value.trim()||$('#f_isbn').value.trim()||''),'_blank','noopener,noreferrer'); };
   const sel=b?b.tags.slice():[]; renderTagsInput(sel,$('#tagBox'));
   $('#saveB').onclick=function(){
     const title=$('#f_title').value.trim(); if(!title){toast('请填写书名');return;}
