@@ -896,12 +896,15 @@ function dueReviews(){
    ========================================================================= */
 function renderStock(sub){
   sub=sub||'holdings'; const view=$('#view');
-  view.innerHTML=pageHead('股票复盘', '持仓 · 行情 · 诊断 · 复盘 · 公告 · 板块 · 新股', `<button class="btn primary" id="stockAdd">＋ 新建</button>`,'📈')+
+  const isHoldings=sub==='holdings';
+  const actions=(isHoldings?`<button class="btn sm" id="refreshHoldings">🔄 刷新行情</button> `:'')+`<button class="btn primary" id="stockAdd">＋ 新建</button>`;
+  view.innerHTML=pageHead('股票复盘', '持仓 · 行情 · 诊断 · 复盘 · 公告 · 板块 · 新股', actions,'📈')+
     subnav('stock',sub);
   const body=document.createElement('div'); view.appendChild(body);
   renderStockSub(sub, body);
   bindSubnav('stock');
   $('#stockAdd').onclick=()=>{ if(sub==='holdings') openHoldingForm(); else if(sub==='review') openStockReviewForm(); else if(sub==='quotes') refreshQuotes(); else toast('该视图为参考/示例数据，无需新建'); };
+  if(isHoldings){ const rh=$('#refreshHoldings'); if(rh) rh.onclick=()=>refreshQuotes(); }
 }
 function renderStockSub(sub,body){
   ({holdings:stockHoldings,quotes:stockQuotes,diag:stockDiag,review:stockReview,ann:stockAnn,sector:stockSector,ipo:stockIpo})[sub](body);
@@ -971,18 +974,33 @@ function recordPnlSnapshot(silent){
 function pnlChart(){
   let pnl=COL.pnl()||[];
   pnl=pnl.slice(-30);
-  const w=600,h=160,pad=28;
+  const w=680,h=180,padL=46,padR=46,padT=16,padB=28;
   let chart='';
   if(pnl.length){
-    const vals=pnl.map(p=>p.totalValue); const min=Math.min(...vals),max=Math.max(...vals); const rng=(max-min)||1;
-    const X=i=>pad+(w-2*pad)*i/(pnl.length-1||1); const Y=v=>h-pad-(h-2*pad)*(v-min)/rng;
-    const line=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(p.totalValue).toFixed(1)}`).join(' ');
-    const line2=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(p.totalPnl).toFixed(1)}`).join(' ');
-    chart=`<svg viewBox="0 0 ${w} ${h}"><line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="#e6e9f0"/><path d="${line}" fill="none" stroke="#2563eb" stroke-width="2"/><path d="${line2}" fill="none" stroke="#9333ea" stroke-width="2" stroke-dasharray="4 3"/></svg>`;
+    const vals=pnl.map(p=>p.totalValue); const minV=Math.min(...vals),maxV=Math.max(...vals); const rngV=(maxV-minV)||1;
+    const pnls=pnl.map(p=>p.totalPnl); const minP=Math.min(...pnls),maxP=Math.max(...pnls); const rngP=(maxP-minP)||1;
+    const n=pnl.length;
+    const X=i=>padL+(w-padL-padR)*i/(n-1||1);
+    const Yv=v=>h-padB-(h-padT-padB)*(v-minV)/rngV;
+    const Yp=v=>h-padB-(h-padT-padB)*(v-minP)/rngP;
+    const line=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yv(p.totalValue).toFixed(1)}`).join(' ');
+    const line2=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yp(p.totalPnl).toFixed(1)}`).join(' ');
+    const fmtY=v=>v>=10000?(v/10000).toFixed(1)+'万':Math.round(v).toLocaleString();
+    const ticksV=[minV,(minV+maxV)/2,maxV].map(v=>fmtY(v));
+    const ticksP=[minP,(minP+maxP)/2,maxP].map(v=>fmtY(v));
+    chart=`<svg viewBox="0 0 ${w} ${h}">`
+      +`<line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="var(--line)"/>`
+      +`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="var(--line)"/>`
+      +`<line x1="${w-padR}" y1="${padT}" x2="${w-padR}" y2="${h-padB}" stroke="var(--line)"/>`
+      +ticksV.map((t,i)=>`<text x="${padL-8}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="var(--muted)" text-anchor="end">${t}</text>`).join('')
+      +ticksP.map((t,i)=>`<text x="${w-padR+8}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="var(--muted)" text-anchor="start">${t}</text>`).join('')
+      +`<path d="${line}" fill="none" stroke="#2563eb" stroke-width="2.5"/>`
+      +`<path d="${line2}" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="5 4"/>`
+      +`</svg>`;
   } else {
     chart=`<div class="empty" style="padding:24px 0"><div class="e-ico" style="font-size:28px">📈</div><p class="muted-small">暂无历史快照，点击右上角按钮记录第一条</p></div>`;
   }
-  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:6px">蓝线=总市值　紫线=累计盈亏　（A+H 按港币→人民币折算）</div></div>`;
+  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:6px">蓝线=总市值（左轴，单位 ¥）　紫线=累计盈亏（右轴，单位 ¥）　（A+H 按港币→人民币折算）</div></div>`;
 }
 function stockQuotes(body){
   const q=COL.stockQuotes();
