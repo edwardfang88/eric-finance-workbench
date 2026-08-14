@@ -2565,26 +2565,6 @@ function kbAutoIdentify(input){
   res.tpl=tpl;
   return {res:res, pending:pending};
 }
-function kbRelHtml(k){
-  k=k||{};
-  const bookSel=COL.books().map(function(b){return '<option value="'+b.id+'" '+((k.relatedBooks||[]).indexOf(b.id)>=0?'selected':'')+'>'+esc(b.title)+'</option>';}).join('');
-  const noteSel=COL.booknotes().map(function(n){return '<option value="'+n.id+'" '+((k.relatedNotes||[]).indexOf(n.id)>=0?'selected':'')+'>'+esc(n.title||'(无标题)')+'</option>';}).join('');
-  const taskSel=COL.tasks().map(function(t){return '<option value="'+t.id+'" '+((k.relatedTasks||[]).indexOf(t.id)>=0?'selected':'')+'>'+esc(t.title)+'</option>';}).join('');
-  const stocks=(k.relatedStocks||[]).join(',');
-  const inds=(k.relatedIndustries||[]).join(',');
-  const projs=(k.relatedProjects||[]).join(',');
-  return '<div class="field-row"><div class="field"><label>关联股票（代码逗号分隔）</label><input id="f_relstocks" value="'+esc(stocks)+'" placeholder="如 688331.SH,002891.SZ"></div>'+
-    '<div class="field"><label>关联行业（逗号分隔）</label><input id="f_relind" value="'+esc(inds)+'" placeholder="如 创新药,宠物经济"></div></div>'+
-    '<div class="field"><label>关联书籍（可多选）</label><select id="f_relbooks" multiple size="3" style="height:auto">'+bookSel+'</select></div>'+
-    '<div class="field"><label>关联读书笔记（可多选）</label><select id="f_relnotes" multiple size="3" style="height:auto">'+noteSel+'</select></div>'+
-    '<div class="field"><label>关联任务（可多选）</label><select id="f_reltasks" multiple size="3" style="height:auto">'+taskSel+'</select></div>'+
-    '<div class="field"><label>关联项目（逗号分隔）</label><input id="f_relproj" value="'+esc(projs)+'"></div>';
-}
-function readKbRel(){
-  const parse=function(v){return (v||'').split(',').map(function(s){return s.trim();}).filter(Boolean);};
-  const multi=function(id){const sel=$('#'+id); return sel?Array.from(sel.selectedOptions||[]).map(function(o){return o.value;}):[];};
-  return { stocks:parse($('#f_relstocks').value), industries:parse($('#f_relind').value), books:multi('f_relbooks'), notes:multi('f_relnotes'), tasks:multi('f_reltasks'), projects:parse($('#f_relproj').value) };
-}
 function kbThemeOptions(sel){
   const ts=COL.kbtopics().map(function(t){return t.name;});
   if(ts.indexOf('待分类')<0) ts.push('待分类');
@@ -2618,7 +2598,7 @@ function handleKbAct(act){
   const k=COL.kb().find(function(x){return x.id===id;}); if(!k) return;
   if(kind==='view') openKbDetail(id);
   else if(kind==='edit') openKbForm(id);
-  else if(kind==='confirm'){ k.stage='已整理'; k.aiPending=false; if(!k.mySummary||!k.mySummary.trim()) k.mySummary=(k.origSummary||'').slice(0,90); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); logActivity('确认整理','kb',k.title); toast('已确认整理，进入我的收藏'); renderKb(parseHash().sub||'collection'); }
+  else if(kind==='confirm'){ const ai=k.aiRaw, r=ai&&ai.res?ai.res:{}; k.stage='已整理'; k.aiPending=false; if(!k.mySummary||!k.mySummary.trim()) k.mySummary=(k.origSummary||r.summary||'').slice(0,90); if(!k.theme||k.theme==='待分类'){ k.theme=(r.theme&&r.theme!=='待分类')?r.theme:'其他'; } if(!k.tags||!k.tags.length){ k.tags=(r.tags&&r.tags.length)?r.tags.slice():[]; } if(k.worthPractice!=='yes'&&k.worthPractice!=='no'){ k.worthPractice=(r.worthPractice==='yes'||r.worthPractice==='no')?r.worthPractice:'no'; } k.updatedAt=nowStr(); SAVE.kb(COL.kb()); logActivity('确认整理','kb',k.title); toast('已确认整理，进入我的收藏'); renderKb(parseHash().sub||'collection'); }
   else if(kind==='practice'){ k.worthPractice='yes'; const st=kbStage(k); if(st==='已整理'||st==='新收藏'||st==='待确认') k.stage='待实践'; k.updatedAt=nowStr(); SAVE.kb(COL.kb()); logActivity('加入实践','kb',k.title); toast('已加入待实践'); renderKb(parseHash().sub||'collection'); }
   else if(kind==='note') openNoteForm({title:k.title,content:k.mySummary||k.origSummary,link:{type:'kb',id:id,title:k.title}});
   else if(kind==='task') openTaskForm({title:k.title,link:{type:'kb',id:id,title:k.title}});
@@ -2929,9 +2909,6 @@ function openKbDetail(id){
   // 修正历史数据：若 url 字段里混有标题等杂项，提取出真实 URL 并回存
   const realUrl=extractUrl(k.url);
   if(realUrl && realUrl!==k.url){ k.url=realUrl; k.domain=extractUrlDomain(realUrl); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); }
-  const relBooks=(k.relatedBooks||[]).map(function(i){const b=COL.books().find(function(x){return x.id===i;});return b?b.title:null;}).filter(Boolean);
-  const relNotes=(k.relatedNotes||[]).map(function(i){const n=COL.booknotes().find(function(x){return x.id===i;});return n?(n.title||'(无标题)'):null;}).filter(Boolean);
-  const relTasks=(k.relatedTasks||[]).map(function(i){const t=COL.tasks().find(function(x){return x.id===i;});return t?t.title:null;}).filter(Boolean);
   const row=function(label,val){ if(!val) return ''; return kvRaw(label,val); };
   let h='<div class="modal-head"><h3>'+esc(k.title)+'</h3><button class="x-close" data-x>×</button></div><div class="modal-body kb-detail">';
   h+='<div class="kb-region"><h4>① 原始内容</h4>';
@@ -2941,7 +2918,7 @@ function openKbDetail(id){
   h+=row('原文摘要',k.origSummary);
   h+='</div>';
   h+='<div class="kb-region"><h4>② 我的整理</h4>';
-  h+=row('一句话总结',k.mySummary); h+=row('为什么收藏',k.whySave); h+=row('核心要点',k.keyPoints); h+=row('关键步骤',k.steps);
+  h+=row('一句话总结',k.mySummary); h+=row('为什么收藏',k.whySave);
   h+=row('我的评分',k.myRating?k.myRating+'★':''); h+=row('是否值得实践',k.worthPractice==='yes'?'值得':k.worthPractice==='no'?'不值得':'未定');
   h+=row('主题',(k.theme||'')+(k.subTheme?(' / '+k.subTheme):''));
   h+='<div class="kv"><span class="k">标签</span><span class="v">'+tagsHtml(k.tags)+'</span></div>';
@@ -2955,22 +2932,10 @@ function openKbDetail(id){
   h+=row('实践结果',k.practiceResult); h+=row('复盘记录',k.reviewNote);
   h+=row('复用次数',(k.reuseCount||0)+(k.lastReuse?('（最近 '+k.lastReuse+'）'):''));
   h+='</div>';
-  h+='<button class="btn sm" id="dMore" style="margin:4px 0">▸ 关联内容 / 更多信息</button>';
-  h+='<div id="relMore" style="display:none">';
-  h+='<div class="kb-region"><h4>④ 关联内容</h4>';
-  h+=row('关联书籍',relBooks.join('、')); h+=row('关联读书笔记',relNotes.join('、'));
-  h+=row('关联股票',(k.relatedStocks||[]).map(stockName).join('、')); h+=row('关联行业',(k.relatedIndustries||[]).join('、'));
-  h+=row('关联任务',relTasks.join('、')); h+=row('关联项目',(k.relatedProjects||[]).join('、'));
-  h+='</div>';
-  h+='<div class="kb-region"><h4>⑤ 其他整理</h4>';
-  h+=row('可复用方法',k.methods); h+=row('适用场景',k.scenarios); h+=row('注意事项',k.cautions);
-  h+='</div>';
-  h+='</div>';
   h+='<div class="row-actions mt"><button class="btn sm" id="dEdit">编辑</button><button class="btn sm" id="dNote">转笔记</button><button class="btn sm" id="dTask">转任务</button><button class="btn sm" id="dReuse">记录复用 +1</button><button class="btn sm" id="dBroken">'+(k.linkBroken?'取消失效标记':'标记链接失效')+'</button><button class="btn sm danger" id="dDel">删除</button></div>';
   h+='</div>';
   openModal(h,{wide:true});
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
-  $('#dMore').onclick=function(){ const m=$('#relMore'); const shown=m.style.display!=='none'; m.style.display=shown?'none':'block'; $('#dMore').textContent=(shown?'▸':'▾')+' 关联内容 / 更多信息'; };
   $('#dEdit').onclick=function(){ closeModal(); openKbForm(id); };
   $('#dNote').onclick=function(){ closeModal(); openNoteForm({title:k.title,content:k.mySummary||k.origSummary,link:{type:'kb',id:id,title:k.title}}); };
   $('#dTask').onclick=function(){ closeModal(); openTaskForm({title:k.title,link:{type:'kb',id:id,title:k.title}}); };
@@ -3009,11 +2974,6 @@ function openKbForm(id,preset){
       '<div class="field"><label>封面 URL</label><input id="f_cover" value="'+esc(k?k.cover:'')+'"></div>'+
       '<div class="field"><label>上传封面/截图</label><input id="f_img" type="file" accept="image/*"></div></div>'+
       '<div class="field"><label>一句话总结（我的摘要）</label><textarea id="f_msum">'+esc(k?k.mySummary:'')+'</textarea></div>'+
-      '<div class="field"><label>核心要点</label><textarea id="f_kp">'+esc(k?k.keyPoints:'')+'</textarea></div>'+
-      '<div class="field"><label>关键步骤</label><textarea id="f_steps">'+esc(k?k.steps:'')+'</textarea></div>'+
-      '<div class="field"><label>可复用方法</label><textarea id="f_methods">'+esc(k?k.methods:'')+'</textarea></div>'+
-      '<div class="field"><label>适用场景</label><textarea id="f_scen">'+esc(k?k.scenarios:'')+'</textarea></div>'+
-      '<div class="field"><label>注意事项</label><textarea id="f_caut">'+esc(k?k.cautions:'')+'</textarea></div>'+
       '<div class="field-row"><div class="field"><label>我的评分(1-5)</label><input id="f_rate" value="'+esc(k?k.myRating:'')+'" placeholder="如 5"></div>'+
       '<div class="field"><label>内容状态</label><select id="f_status">'+KB_STATUS.map(function(s){return '<option '+(curStage===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div>'+
       '<div class="field"><label>实践状态</label><select id="f_pstatus">'+KB_PRACTICE.map(function(s){return '<option '+(k&&k.practiceStatus===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div></div>'+
@@ -3022,7 +2982,6 @@ function openKbForm(id,preset){
       '<div class="field"><label>所需材料</label><input id="f_mat" value="'+esc(k?k.neededMaterials:'')+'"></div></div>'+
       '<div class="field"><label>实践结果</label><textarea id="f_pres">'+esc(k?k.practiceResult:'')+'</textarea></div>'+
       '<div class="field"><label>复盘记录 / 下一步改进</label><textarea id="f_prev">'+esc(k?k.reviewNote:'')+'</textarea></div>'+
-      kbRelHtml(k)+
       '<div class="field"><label><input type="checkbox" id="f_arch"'+(k&&k.archived?' checked':'')+'> 已归档</label></div>'+
     '</div>'+
     '</div><div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveK">保存</button></div>');
@@ -3046,13 +3005,14 @@ function openKbForm(id,preset){
       const stage=$('#f_status').value;
       const obj={ title:title, platform:$('#f_platform').value, url:url, author:$('#f_author').value.trim(),
         publishedAt:$('#f_pub').value||'', domain:domain, type:$('#f_type').value, cover:cover, origSummary:$('#f_osum').value.trim(),
-        mySummary:$('#f_msum').value.trim(), whySave:$('#f_why').value.trim(), keyPoints:$('#f_kp').value.trim(), steps:$('#f_steps').value.trim(),
-        methods:$('#f_methods').value.trim(), scenarios:$('#f_scen').value.trim(), cautions:$('#f_caut').value.trim(),
+        mySummary:$('#f_msum').value.trim(), whySave:$('#f_why').value.trim(), keyPoints:k?k.keyPoints:'', steps:k?k.steps:'',
+        methods:k?k.methods:'', scenarios:k?k.scenarios:'', cautions:k?k.cautions:'',
         myRating:$('#f_rate').value.trim(), worthPractice:$('#f_wp').value, theme:th, subTheme:$('#f_sub').value.trim(),
         tags:sel.slice(), tpl:tpl, nextAction:$('#f_next').value.trim(), planDate:$('#f_pdate').value||'', neededMaterials:$('#f_mat').value.trim(),
         practiceResult:$('#f_pres').value.trim(), reviewNote:$('#f_prev').value.trim(), practiceStatus:$('#f_pstatus').value,
         stage:stage, status:stage, archived:$('#f_arch').checked, updatedAt:nowStr(), linkBroken:k?k.linkBroken:false };
-      const rel=readKbRel(); obj.relatedBooks=rel.books; obj.relatedStocks=rel.stocks; obj.relatedIndustries=rel.industries;
+      const rel=k?{books:k.relatedBooks||[],stocks:k.relatedStocks||[],industries:k.relatedIndustries||[],tasks:k.relatedTasks||[],projects:k.relatedProjects||[],notes:k.relatedNotes||[]}:{books:[],stocks:[],industries:[],tasks:[],projects:[],notes:[]};
+      obj.relatedBooks=rel.books; obj.relatedStocks=rel.stocks; obj.relatedIndustries=rel.industries;
       obj.relatedTasks=rel.tasks; obj.relatedProjects=rel.projects; obj.relatedNotes=rel.notes;
       if(k){ obj.id=k.id; obj.reuseCount=k.reuseCount||0; obj.lastReuse=k.lastReuse||null; obj.createdAt=k.createdAt; obj.sample=k.sample||false; let a=COL.kb(); a=a.map(function(x){return x.id===k.id?obj:x;}); SAVE.kb(a); }
       else { obj.id=uid('kb'); obj.reuseCount=0; obj.lastReuse=null; obj.createdAt=Date.now(); obj.sample=false; let a=COL.kb(); a.push(obj); SAVE.kb(a); }
