@@ -2607,6 +2607,7 @@ function kbCard(k){
       (k.url?'<a class="mini-btn" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">打开原文</a>':'')+
       '<button class="mini-btn" data-act="edit:'+k.id+'">编辑</button>'+
       '<button class="mini-btn" data-act="view:'+k.id+'">详情</button>'+
+      '<button class="mini-btn danger" data-act="del:'+k.id+'">删除</button>'+
     '</div>'+
   '</div>';
   return h;
@@ -2627,8 +2628,8 @@ function handleKbAct(act){
 }
 function bindKbBody(body){
   body.addEventListener('click',function(e){
-    // 表单控件、链接、label 点击不触发导航/卡片动作，避免误跳转
-    if(e.target.closest('input,textarea,select,button,label,a')){ return; }
+    // 仅拦截表单输入框（避免点击粘贴链接/备注框误触发导航）；按钮与链接需正常触发卡片动作
+    if(e.target.closest('input,textarea,select')){ return; }
     const ext=e.target.closest('[data-ext]'); if(ext){ return; }
     const fchip=e.target.closest('[data-fchip]'); if(fchip){ const key=fchip.getAttribute('data-fchip'); if(key==='theme') KB_THEME_FILTER=''; if(kbF[key]!==undefined) delete kbF[key]; renderKb('collection'); return; }
     const act=e.target.closest('[data-act]'); if(act){ handleKbAct(act.getAttribute('data-act')); return; }
@@ -2672,7 +2673,7 @@ function bindQuickSave(scope){
   // 快速保存内的表单元素点击不冒泡到 bindKbBody，避免误触发 data-go / data-kb 跳转
   $$('input,textarea,select,button,label',scope).forEach(function(el){ el.addEventListener('click',function(e){ e.stopPropagation(); }); });
   // 图片预览
-  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_preview',scope).innerHTML='<img src="'+esc(r.result)+'" style="max-height:160px;border-radius:8px;border:1px solid var(--line)">'; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; }; r.readAsDataURL(f); });
+  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; scope._qsName=f.name; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_preview',scope).innerHTML='<img src="'+esc(r.result)+'" style="max-height:160px;border-radius:8px;border:1px solid var(--line)">'; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; if(!$('#qs_text',scope).value.trim() && !$('#qs_ocr',scope).value.trim()){ $('#qs_hint',scope).textContent+='；AI 无法读取图片内容，可在「图片中的文字」粘贴 OCR 结果后会自动识别'; } }; r.readAsDataURL(f); });
   const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
   const save=$('#qs_save',scope); if(save) save.onclick=function(){
     const urlv=$('#qs_url',scope).value.trim();
@@ -2683,14 +2684,15 @@ function bindQuickSave(scope){
     if(!urlv && !combined && !scope._qsCover){ toast('请至少粘贴链接、文字，或上传截图'); return; }
     let domain=''; if(urlv){ try{ domain=new URL(urlv).hostname; }catch(e){} }
     const ai=kbAutoIdentify({url:urlv, text:combined, platform:'', cover:scope._qsCover});
-    const t=ai.res.title||autoTitle(urlv,combined)||'(未命名收藏)';
+    const t=ai.res.title||autoTitle(urlv,combined)||(scope._qsName?scope._qsName.replace(/\.\w+$/,'').replace(/[-_]/g,' ').trim():'')||'(未命名收藏)';
+    const imageOnly = scope._qsCover && !urlv && !combined;
     // 把 AI 识别的标签文本转为全局标签 ID，便于统一显示
     const tagIds=(ai.res.tags||[]).map(function(nm){ const tg=ensureTag(nm); return tg?tg.id:nm; }).filter(Boolean);
     const obj={ id:uid('kb'), title:t, url:urlv, domain:domain, platform:ai.res.platform||'自动识别', author:ai.res.author, publishedAt:ai.res.publishedAt, cover:scope._qsCover||'', isbn:'',
-      type:ai.res.type, origSummary:combined, mySummary:ai.res.summary, whySave:note, keyPoints:ai.res.steps, steps:ai.res.steps, methods:'', scenarios:'', cautions:'',
+      type:ai.res.type, origSummary:combined, mySummary:(imageOnly?'（图片收藏 · AI 暂未识别内容，请在「编辑」中补全文字/要点）':ai.res.summary), whySave:note, keyPoints:ai.res.steps, steps:ai.res.steps, methods:'', scenarios:'', cautions:'',
       myRating:'', worthPractice:ai.res.worthPractice, theme:ai.res.theme||'待分类', subTheme:ai.res.subTheme, tags:tagIds,
       tpl:ai.res.tpl||{}, relatedBooks:[], relatedStocks:[], relatedIndustries:[], relatedTasks:[], relatedProjects:[], relatedNotes:[],
-      stage:'新收藏', aiRaw:ai, aiPending:true, nextAction:'', planDate:'', practiceStatus:'未开始', practiceResult:'', neededMaterials:'', reviewNote:'', reuseCount:0, lastReuse:null,
+      stage:'新收藏', aiRaw:ai, aiPending:true, imageOnly:!!imageOnly, nextAction:'', planDate:'', practiceStatus:'未开始', practiceResult:'', neededMaterials:'', reviewNote:'', reuseCount:0, lastReuse:null,
       archived:false, createdAt:Date.now(), updatedAt:nowStr(), sample:false };
     let a=COL.kb(); a.push(obj); SAVE.kb(a); logActivity('快速收藏','kb',t); toast('已保存，进入收件箱待确认'); renderKb('inbox');
   };
@@ -2925,7 +2927,7 @@ function openKbDetail(id){
   h+=row('可复用方法',k.methods); h+=row('适用场景',k.scenarios); h+=row('注意事项',k.cautions);
   h+='</div>';
   h+='</div>';
-  h+='<div class="row-actions mt"><button class="btn sm" id="dEdit">编辑</button><button class="btn sm" id="dNote">转笔记</button><button class="btn sm" id="dTask">转任务</button><button class="btn sm" id="dReuse">记录复用 +1</button><button class="btn sm" id="dBroken">'+(k.linkBroken?'取消失效标记':'标记链接失效')+'</button></div>';
+  h+='<div class="row-actions mt"><button class="btn sm" id="dEdit">编辑</button><button class="btn sm" id="dNote">转笔记</button><button class="btn sm" id="dTask">转任务</button><button class="btn sm" id="dReuse">记录复用 +1</button><button class="btn sm" id="dBroken">'+(k.linkBroken?'取消失效标记':'标记链接失效')+'</button><button class="btn sm danger" id="dDel">删除</button></div>';
   h+='</div>';
   openModal(h,{wide:true});
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
@@ -2935,6 +2937,7 @@ function openKbDetail(id){
   $('#dTask').onclick=function(){ closeModal(); openTaskForm({title:k.title,link:{type:'kb',id:id,title:k.title}}); };
   $('#dReuse').onclick=function(){ k.reuseCount=(k.reuseCount||0)+1; k.lastReuse=nowStr(); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); closeModal(); openKbDetail(id); toast('已记录复用'); };
   $('#dBroken').onclick=function(){ k.linkBroken=!k.linkBroken; k.updatedAt=nowStr(); SAVE.kb(COL.kb()); closeModal(); openKbDetail(id); toast(k.linkBroken?'已标记链接失效':'已取消失效标记'); };
+  $('#dDel').onclick=async function(){ if(await confirmDialog('删除收藏','确认删除「'+(k.title||'未命名')+'」？此操作不可撤销。','删除')){ let a=COL.kb(); SAVE.kb(a.filter(function(x){return x.id!==id;})); closeModal(); toast('已删除'); renderKb(parseHash().sub||'collection'); } };
 }
 /* ---------------- 表单（默认低负担，更多信息展开） ---------------- */
 function openKbForm(id,preset){
