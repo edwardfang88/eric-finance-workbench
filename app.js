@@ -703,9 +703,10 @@ function moduleCounts(){
   const reminders=COL.reminders().filter(r=>!r.done).length;
   const reviews=dueReviews().length;
   const kbTodo=COL.kb().filter(kbIsInbox).length;
+  const kbTotal=COL.kb().filter(function(k){return !k.archived;}).length;
   const practice=COL.kb().filter(k=>k.worthPractice==='yes'&&k.practiceStatus!=='已验证有效'&&k.practiceStatus!=='已验证无效'&&!k.archived).length;
-  return {home:0,stock:COL.holdings().length,book:COL.books().length,kb:kbTodo,task:tasks+reminders,search:0,settings:0,
-    _reviews:reviews,_practice:practice};
+  return {home:0,stock:COL.holdings().length,book:COL.books().length,kb:kbTotal,task:tasks+reminders,search:0,settings:0,
+    _reviews:reviews,_practice:practice,_kbTodo:kbTodo};
 }
 
 /* ----------------------------- 关联解析 ----------------------------- */
@@ -746,7 +747,10 @@ function parseHash(){
   return {module,sub,params};
 }
 function router(){
+  closeModal();
   const {module,sub,params}=parseHash();
+  renderSidebar();
+  renderBottomNav();
   setActiveNav(module);
   renderRightbar();
   const view=$('#view');
@@ -2379,7 +2383,7 @@ function openNoteForm(opts){
    收藏和灵感模块
    发现 → 保存 → 整理 → 提炼 → 实践 → 归档
    ========================================================================= */
-const KB_PLATFORMS=['小红书','抖音','微信公众号','普通网页','视频平台','图片/截图','PDF或文件','手动输入'];
+const KB_PLATFORMS=['自动识别','小红书','抖音','微信公众号','普通网页','视频平台','图片/截图','PDF或文件','手动输入'];
 const KB_TYPES=['文章','攻略','教程','视频','清单','工具推荐','案例','灵感','商品','地点','菜谱','待验证信息'];
 const KB_PRACTICE=['未开始','进行中','已完成','验证有效','验证无效'];
 const KB_STATUS=['新收藏','待确认','已整理','待实践','已完成'];
@@ -2440,8 +2444,9 @@ function kbStage(k){ if(!k) return ''; if(k.stage && KB_STATUS.indexOf(k.stage)>
 function isWorthPractice(k){ return k.worthPractice==='yes'; }
 var KB_THEME_FILTER='';
 var kbF={};
-function kbPlatformIco(p){ const m={'小红书':'📕','微信公众号':'🟢','普通网页':'🌐','视频平台':'🎬','图片':'🖼️','PDF或文件':'📄','手动输入':'✍️'}; return m[p]||'🔗'; }
+function kbPlatformIco(p){ const m={'自动识别':'🤖','小红书':'📕','抖音':'🎵','微信公众号':'🟢','普通网页':'🌐','视频平台':'🎬','图片/截图':'🖼️','PDF或文件':'📄','手动输入':'✍️'}; return m[p]||'🔗'; }
 function kbTypeIco(t){ const m={'文章':'📄','攻略':'🗺️','教程':'📘','视频':'🎬','清单':'📋','工具推荐':'🛠️','案例':'📁','灵感':'💡','商品':'🛒','地点':'📍','菜谱':'🍳','待验证信息':'❓'}; return m[t]||'📄'; }
+function kbTagNames(tags){ if(!tags||!tags.length) return []; return tags.map(function(x){ if(typeof x!=='string') return ''; if(x.indexOf('tag_')===0){ const t=tagById(x); return t?t.name:x; } return x; }).filter(Boolean); }
 function kbIsInbox(k){
   if(k.archived) return false;
   const st=kbStage(k);
@@ -2501,7 +2506,7 @@ function kbAutoIdentify(input){
     else if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) pf='图片/截图';
     else if(u.indexOf('http')===0) pf='普通网页';
   }
-  res.platform=pf||'手动输入'; pending.platform=!pf;
+  res.platform=pf||'自动识别'; pending.platform=!pf;
   // 标题
   const lines=text.split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
   let title='';
@@ -2640,36 +2645,57 @@ function renderKb(sub){
 }
 /* ---------------- 首页 ---------------- */
 function kbQuickSaveHtml(){
-  return '<div class="panel quick-save"><div class="panel-head"><h2>⚡ 快速保存</h2><span class="muted-small">粘贴链接 / 传截图 / 粘贴文字，10 秒先存进来，AI 帮你自动整理</span></div>'+
-    '<div class="field"><label>① 粘贴链接（小红书 / 抖音 / 公众号 / 网页 / 视频，可空）</label><input id="qs_url" placeholder="https://…"></div>'+
-    '<div class="field"><label>② 上传截图（可空：自动作封面；读不到原文时也能用）</label><input id="qs_img" type="file" accept="image/*"></div>'+
-    '<div class="field"><label>③ 粘贴文字（可空：原文、你的笔记，或截图里的字）</label><textarea id="qs_text" placeholder="把内容文字粘贴到这里，AI 会从中识别 标题 / 主题 / 步骤 / 摘要 …"></textarea></div>'+
-    '<div class="field"><label>④ 我的备注（可选）</label><input id="qs_note" placeholder="一句话备注，如：周末想试试这道菜"></div>'+
+  return '<div class="panel quick-save"><div class="panel-head"><h2>⚡ 快速保存</h2><span class="muted-small">看到有用内容，10 秒内先存进来；AI 自动识别，你稍后确认</span></div>'+
+    '<div class="qs-section" style="border:1px dashed var(--line);border-radius:10px;padding:10px;margin-bottom:10px">'+
+      '<div class="muted-small" style="margin-bottom:6px;font-weight:600">🔗 入口一：粘贴链接</div>'+
+      '<div class="field" style="margin:0"><label>小红书 / 抖音 / 公众号 / 网页 / 视频链接</label><input id="qs_url" placeholder="https://…"></div>'+
+    '</div>'+
+    '<div class="qs-section" style="border:1px dashed var(--line);border-radius:10px;padding:10px;margin-bottom:10px">'+
+      '<div class="muted-small" style="margin-bottom:6px;font-weight:600">🖼️ 入口二：上传截图（自动作封面）</div>'+
+      '<div class="field" style="margin:0"><input id="qs_img" type="file" accept="image/*"></div>'+
+      '<div id="qs_preview" style="margin:6px 0"></div>'+
+      '<div class="field" style="margin:6px 0 0"><label>图片中的文字（可粘贴微信/手机 OCR 识别结果）</label><textarea id="qs_ocr" placeholder="把截图里识别出的文字贴到这里，AI 会据此识别"></textarea></div>'+
+    '</div>'+
+    '<div class="qs-section" style="border:1px dashed var(--line);border-radius:10px;padding:10px;margin-bottom:10px">'+
+      '<div class="muted-small" style="margin-bottom:6px;font-weight:600">📝 入口三：粘贴文字 / 视频文案 / 字幕</div>'+
+      '<div class="field" style="margin:0"><textarea id="qs_text" placeholder="把正文、视频文案、字幕或自己的笔记粘贴到这里"></textarea></div>'+
+    '</div>'+
+    '<div class="field"><label>我的备注（可选，如：周末想试试这道菜）</label><input id="qs_note" placeholder="一句话备注"></div>'+
     '<div class="row-actions"><button class="btn primary" id="qs_save">保存并 AI 整理</button>'+
     '<button class="btn" id="qs_full">手动完整填写</button>'+
     '<span class="muted-small" id="qs_hint"></span></div>'+
-    '<div class="muted-small" style="margin-top:6px">⚠️ 本工作台不读取外部页面、也不会编造内容；识别结果来自你粘贴的链接 / 文字，标「待确认」的请手动补全。</div></div>';
+    '<div class="muted-small" style="margin-top:8px">⚠️ 本工作台不读取外部页面、也不会编造内容；识别结果来自你粘贴的链接 / 文字 / 截图 OCR，标「待确认」的请手动补全。</div></div>';
 }
 function bindQuickSave(scope){
-  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; }; r.readAsDataURL(f); });
+  // 图片预览
+  const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_preview',scope).innerHTML='<img src="'+esc(r.result)+'" style="max-height:160px;border-radius:8px;border:1px solid var(--line)">'; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; }; r.readAsDataURL(f); });
   const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
   const save=$('#qs_save',scope); if(save) save.onclick=function(){
     const urlv=$('#qs_url',scope).value.trim();
     const text=$('#qs_text',scope).value.trim();
+    const ocr=$('#qs_ocr',scope).value.trim();
     const note=$('#qs_note',scope).value.trim();
-    if(!urlv && !text && !scope._qsCover){ toast('请至少粘贴链接、文字或上传截图'); return; }
+    const combined=[text,ocr].filter(Boolean).join('\n');
+    if(!urlv && !combined && !scope._qsCover){ toast('请至少粘贴链接、文字，或上传截图'); return; }
     let domain=''; if(urlv){ try{ domain=new URL(urlv).hostname; }catch(e){} }
-    const ai=kbAutoIdentify({url:urlv, text:text, platform:'', cover:scope._qsCover});
-    const t=ai.res.title||'(未命名收藏)';
-    const obj={ id:uid('kb'), title:t, url:urlv, domain:domain, platform:ai.res.platform, author:ai.res.author, publishedAt:ai.res.publishedAt, cover:scope._qsCover||'', isbn:'',
-      type:ai.res.type, origSummary:text, mySummary:ai.res.summary, whySave:note, keyPoints:ai.res.steps, steps:ai.res.steps, methods:'', scenarios:'', cautions:'',
-      myRating:'', worthPractice:ai.res.worthPractice, theme:ai.res.theme, subTheme:ai.res.subTheme, tags:ai.res.tags.slice(),
+    const ai=kbAutoIdentify({url:urlv, text:combined, platform:'', cover:scope._qsCover});
+    const t=ai.res.title||autoTitle(urlv,combined)||'(未命名收藏)';
+    // 把 AI 识别的标签文本转为全局标签 ID，便于统一显示
+    const tagIds=(ai.res.tags||[]).map(function(nm){ const tg=ensureTag(nm); return tg?tg.id:nm; }).filter(Boolean);
+    const obj={ id:uid('kb'), title:t, url:urlv, domain:domain, platform:ai.res.platform||'自动识别', author:ai.res.author, publishedAt:ai.res.publishedAt, cover:scope._qsCover||'', isbn:'',
+      type:ai.res.type, origSummary:combined, mySummary:ai.res.summary, whySave:note, keyPoints:ai.res.steps, steps:ai.res.steps, methods:'', scenarios:'', cautions:'',
+      myRating:'', worthPractice:ai.res.worthPractice, theme:ai.res.theme||'待分类', subTheme:ai.res.subTheme, tags:tagIds,
       tpl:ai.res.tpl||{}, relatedBooks:[], relatedStocks:[], relatedIndustries:[], relatedTasks:[], relatedProjects:[], relatedNotes:[],
       stage:'新收藏', aiRaw:ai, aiPending:true, nextAction:'', planDate:'', practiceStatus:'未开始', practiceResult:'', neededMaterials:'', reviewNote:'', reuseCount:0, lastReuse:null,
       archived:false, createdAt:Date.now(), updatedAt:nowStr(), sample:false };
     let a=COL.kb(); a.push(obj); SAVE.kb(a); logActivity('快速收藏','kb',t); toast('已保存，进入收件箱待确认'); renderKb('inbox');
   };
   const full=$('#qs_full',scope); if(full) full.onclick=function(){ openKbForm(); };
+}
+function autoTitle(url,text){
+  if(text){ const first=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)[0]; if(first && first.length<=40) return first; }
+  if(url){ const m=url.split(/[?#]/)[0].split('/').filter(Boolean).pop()||''; const s=m.replace(/\.\w+$/,'').replace(/[-_]/g,' ').trim(); if(s) return s; }
+  return '';
 }
 function kbHome(body){
   const s=kbStats(); const all=COL.kb();
@@ -2710,7 +2736,7 @@ function aiConfirmCard(k){
   h+=fld('主题',(k.theme&&k.theme!=='待分类')?k.theme:r.theme,pending.theme);
   h+=fld('类型',k.type||r.type,pending.type);
   h+=fld('摘要',k.mySummary||r.summary,pending.summary);
-  h+=fld('标签',(k.tags&&k.tags.length?k.tags.join('、'):(r.tags&&r.tags.join('、'))),pending.tags);
+  h+=fld('标签',(k.tags&&k.tags.length?kbTagNames(k.tags).join('、'):(r.tags&&r.tags.length?kbTagNames(r.tags).join('、'):'')),pending.tags);
   h+=fld('值得实践',k.worthPractice==='yes'?'值得':k.worthPractice==='no'?'不值得':(r.worthPractice==='yes'?'值得':'待确认'),pending.worthPractice);
   h+='</div>';
   h+='<div class="field" style="margin-top:8px"><label>我的备注</label><div class="muted-small">'+(k.whySave||'—')+'</div></div>';
@@ -2874,6 +2900,10 @@ function openKbDetail(id){
   h+=row('我的评分',k.myRating?k.myRating+'★':''); h+=row('是否值得实践',k.worthPractice==='yes'?'值得':k.worthPractice==='no'?'不值得':'未定');
   h+=row('主题',(k.theme||'')+(k.subTheme?(' / '+k.subTheme):''));
   h+='<div class="kv"><span class="k">标签</span><span class="v">'+tagsHtml(k.tags)+'</span></div>';
+  if(KB_TEMPLATES[k.theme] && k.tpl && Object.keys(k.tpl).length){
+    h+='<div style="margin-top:8px"><b>📌 '+esc(k.theme)+' 专属信息</b></div>';
+    KB_TEMPLATES[k.theme].forEach(function(f){ if(k.tpl[f.k]) h+=row(f.label,k.tpl[f.k]); });
+  }
   h+='</div>';
   h+='<div class="kb-region"><h4>③ 实践计划</h4>';
   h+=row('实践状态',k.practiceStatus); h+=row('下一步行动',k.nextAction); h+=row('计划日期',k.planDate); h+=row('所需材料',k.neededMaterials);
@@ -2909,25 +2939,27 @@ function openKbForm(id,preset){
   const k = editing || null;
   const base=(k||preset);
   const curStage = k? kbStage(k) : '已整理';
+  const themeVal = k? k.theme : (base.theme||'待分类');
+  const platformVal = k? k.platform : (base.platform||'自动识别');
   const tplHtml=function(theme,tpl){ tpl=tpl||{}; const defs=KB_TEMPLATES[theme]; if(!defs) return ''; let h='<div class="kb-region" style="margin-top:6px"><h4>📌 '+esc(theme)+' 专属信息</h4>'; defs.forEach(function(f){ const val=tpl[f.k]||''; if(f.type==='lines'){ h+='<div class="field"><label>'+f.label+'</label><textarea id="tpl_'+f.k+'" placeholder="'+esc(f.ph||'')+'">'+esc(val)+'</textarea></div>'; } else if(f.type==='select'){ h+='<div class="field"><label>'+f.label+'</label><select id="tpl_'+f.k+'">'+['<option value="">—</option>'].concat(f.opts.map(function(o){return '<option '+(val===o?'selected':'')+'>'+o+'</option>';})).join('')+'</select></div>'; } else { h+='<div class="field"><label>'+f.label+'</label><input id="tpl_'+f.k+'" value="'+esc(val)+'" placeholder="'+esc(f.ph||'')+'"></div>'; } }); h+='</div>'; return h; };
   openModal('<div class="modal-head"><h3>'+(k?'编辑收藏':'新建收藏')+'</h3><button class="x-close" data-x>×</button></div>'+
     '<div class="modal-body">'+
-    '<div class="field-row"><div class="field" style="flex:2"><label>标题 *</label><input id="f_title" value="'+esc(k?k.title:(base.title||''))+'"></div>'+
-    '<div class="field"><label>来源平台</label><select id="f_platform">'+KB_PLATFORMS.map(function(p){return '<option '+(k&&k.platform===p?'selected':'')+'>'+p+'</option>';}).join('')+'</select></div></div>'+
+    '<div class="field-row"><div class="field" style="flex:2"><label>标题（留空则由 AI 根据内容自动生成）</label><input id="f_title" value="'+esc(k?k.title:(base.title||''))+'" placeholder="未命名收藏"></div>'+
+    '<div class="field"><label>来源平台</label><select id="f_platform">'+KB_PLATFORMS.map(function(p){return '<option '+(platformVal===p?'selected':'')+'>'+p+'</option>';}).join('')+'</select></div></div>'+
     '<div class="field"><label>原始内容 / 链接里的文字（读不到原文时粘贴到这里，不自动编造）</label><textarea id="f_osum">'+esc(k?k.origSummary:(base.origSummary||''))+'</textarea></div>'+
-    '<div class="field-row"><div class="field" style="flex:2"><label>主题</label><select id="f_theme">'+kbThemeOptions(k?k.theme:'')+'</select></div>'+
-    '<div class="field"><label>子主题</label><input id="f_sub" value="'+esc(k?k.subTheme:'')+'"></div>'+
+    '<div class="field-row"><div class="field" style="flex:2"><label>主题</label><select id="f_theme">'+kbThemeOptions(themeVal)+'</select></div>'+
+    '<div class="field"><label>子主题</label><input id="f_sub" value="'+esc(k?k.subTheme:(base.subTheme||''))+'"></div>'+
     '<div class="field"><label>是否值得实践</label><select id="f_wp">'+['unknown','yes','no'].map(function(v){return '<option value="'+v+'" '+((k?k.worthPractice:'unknown')===v?'selected':'')+'>'+(v==='unknown'?'未定':v==='yes'?'值得':'不值得')+'</option>';}).join('')+'</select></div></div>'+
     '<div class="field"><label>我的备注（为什么收藏 / 想怎么用）</label><textarea id="f_why">'+esc(k?k.whySave:(base.whySave||''))+'</textarea></div>'+
     '<div class="field"><label>标签</label><div id="tagBox" class="flex flex-wrap" style="gap:6px;border:1px solid var(--line-strong);border-radius:9px;padding:8px;min-height:38px"></div></div>'+
-    '<div id="tplFields">'+tplHtml(k?k.theme:'', k?k.tpl:'')+'</div>'+
+    '<div id="tplFields">'+tplHtml(themeVal, k?k.tpl:(base.tpl||{}))+'</div>'+
     '<button class="btn sm" id="moreBtn" style="margin:6px 0">▸ 更多信息（作者 / 封面 / 类型 / 一句话总结 / 实践 / 关联 …）</button>'+
     '<div id="moreFields" style="display:none">'+
       '<div class="field-row"><div class="field"><label>作者 / 账号</label><input id="f_author" value="'+esc(k?k.author:(base.author||''))+'"></div>'+
       '<div class="field"><label>发布时间</label><input type="date" id="f_pub" value="'+esc(k?k.publishedAt:'')+'"></div>'+
       '<div class="field"><label>来源域名（自动提取，可改）</label><input id="f_domain" value="'+esc(k?k.domain:'')+'"></div></div>'+
       '<div class="field"><label>原始链接 URL</label><input id="f_url" value="'+esc(k?k.url:(base.url||''))+'"></div>'+
-      '<div class="field-row"><div class="field"><label>内容类型</label><select id="f_type"><option value="">—</option>'+KB_TYPES.map(function(t){return '<option '+(k&&k.type===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
+      '<div class="field-row"><div class="field"><label>内容类型</label><select id="f_type"><option value="">—</option>'+KB_TYPES.map(function(t){return '<option '+((k?k.type:(base.type||''))===t?'selected':'')+'>'+t+'</option>';}).join('')+'</select></div>'+
       '<div class="field"><label>封面 URL</label><input id="f_cover" value="'+esc(k?k.cover:'')+'"></div>'+
       '<div class="field"><label>上传封面/截图</label><input id="f_img" type="file" accept="image/*"></div></div>'+
       '<div class="field"><label>一句话总结（我的摘要）</label><textarea id="f_msum">'+esc(k?k.mySummary:'')+'</textarea></div>'+
@@ -2950,15 +2982,17 @@ function openKbForm(id,preset){
     '</div><div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveK">保存</button></div>');
   $$('[data-x]',modalEl).forEach(b=>b.onclick=closeModal);
   const sel=k?k.tags.slice():[]; renderTagsInput(sel,$('#tagBox'));
-  const refreshTpl=function(){ const t=$('#f_theme').value; const cur={}; if(k&&k.tpl){ KB_TEMPLATES[t]&&KB_TEMPLATES[t].forEach(function(f){ const el=$('#tpl_'+f.k); if(el) cur[f.k]=el.value.trim(); }); } $('#tplFields').innerHTML=tplHtml(t,cur); };
+  const readTpl=function(theme){ const cur={}; if(KB_TEMPLATES[theme]){ KB_TEMPLATES[theme].forEach(function(f){ const el=$('#tpl_'+f.k); if(el) cur[f.k]=el.value.trim(); }); } return cur; };
+  const refreshTpl=function(){ const t=$('#f_theme').value; const cur=readTpl(t); $('#tplFields').innerHTML=tplHtml(t,cur); };
   $('#f_theme').addEventListener('change',refreshTpl);
   const more=$('#moreBtn'); more.onclick=function(){ const m=$('#moreFields'); const shown=m.style.display!=='none'; m.style.display=shown?'none':'block'; more.textContent=(shown?'▸':'▾')+' 更多信息（作者 / 封面 / 类型 / 一句话总结 / 实践 / 关联 …）'; };
   let covFile=null;
   const img=$('#f_img'); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ covFile=r.result; }; r.readAsDataURL(f); });
   $('#f_url').addEventListener('blur',function(){ const u=$('#f_url').value.trim(); if(u&&!$('#f_domain').value){ try{ $('#f_domain').value=new URL(u).hostname; }catch(e){} } });
   $('#saveK').onclick=function(){
-    const title=$('#f_title').value.trim(); if(!title){ toast('请填写标题'); return; }
+    let title=$('#f_title').value.trim();
     const url=$('#f_url').value.trim(); let domain=$('#f_domain').value.trim();
+    if(!title){ title=autoTitle(url,$('#f_osum').value.trim())||'(未命名收藏)'; }
     if(url){ try{ domain=domain||new URL(url).hostname; }catch(e){} }
     const tpl={}; const th=$('#f_theme').value; if(KB_TEMPLATES[th]){ KB_TEMPLATES[th].forEach(function(f){ const el=$('#tpl_'+f.k); if(el){ const v=el.value.trim(); if(v) tpl[f.k]=v; } }); }
     const doSave=function(){
@@ -3020,8 +3054,18 @@ function openKbThemeForm(preset){
   };
 }
 function ensureDefaultKbThemes(){
-  const ts=COL.kbtopics(); const have=ts.map(function(t){return t.name;});
+  let ts=COL.kbtopics(); const have=ts.map(function(t){return t.name;});
   DEFAULT_KB_THEMES.forEach(function(d){ if(have.indexOf(d.name)<0){ ts.push({id:uid('kt'),name:d.name,desc:d.desc,tags:d.tags,isDefault:true,createdAt:Date.now()}); } });
+  // 清理重复分类：旧数据中的“旅游规划”合并为“旅行”
+  const dupIdx=ts.findIndex(function(t){return t.name==='旅游规划';});
+  const keepIdx=ts.findIndex(function(t){return t.name==='旅行';});
+  if(dupIdx>=0){
+    if(keepIdx>=0){ ts.splice(dupIdx,1); }
+    else { ts[dupIdx].name='旅行'; ts[dupIdx].desc='出行与攻略'; }
+    let kb=COL.kb(); let changed=false;
+    kb.forEach(function(k){ if(k.theme==='旅游规划'){ k.theme='旅行'; changed=true; } });
+    if(changed) SAVE.kb(kb);
+  }
   SAVE.kbtopics(ts);
   // 迁移旧 KB 数据：补齐 stage / tpl / aiPending / worthPractice，保证新旧状态体系兼容
   let kb=COL.kb(); let changed=false;

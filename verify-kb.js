@@ -59,7 +59,7 @@ function assert(cond, msg){ if(!cond){ errors.push('ASSERT FAIL: '+msg); console
   let chip = document.querySelector('[data-fchip]');
   if(chip){ chip.click(); await sleep(60); assert(true, '点击筛选 chip 无报错'); }
 
-  console.log('\n[5] 快速保存 + AI 识别');
+  console.log('\n[5] 快速保存 + AI 识别（标题自动生成）');
   await nav('#/kb/home');
   document.getElementById('qs_url').value = 'https://www.xiaohongshu.com/explore/abc123';
   document.getElementById('qs_text').value = '快手番茄炒蛋做法：鸡蛋3个、番茄2个；先炒蛋盛出，再炒番茄出汁，混合加盐糖。10分钟搞定，适合新手。';
@@ -69,6 +69,7 @@ function assert(cond, msg){ if(!cond){ errors.push('ASSERT FAIL: '+msg); console
   v = view();
   assert(v.includes('AI 识别') || v.includes('待确认'), '收件箱显示 AI 识别结果确认卡');
   assert(v.includes('快手番茄炒蛋'), '识别/保存了标题');
+  assert(!v.includes('tag_'), '标签不显示内部 ID');
   // 确认整理
   let confirmBtn = document.querySelector('[data-act^="confirm:"]');
   if(confirmBtn){ confirmBtn.click(); await sleep(80); }
@@ -136,6 +137,19 @@ function assert(cond, msg){ if(!cond){ errors.push('ASSERT FAIL: '+msg); console
   console.log('\n[9c] 主题分类二级页（动态模板源）');
   await nav('#/kb/themes');
   assert(view().includes('主题分类'), '主题分类页正常');
+
+  console.log('\n[10] 弹窗随路由关闭 + 侧边栏数量一致');
+  await nav('#/kb/collection');
+  let clrAll=document.getElementById('clrAll'); if(clrAll){ clrAll.click(); await sleep(60); }
+  let firstEdit=document.querySelector('[data-act^="edit:"]');
+  if(firstEdit){ firstEdit.click(); await sleep(80); assert(document.getElementById('modal').innerHTML.includes('编辑收藏'), '编辑弹窗已打开'); }
+  await nav('#/kb/practice');
+  assert(!document.getElementById('modal').innerHTML.includes('编辑收藏'), '切换路由后弹窗已关闭');
+  // 侧边栏数量应等于实际非归档收藏总数（页面若有过滤器则显示过滤后数量，但徽章始终反映总数）
+  const totalCount = JSON.parse(localStorage.getItem('wb_kb')||'[]').filter(function(k){return !k.archived;}).length;
+  const sidebarBadge = document.querySelector('[data-nav="kb"] .ni-count');
+  const badgeNum = sidebarBadge ? parseInt(sidebarBadge.textContent,10) : null;
+  assert(badgeNum !== null && badgeNum === totalCount, '侧边栏收藏数量与数据总数一致 ('+badgeNum+' vs '+totalCount+')');
 
   console.log('\n==== RESULT ====');
   if(errors.length){ console.log('FAIL ('+errors.length+'):'); errors.forEach(e=>console.log(' - '+e)); process.exit(1); }
