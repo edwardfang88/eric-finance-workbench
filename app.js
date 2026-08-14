@@ -967,9 +967,13 @@ function recordPnlSnapshot(silent){
     if(x.market==='港股'){ mvHcny+=mv*fx; costHcny+=cost*fx; } else { mvA+=mv; costA+=cost; }
   });
   const totalValue=mvA+mvHcny, totalPnl=totalValue-(costA+costHcny);
-  let pnl=COL.pnl(); pnl.push({date:todayStr(),totalValue:Math.round(totalValue*100)/100,totalPnl:Math.round(totalPnl*100)/100});
+  let pnl=COL.pnl();
+  const today=todayStr();
+  // 同一天只保留最新一条
+  pnl=pnl.filter(function(p){ return p.date!==today; });
+  pnl.push({date:today,totalValue:Math.round(totalValue*100)/100,totalPnl:Math.round(totalPnl*100)/100});
   pnl=pnl.sort((a,b)=>a.date.localeCompare(b.date));
-  SAVE.pnl(pnl); if(!silent){ logActivity('记录市值快照','stock',todayStr()); toast('已记录今日快照'); renderStock('holdings'); }
+  SAVE.pnl(pnl); if(!silent){ logActivity('记录市值快照','stock',today); toast('已更新今日快照'); renderStock('holdings'); }
 }
 function pnlChart(){
   let pnl=COL.pnl()||[];
@@ -977,20 +981,22 @@ function pnlChart(){
   const w=700,h=220,padL=56,padR=56,padT=18,padB=44;
   let chart='';
   if(pnl.length){
+    // 计算每日盈亏 = 当天总市值 - 前一天总市值
+    const daily=pnl.map(function(p,i){ return i===0?0:Math.round((p.totalValue-pnl[i-1].totalValue)*100)/100; });
     const vals=pnl.map(p=>p.totalValue); const minV=Math.min(...vals),maxV=Math.max(...vals); const rngV=(maxV-minV)||1;
-    const pnls=pnl.map(p=>p.totalPnl); const minP=Math.min(...pnls),maxP=Math.max(...pnls); const rngP=(maxP-minP)||1;
+    const dailys=daily; const minP=Math.min(...dailys),maxP=Math.max(...dailys); const rngP=(maxP-minP)||1;
     const n=pnl.length;
     const X=i=>padL+(w-padL-padR)*i/(n-1||1);
     const Yv=v=>h-padB-(h-padT-padB)*(v-minV)/rngV;
     const Yp=v=>h-padB-(h-padT-padB)*(v-minP)/rngP;
     const line=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yv(p.totalValue).toFixed(1)}`).join(' ');
-    const line2=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yp(p.totalPnl).toFixed(1)}`).join(' ');
+    const line2=daily.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yp(v).toFixed(1)}`).join(' ');
     const area=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yv(p.totalValue).toFixed(1)}`).join(' ')
       +` L${X(n-1).toFixed(1)},${h-padB} L${X(0).toFixed(1)},${h-padB} Z`;
     const fmtY=v=>v>=10000?(v/10000).toFixed(1)+'万':Math.round(v).toLocaleString();
     const fmtDate=d=>String(d||'').slice(5).replace('-','/');
     const ticksV=[minV,(minV+maxV)/2,maxV].map(v=>fmtY(v));
-    const ticksP=[minP,(minP+maxP)/2,maxP].map(v=>fmtY(v));
+    const ticksP=[minP,(minP+maxP)/2,maxP].map(v=>v>=10000?(v/10000).toFixed(1)+'万':Math.round(v).toLocaleString());
     const xDates=pnl.map((p,i)=>{ const x=X(i); const d=fmtDate(p.date); return `<text x="${x}" y="${h-padB+18}" font-size="10" fill="var(--muted)" text-anchor="middle">${d}</text>`; }).join('');
     const gridH=(h-padT-padB)/2;
     chart=`<svg viewBox="0 0 ${w} ${h}">`
@@ -1004,12 +1010,12 @@ function pnlChart(){
       +`<path d="${line}" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`
       +pnl.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Yv(p.totalValue).toFixed(1)}" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>`).join('')
       +`<path d="${line2}" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/>`
-      +pnl.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Yp(p.totalPnl).toFixed(1)}" r="3" fill="#9333ea"/>`).join('')
+      +daily.map((v,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Yp(v).toFixed(1)}" r="3" fill="#9333ea"/>`).join('')
       +`</svg>`;
   } else {
     chart=`<div class="empty" style="padding:24px 0"><div class="e-ico" style="font-size:28px">📈</div><p class="muted-small">暂无历史快照，点击右上角按钮记录第一条</p></div>`;
   }
-  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:8px">🔵 总市值（左轴，单位 ¥）　🟣 累计浮动盈亏（右轴，单位 ¥）　（A+H 按港币→人民币折算）</div></div>`;
+  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 当日盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:8px">🔵 总市值（左轴，单位 ¥）　🟣 当日盈亏（右轴，单位 ¥）　（A+H 按港币→人民币折算）</div></div>`;
 }
 function stockQuotes(body){
   const q=COL.stockQuotes();
