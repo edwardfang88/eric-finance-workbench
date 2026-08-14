@@ -2627,6 +2627,8 @@ function handleKbAct(act){
 }
 function bindKbBody(body){
   body.addEventListener('click',function(e){
+    // 表单控件、链接、label 点击不触发导航/卡片动作，避免误跳转
+    if(e.target.closest('input,textarea,select,button,label,a')){ return; }
     const ext=e.target.closest('[data-ext]'); if(ext){ return; }
     const fchip=e.target.closest('[data-fchip]'); if(fchip){ const key=fchip.getAttribute('data-fchip'); if(key==='theme') KB_THEME_FILTER=''; if(kbF[key]!==undefined) delete kbF[key]; renderKb('collection'); return; }
     const act=e.target.closest('[data-act]'); if(act){ handleKbAct(act.getAttribute('data-act')); return; }
@@ -2667,6 +2669,8 @@ function kbQuickSaveHtml(){
     '<div class="muted-small" style="margin-top:8px">⚠️ 本工作台不读取外部页面、也不会编造内容；识别结果来自你粘贴的链接 / 文字 / 截图 OCR，标「待确认」的请手动补全。</div></div>';
 }
 function bindQuickSave(scope){
+  // 快速保存内的表单元素点击不冒泡到 bindKbBody，避免误触发 data-go / data-kb 跳转
+  $$('input,textarea,select,button,label',scope).forEach(function(el){ el.addEventListener('click',function(e){ e.stopPropagation(); }); });
   // 图片预览
   const img=$('#qs_img',scope); if(img) img.addEventListener('change',function(){ const f=img.files&&img.files[0]; if(!f) return; const r=new FileReader(); r.onload=function(){ scope._qsCover=r.result; $('#qs_preview',scope).innerHTML='<img src="'+esc(r.result)+'" style="max-height:160px;border-radius:8px;border:1px solid var(--line)">'; $('#qs_hint',scope).textContent='已选图片（'+Math.round(f.size/1024)+'KB），将作为封面'; }; r.readAsDataURL(f); });
   const url=$('#qs_url',scope); if(url) url.addEventListener('blur',function(){ const u=url.value.trim(); if(u){ try{ $('#qs_hint',scope).textContent='来源域名：'+new URL(u).hostname; }catch(e){ $('#qs_hint',scope).textContent=''; } } });
