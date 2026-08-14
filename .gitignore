@@ -22,3 +22,7 @@ Thumbs.db
 node_modules/
 package-lock.json
 package.json
+
+# 封面下载临时脚本/映射（covers/ 目录本身需部署）
+download-covers.js
+cover-map.json
