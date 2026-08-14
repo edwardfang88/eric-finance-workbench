@@ -2593,6 +2593,7 @@ function kbThemeOptions(sel){
 function kbCard(k){
   const st=kbStage(k);
   const summary=k.mySummary||k.origSummary||'';
+  const realUrl=extractUrl(k.url);
   const badges='<span class="badge '+(st==='新收藏'||st==='待确认'?'sample':st==='待实践'?'warn':st==='已完成'?'ok':'')+'">'+esc(st)+'</span>'+
     (isWorthPractice(k)?'<span class="badge warn">待实践</span>':'')+
     (k.myRating?('<span class="badge">'+esc(k.myRating)+'★</span>'):'');
@@ -2604,7 +2605,7 @@ function kbCard(k){
     '<div class="row-actions mt">'+
       (showConfirm?'<button class="mini-btn primary" data-act="confirm:'+k.id+'">确认整理</button>':'')+
       (isWorthPractice(k)?'':'<button class="mini-btn" data-act="practice:'+k.id+'">加入实践</button>')+
-      (k.url?'<a class="mini-btn" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">打开原文</a>':'')+
+      (realUrl?'<a class="mini-btn" href="'+esc(realUrl)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||extractUrlDomain(realUrl)||'未知')+'">打开原文</a>':'')+
       '<button class="mini-btn" data-act="edit:'+k.id+'">编辑</button>'+
       '<button class="mini-btn" data-act="view:'+k.id+'">详情</button>'+
       '<button class="mini-btn danger" data-act="del:'+k.id+'">删除</button>'+
@@ -2681,17 +2682,24 @@ function bindQuickSave(scope){
     const ocr=$('#qs_ocr',scope).value.trim();
     const note=$('#qs_note',scope).value.trim();
     const combined=[text,ocr].filter(Boolean).join('\n');
-    // 从小红书/抖音等“复制链接”产生的分享文案里抽取真实 URL（形如 http://xhslink.com/...）
-    const urlMatch=(rawUrl+' '+combined).match(/https?:\/\/[^\s，。、）)】\]]+/);
-    const urlv=urlMatch?urlMatch[0]:rawUrl;
+    // 从小红书/抖音等“复制链接”产生的分享文案里抽取真实 URL
+    const urlv=extractUrl(rawUrl+' '+combined);
     if(!urlv && !combined && !scope._qsCover){ toast('请至少粘贴链接、文字，或上传截图'); return; }
     let domain=''; if(urlv){ try{ domain=new URL(urlv).hostname; }catch(e){} }
     const ai=kbAutoIdentify({url:urlv, text:combined||rawUrl, platform:'', cover:scope._qsCover});
     let t=ai.res.title||autoTitle(urlv,combined)||(scope._qsName?scope._qsName.replace(/\.\w+$/,'').replace(/[-_]/g,' ').trim():'')||'(未命名收藏)';
-    // 小红书等分享文案首行常是“x.xx 复制打开小红书…”，提纯标题
-    if((ai.res.platform==='小红书' || /xhslink|xiaohongshu/.test(urlv))){
-      const cand=(combined||rawUrl).split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){ return s && !/复制打开|http|^\d+\.\d+/.test(s); })[0];
-      if(cand && cand.length<=40) t=cand;
+    // 小红书等分享文案提纯标题：先去 boilerplate，再取第一行/段不超过 40 字的正文
+    if(ai.res.platform==='小红书' || /xhslink|xiaohongshu/.test(urlv)){
+      const src=(combined||rawUrl).replace(/\r/g,'');
+      const lines=src.split(/\n/).map(function(s){return s.trim();}).filter(Boolean);
+      const cand=lines.filter(function(s){ return s && !/复制打开|http|^\d+\.\d+/.test(s); })[0];
+      if(cand && cand.length<=40){ t=cand; }
+      else {
+        // 单行粘贴时按空格/中文标点再拆一次
+        const words=src.split(/[\s，。、]+/).map(function(s){return s.trim();}).filter(Boolean);
+        const w=words.filter(function(s){ return s && !/复制打开|http|^\d+\.\d+/.test(s) && s.length<=40; })[0];
+        if(w) t=w;
+      }
     }
     const imageOnly = scope._qsCover && !urlv && !combined;
     // 把 AI 识别的标签文本转为全局标签 ID，便于统一显示
@@ -2705,6 +2713,24 @@ function bindQuickSave(scope){
     let a=COL.kb(); a.push(obj); SAVE.kb(a); logActivity('快速收藏','kb',t); toast('已保存，进入收件箱待确认'); renderKb('inbox');
   };
   const full=$('#qs_full',scope); if(full) full.onclick=function(){ openKbForm(); };
+}
+function extractUrl(raw){
+  if(!raw) return '';
+  let s=String(raw).trim();
+  // 若整段被 URL 编码（如 %3A%2F%2F），先解码一次
+  try{ if(/%3A%2F%2F/i.test(s)) s=decodeURIComponent(s); }catch(e){}
+  // 直接是绝对链接
+  if(/^https?:\/\//i.test(s)) return s.replace(/[，。、）)】\]\s]+$/,'');
+  // 从混排文案里抽取第一条 http(s) 链接
+  const m=s.match(/https?:\/\/[^\s，。、）)】\]]+/);
+  if(m) return m[0].replace(/[，。、）)】\]\s]+$/,'');
+  // 无协议的小红书/小红书域名短链
+  const xhs=s.match(/(?:xhslink\.(?:cn|com)|xiaohongshu\.com)\/[^\s，。、）)】\]]+/);
+  if(xhs) return 'https://'+xhs[0].replace(/[，。、）)】\]\s]+$/,'');
+  return '';
+}
+function extractUrlDomain(url){
+  try{ return new URL(url).hostname; }catch(e){ return ''; }
 }
 function autoTitle(url,text){
   if(text){ const first=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)[0]; if(first && first.length<=40) return first; }
@@ -2742,10 +2768,12 @@ function kbInbox(body){
 }
 function aiConfirmCard(k){
   const ai=k.aiRaw; const pending=ai&&ai.pending?ai.pending:{}; const r=ai&&ai.res?ai.res:{};
+  const realUrl=extractUrl(k.url);
   const fld=function(label,val,pf){ return '<div class="kv"><span class="k">'+label+(pf?' <span class="badge sample">待确认</span>':'')+'</span><span class="v">'+(val?esc(val):'<span class="muted-small">待确认</span>')+'</span></div>'; };
   let h='<div class="card mb" data-kb="'+k.id+'">';
   h+='<div class="flex between"><b>'+esc(k.title||'(未命名收藏)')+'</b>'+(k.aiPending?'<span class="badge sample">AI 识别待确认</span>':'<span class="badge">待整理</span>')+'</div>';
-  if(k.url) h+='<div class="muted-small" style="margin:4px 0;word-break:break-all"><a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">'+esc(k.url)+'</a></div>';
+  if(realUrl) h+='<div class="muted-small" style="margin:4px 0;word-break:break-all"><a class="link" href="'+esc(realUrl)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||extractUrlDomain(realUrl)||'未知')+'">'+esc(realUrl)+'</a></div>';
+  else if(k.url) h+='<div class="muted-small" style="margin:4px 0;word-break:break-all">'+esc(k.url)+' <span class="badge sample">未识别出可点击链接</span></div>';
   h+='<div class="kb-region" style="margin-top:6px"><h4>🤖 AI 识别结果</h4>';
   h+=fld('主题',(k.theme&&k.theme!=='待分类')?k.theme:r.theme,pending.theme);
   h+=fld('类型',k.type||r.type,pending.type);
@@ -2898,6 +2926,9 @@ function kbArchive(body){
 /* ---------------- 详情（4 区） ---------------- */
 function openKbDetail(id){
   const k=COL.kb().find(function(x){return x.id===id;}); if(!k) return;
+  // 修正历史数据：若 url 字段里混有标题等杂项，提取出真实 URL 并回存
+  const realUrl=extractUrl(k.url);
+  if(realUrl && realUrl!==k.url){ k.url=realUrl; k.domain=extractUrlDomain(realUrl); k.updatedAt=nowStr(); SAVE.kb(COL.kb()); }
   const relBooks=(k.relatedBooks||[]).map(function(i){const b=COL.books().find(function(x){return x.id===i;});return b?b.title:null;}).filter(Boolean);
   const relNotes=(k.relatedNotes||[]).map(function(i){const n=COL.booknotes().find(function(x){return x.id===i;});return n?(n.title||'(无标题)'):null;}).filter(Boolean);
   const relTasks=(k.relatedTasks||[]).map(function(i){const t=COL.tasks().find(function(x){return x.id===i;});return t?t.title:null;}).filter(Boolean);
@@ -2905,7 +2936,7 @@ function openKbDetail(id){
   let h='<div class="modal-head"><h3>'+esc(k.title)+'</h3><button class="x-close" data-x>×</button></div><div class="modal-body kb-detail">';
   h+='<div class="kb-region"><h4>① 原始内容</h4>';
   h+=row('来源平台',k.platform); h+=row('作者/账号',k.author); h+=row('发布时间',k.publishedAt); h+=row('来源域名',k.domain); h+=row('内容类型',k.type);
-  if(k.url) h+='<div class="kv"><span class="k">原始链接</span><span class="v"><a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||'未知')+'">'+esc(k.url)+'</a></span></div>';
+  if(k.url) h+='<div class="kv"><span class="k">原始链接</span><span class="v"><a class="link" href="'+esc(k.url)+'" target="_blank" rel="noopener" data-ext="'+esc(k.domain||extractUrlDomain(k.url)||'未知')+'">'+esc(k.url)+'</a></span></div>';
   if(k.linkBroken) h+='<div class="kv"><span class="k">链接状态</span><span class="v"><span class="badge gray">⚠️ 标记失效</span></span></div>';
   h+=row('原文摘要',k.origSummary);
   h+='</div>';
