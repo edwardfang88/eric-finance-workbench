@@ -1408,40 +1408,112 @@ const BOOK_BRAIN=[
 
 ];
 
-/* 为本地精选书库补一批真实豆瓣封面（高频/经典书）。若 URL 失效，会自动回退到书名占位图。 */
+/* 为本地精选书库补真实豆瓣封面（102本）。若 URL 失效，会自动回退到书名占位图。 */
 const KNOWN_COVERS={
-'投资最重要的事':'https://img3.doubanio.com/view/subject/l/public/s27208395.jpg',
-'原则':'https://img3.doubanio.com/view/subject/l/public/s29725125.jpg',
-'股票作手回忆录':'https://img3.doubanio.com/view/subject/l/public/s11107717.jpg',
-'彼得·林奇的成功投资':'https://img3.doubanio.com/view/subject/l/public/s11102839.jpg',
-'漫步华尔街':'https://img3.doubanio.com/view/subject/l/public/s10270623.jpg',
-'证券分析':'https://img3.doubanio.com/view/subject/l/public/s10514401.jpg',
-'价值':'https://img3.doubanio.com/view/subject/l/public/s33645299.jpg',
-'万历十五年':'https://img3.doubanio.com/view/subject/l/public/s1067912.jpg',
-'明朝那些事儿':'https://img3.doubanio.com/view/subject/l/public/s1032527.jpg',
-'人类简史':'https://img3.doubanio.com/view/subject/l/public/s27102920.jpg',
-'活着':'https://img3.doubanio.com/view/subject/l/public/s10746750.jpg',
-'百年孤独':'https://img3.doubanio.com/view/subject/l/public/s10734280.jpg',
-'三体':'https://img3.doubanio.com/view/subject/l/public/s3251339.jpg',
-'围城':'https://img3.doubanio.com/view/subject/l/public/s1072685.jpg',
-'平凡的世界':'https://img3.doubanio.com/view/subject/l/public/s1087321.jpg',
-'小王子':'https://img3.doubanio.com/view/subject/l/public/s1083255.jpg',
-'追风筝的人':'https://img3.doubanio.com/view/subject/l/public/s1077647.jpg',
-'1984':'https://img3.doubanio.com/view/subject/l/public/s1008145.jpg',
-'白夜行':'https://img3.doubanio.com/view/subject/l/public/s3259499.jpg',
-'时间简史':'https://img3.doubanio.com/view/subject/l/public/s10339360.jpg',
-'思考，快与慢':'https://img3.doubanio.com/view/subject/l/public/s10339397.jpg',
-'乌合之众':'https://img3.doubanio.com/view/subject/l/public/s10346374.jpg',
-'非暴力沟通':'https://img3.doubanio.com/view/subject/l/public/s10340684.jpg',
-'活出生命的意义':'https://img3.doubanio.com/view/subject/l/public/s10340840.jpg',
-'刻意练习':'https://img3.doubanio.com/view/subject/l/public/s29589009.jpg',
-'终身成长':'https://img3.doubanio.com/view/subject/l/public/s29483596.jpg',
-'高效能人士的七个习惯':'https://img3.doubanio.com/view/subject/l/public/s10339833.jpg',
-'从0到1':'https://img3.doubanio.com/view/subject/l/public/s28012352.jpg',
-'精益创业':'https://img3.doubanio.com/view/subject/l/public/s10339498.jpg',
-'影响力':'https://img3.doubanio.com/view/subject/l/public/s10340726.jpg',
-'定位':'https://img3.doubanio.com/view/subject/l/public/s10324840.jpg',
-'创新者的窘境':'https://img3.doubanio.com/view/subject/l/public/s10329020.jpg'
+'1984':'https://img1.doubanio.com/view/subject/l/public/s4371408.jpg',
+'史蒂夫·乔布斯传':'https://img3.doubanio.com/view/subject/l/public/s6974202.jpg',
+'邓小平时代':'https://img3.doubanio.com/view/subject/l/public/s24516687.jpg',
+'人类群星闪耀时':'https://img1.doubanio.com/view/subject/l/public/s32299368.jpg',
+'苏东坡传':'https://img9.doubanio.com/view/subject/l/public/s29715694.jpg',
+'曾国藩传':'https://img1.doubanio.com/view/subject/l/public/s33678368.jpg',
+'毛泽东传':'https://img1.doubanio.com/view/subject/l/public/s35112688.jpg',
+'富兰克林自传':'https://img3.doubanio.com/view/subject/l/public/s6459032.jpg',
+'渴望生活：梵高传':'https://img1.doubanio.com/view/subject/l/public/s3099438.jpg',
+'拿破仑传':'https://img3.doubanio.com/view/subject/l/public/s33874923.jpg',
+'明朝那些事儿':'https://img1.doubanio.com/view/subject/l/public/s29399938.jpg',
+'万历十五年':'https://img9.doubanio.com/view/subject/l/public/s1800355.jpg',
+'人类简史':'https://img3.doubanio.com/view/subject/l/public/s27814883.jpg',
+'未来简史':'https://img1.doubanio.com/view/subject/l/public/s29317658.jpg',
+'枪炮、病菌与钢铁':'https://img3.doubanio.com/view/subject/l/public/s1738643.jpg',
+'全球通史':'https://img9.doubanio.com/view/subject/l/public/s35253785.jpg',
+'大秦帝国':'https://img9.doubanio.com/view/subject/l/public/s3097044.jpg',
+'中国大历史':'https://img3.doubanio.com/view/subject/l/public/s2523433.jpg',
+'罗马人的故事':'https://img1.doubanio.com/view/subject/l/public/s33681259.jpg',
+'何以中国':'https://img1.doubanio.com/view/subject/l/public/s35413048.jpg',
+'史记':'https://img2.doubanio.com/view/subject/l/public/s34310721.jpg',
+'聪明的投资者':'https://img3.doubanio.com/view/subject/l/public/s34918327.jpg',
+'穷查理宝典':'https://img3.doubanio.com/view/subject/l/public/s34937403.jpg',
+'巴菲特致股东的信':'https://img1.doubanio.com/view/subject/l/public/s29733058.jpg',
+'投资中最简单的事':'https://img9.doubanio.com/view/subject/l/public/s27653114.jpg',
+'投资最重要的事':'https://img9.doubanio.com/view/subject/l/public/s10389195.jpg',
+'漫步华尔街':'https://img9.doubanio.com/view/subject/l/public/s35071294.jpg',
+'彼得·林奇的成功投资':'https://img1.doubanio.com/view/subject/l/public/s34734928.jpg',
+'股票作手回忆录':'https://img9.doubanio.com/view/subject/l/public/s35005096.jpg',
+'原则':'https://img2.doubanio.com/view/subject/l/public/s29643861.jpg',
+'价值':'https://img1.doubanio.com/view/subject/l/public/s33716660.jpg',
+'证券分析':'https://img1.doubanio.com/view/subject/l/public/s26590200.jpg',
+'经济学原理':'https://img2.doubanio.com/view/subject/l/public/s33698881.jpg',
+'置身事内':'https://img3.doubanio.com/view/subject/l/public/s33956867.jpg',
+'薛兆丰经济学讲义':'https://img9.doubanio.com/view/subject/l/public/s29841565.jpg',
+'贫穷的本质':'https://img9.doubanio.com/view/subject/l/public/s29856376.jpg',
+'激荡三十年':'https://img3.doubanio.com/view/subject/l/public/s34280882.jpg',
+'大国大城':'https://img1.doubanio.com/view/subject/l/public/s29440008.jpg',
+'21世纪资本论':'https://img3.doubanio.com/view/subject/l/public/s35247283.jpg',
+'经济解释':'https://img2.doubanio.com/view/subject/l/public/s33517111.jpg',
+'国富论':'https://img1.doubanio.com/view/subject/l/public/s2164670.jpg',
+'就业、利息和货币通论':'https://img1.doubanio.com/view/subject/l/public/s1559009.jpg',
+'通往奴役之路':'https://img9.doubanio.com/view/subject/l/public/s8879166.jpg',
+'高效能人士的七个习惯':'https://img3.doubanio.com/view/subject/l/public/s4510907.jpg',
+'卓有成效的管理者':'https://img3.doubanio.com/view/subject/l/public/s1441092.jpg',
+'从0到1':'https://img9.doubanio.com/view/subject/l/public/s28299265.jpg',
+'精益创业':'https://img9.doubanio.com/view/subject/l/public/s11137256.jpg',
+'影响力':'https://img9.doubanio.com/view/subject/l/public/s1657785.jpg',
+'定位':'https://img9.doubanio.com/view/subject/l/public/s1081174.jpg',
+'创新者的窘境':'https://img3.doubanio.com/view/subject/l/public/s33746397.jpg',
+'赋能':'https://img9.doubanio.com/view/subject/l/public/s29615316.jpg',
+'管理的实践':'https://img3.doubanio.com/view/subject/l/public/s4354613.jpg',
+'竞争战略':'https://img1.doubanio.com/view/subject/l/public/s35281009.jpg',
+'思考，快与慢':'https://img1.doubanio.com/view/subject/l/public/s10345719.jpg',
+'乌合之众':'https://img3.doubanio.com/view/subject/l/public/s1988393.jpg',
+'非暴力沟通':'https://img3.doubanio.com/view/subject/l/public/s29710777.jpg',
+'被讨厌的勇气':'https://img3.doubanio.com/view/subject/l/public/s33828853.jpg',
+'心理学与生活':'https://img2.doubanio.com/view/subject/l/public/s34678791.jpg',
+'心流':'https://img9.doubanio.com/view/subject/l/public/s29595585.jpg',
+'自控力':'https://img9.doubanio.com/view/subject/l/public/s10685385.jpg',
+'社会性动物':'https://img3.doubanio.com/view/subject/l/public/s2783843.jpg',
+'梦的解析':'https://img9.doubanio.com/view/subject/l/public/s28888375.jpg',
+'活出生命的意义':'https://img3.doubanio.com/view/subject/l/public/s6235123.jpg',
+'刻意练习':'https://img9.doubanio.com/view/subject/l/public/s29105145.jpg',
+'终身成长':'https://img1.doubanio.com/view/subject/l/public/s29559698.jpg',
+'认知觉醒':'https://img3.doubanio.com/view/subject/l/public/s33713442.jpg',
+'把时间当作朋友':'https://img3.doubanio.com/view/subject/l/public/s3778613.jpg',
+'跃迁':'https://img1.doubanio.com/view/subject/l/public/s29496570.jpg',
+'人性的弱点':'https://img9.doubanio.com/view/subject/l/public/s29827294.jpg',
+'活着':'https://img9.doubanio.com/view/subject/l/public/s29869926.jpg',
+'百年孤独':'https://img1.doubanio.com/view/subject/l/public/s27237850.jpg',
+'三体':'https://img1.doubanio.com/view/subject/l/public/s2768378.jpg',
+'围城':'https://img3.doubanio.com/view/subject/l/public/s11276847.jpg',
+'平凡的世界':'https://img9.doubanio.com/view/subject/l/public/s8865866.jpg',
+'小王子':'https://img1.doubanio.com/view/subject/l/public/s1237549.jpg',
+'追风筝的人':'https://img1.doubanio.com/view/subject/l/public/s1727290.jpg',
+'解忧杂货店':'https://img2.doubanio.com/view/subject/l/public/s27264181.jpg',
+'白夜行':'https://img1.doubanio.com/view/subject/l/public/s24514468.jpg',
+'挪威的森林':'https://img2.doubanio.com/view/subject/l/public/s34412041.jpg',
+'沉默的大多数':'https://img1.doubanio.com/view/subject/l/public/s29419068.jpg',
+'傲慢与偏见':'https://img3.doubanio.com/view/subject/l/public/s4571103.jpg',
+'时间简史':'https://img2.doubanio.com/view/subject/l/public/s1914861.jpg',
+'自私的基因':'https://img9.doubanio.com/view/subject/l/public/s11214645.jpg',
+'上帝掷骰子吗':'https://img9.doubanio.com/view/subject/l/public/s1486674.jpg',
+'失控':'https://img1.doubanio.com/view/subject/l/public/s4554820.jpg',
+'复杂':'https://img3.doubanio.com/view/subject/l/public/s29715647.jpg',
+'万物简史':'https://img3.doubanio.com/view/subject/l/public/s1171582.jpg',
+'昆虫记':'https://img3.doubanio.com/view/subject/l/public/s28808607.jpg',
+'物种起源':'https://img3.doubanio.com/view/subject/l/public/s33741322.jpg',
+'苏菲的世界':'https://img9.doubanio.com/view/subject/l/public/s29580784.jpg',
+'哲学家们都干了些什么':'https://img9.doubanio.com/view/subject/l/public/s28073424.jpg',
+'中国哲学简史':'https://img1.doubanio.com/view/subject/l/public/s24586939.jpg',
+'沉思录':'https://img2.doubanio.com/view/subject/l/public/s2825021.jpg',
+'理想国':'https://img1.doubanio.com/view/subject/l/public/s34157889.jpg',
+'论语':'https://img2.doubanio.com/view/subject/l/public/s34287371.jpg',
+'乡土中国':'https://img1.doubanio.com/view/subject/l/public/s1762210.jpg',
+'娱乐至死':'https://img9.doubanio.com/view/subject/l/public/s28048575.jpg',
+'毫无意义的工作':'https://img3.doubanio.com/view/subject/l/public/s34246527.jpg',
+'菊与刀':'https://img9.doubanio.com/view/subject/l/public/s9140593.jpg',
+'第二性':'https://img1.doubanio.com/view/subject/l/public/s35227528.jpg',
+'规训与惩罚':'https://img1.doubanio.com/view/subject/l/public/s33491948.jpg',
+'资本论':'https://img1.doubanio.com/view/subject/l/public/s34080469.jpg',
+'曾国藩':'https://img3.doubanio.com/view/subject/l/public/s29064812.jpg',
+'原则（工作篇）':'https://img9.doubanio.com/view/subject/l/public/s34494884.jpg'
 };
 BOOK_BRAIN.forEach(function(b){ if(!b.cover && KNOWN_COVERS[b.title]) b.cover=KNOWN_COVERS[b.title]; });
 
@@ -1465,26 +1537,60 @@ function coverSearchUrl(engine,q){
 function openCoverSearch(engine,q){
   window.open(coverSearchUrl(engine,q),'_blank','noopener,noreferrer');
 }
-/* 弹出一个微型搜索源菜单（用于卡片上的“找书”按钮）。target 为触发元素，query 为书名。 */
-function showCoverSearchMenu(target, query){
-  query=query||'';
+/* 弹出一个微型封面菜单（用于卡片上的“封面”按钮）。target 为触发元素，query 为书名。 */
+function showCoverSearchMenu(target, query, author, isbn){
+  query=query||''; author=author||''; isbn=isbn||'';
   var existing=document.getElementById('coverSearchMenu'); if(existing) existing.remove();
   var menu=document.createElement('div'); menu.id='coverSearchMenu';
-  menu.style.cssText='position:absolute;z-index:10000;background:var(--card);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:6px 0;min-width:140px;';
-  menu.innerHTML=Object.keys(COVER_SEARCH).map(function(k){var e=COVER_SEARCH[k];return '<div class="cover-menu-item" data-engine="'+k+'" style="padding:8px 14px;cursor:pointer;font-size:13px;color:var(--text);white-space:nowrap;" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'transparent\'">'+esc(e.label)+'</div>';}).join('');
+  menu.style.cssText='position:absolute;z-index:10000;background:var(--card);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:6px 0;min-width:150px;';
+  var autoHtml='<div class="cover-menu-item" data-auto="1" style="padding:8px 14px;cursor:pointer;font-size:13px;color:var(--text);white-space:nowrap;font-weight:600;" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'transparent\'">自动获取封面</div>'+
+    '<div style="margin:4px 10px;height:1px;background:var(--line-strong);"></div>';
+  menu.innerHTML=autoHtml+Object.keys(COVER_SEARCH).map(function(k){var e=COVER_SEARCH[k];return '<div class="cover-menu-item" data-engine="'+k+'" style="padding:8px 14px;cursor:pointer;font-size:13px;color:var(--text);white-space:nowrap;" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'transparent\'">'+esc(e.label)+'</div>';}).join('');
   var rect=target.getBoundingClientRect();
   menu.style.left=(rect.left+window.scrollX)+'px';
   menu.style.top=(rect.bottom+window.scrollY+4)+'px';
   document.body.appendChild(menu);
-  menu.addEventListener('click',function(ev){ var it=ev.target.closest('[data-engine]'); if(!it) return; openCoverSearch(it.getAttribute('data-engine'),query); menu.remove(); });
+  menu.addEventListener('click',function(ev){
+    var it=ev.target.closest('[data-engine]');
+    var auto=ev.target.closest('[data-auto]');
+    if(auto){
+      menu.remove();
+      autoFetchCoverForCard(target, query, author, isbn);
+      return;
+    }
+    if(!it) return;
+    openCoverSearch(it.getAttribute('data-engine'),query);
+    menu.remove();
+  });
   setTimeout(function(){ function close(ev){ if(!ev.target.closest('#coverSearchMenu')){ menu.remove(); document.removeEventListener('click',close); } } document.addEventListener('click',close); },0);
 }
-function coverSearchMenuHtml(query){
-  return '<span class="cover-search-menu" data-csmenu="'+attrEsc(query)+'" style="position:relative;display:inline-block;"><button class="btn sm" type="button" data-csbtn>找书 ▼</button></span>';
+/* 为卡片自动获取封面并直接替换显示。target 是触发按钮，从其父卡片找到封面容器。 */
+function autoFetchCoverForCard(target, query, author, isbn){
+  var card=target.closest('.card');
+  var img=card?card.querySelector('img.cov-img'):null;
+  if(!img){ toast('未找到封面位置'); return; }
+  if(!query && !isbn){ toast('缺少书名/ISBN'); return; }
+  target.disabled=true; var old=target.textContent; target.textContent='获取中…';
+  fetchBookCover(query,author,isbn,function(u){
+    target.disabled=false; target.textContent=old;
+    if(u){
+      var key=isbn?('isbn:'+isbn.toLowerCase()):((query+'|'+(author||'')).toLowerCase());
+      __coverCache[key]=u; saveCoverCache();
+      img.src=u; img.style.display='';
+      var ph=img.previousElementSibling; if(ph) ph.style.display='none';
+      toast('已获取封面');
+    } else {
+      toast('自动获取失败，已弹出搜索源，请手动复制封面图片地址');
+      setTimeout(function(){ showCoverSearchMenu(target,query,author,isbn); },200);
+    }
+  });
+}
+function coverSearchMenuHtml(query, author, isbn){
+  return '<span class="cover-search-menu" data-csmenu="'+attrEsc(query)+'" data-csauthor="'+attrEsc(author||'')+'" data-csisbn="'+attrEsc(isbn||'')+'" style="position:relative;display:inline-block;"><button class="btn sm" type="button" data-csbtn>封面 ▼</button></span>';
 }
 function bindCoverSearchMenu(scope){
   if(!scope) scope=document;
-  $$('[data-csbtn]',scope).forEach(function(btn){ btn.onclick=function(ev){ ev.stopPropagation(); var wrap=btn.closest('[data-csmenu]'); var q=wrap?wrap.getAttribute('data-csmenu'):''; showCoverSearchMenu(btn,q); }; });
+  $$('[data-csbtn]',scope).forEach(function(btn){ btn.onclick=function(ev){ ev.stopPropagation(); var wrap=btn.closest('[data-csmenu]'); var q=wrap?wrap.getAttribute('data-csmenu'):''; var a=wrap?wrap.getAttribute('data-csauthor'):''; var i=wrap?wrap.getAttribute('data-csisbn'):''; showCoverSearchMenu(btn,q,a,i); }; });
 }
 function coverImg(url, title, author, isbn){
   var t=String(title||'书');
@@ -1545,17 +1651,31 @@ function tryGoogleBooks(t,a,key,img){
 }
 function fetchBookCover(title,author,isbn,callback){
   callback=callback||function(){};
-  if(typeof fetch!=='function'){ callback(null); return; }
   var t=String(title||'').trim(), a=String(author||'').trim(), is=String(isbn||'').trim();
   if(!t && !is){ callback(null); return; }
+  // 1) 本地 KNOWN_COVERS 数据库（最稳、无网络也能用）
+  var known=t?KNOWN_COVERS[t]:null;
+  if(known){ callback(known); return; }
+  if(typeof fetch!=='function'){ callback(null); return; }
   var done=false;
   function finish(u){ if(done) return; done=true; callback(u||null); }
   function timed(ms,p){ return new Promise(function(resolve){ var to=setTimeout(function(){resolve(null);},ms); p.then(function(u){clearTimeout(to);resolve(u);}).catch(function(){clearTimeout(to);resolve(null);}); }); }
+  // 2) 通过公开 CORS 代理尝试豆瓣搜索 API（国内网络下大概率可用）
+  function doubanProxy(){ return new Promise(function(resolve){
+    if(!t){resolve(null);return;}
+    var proxy='https://api.allorigins.win/raw?url=';
+    var target='https://book.douban.com/j/subject_suggest?q='+encodeURIComponent(t+(a?' '+a:''));
+    fetch(proxy+encodeURIComponent(target),{mode:'cors'}).then(function(r){return r.json();}).then(function(j){
+      var first=j&&j.find&&j.find(function(x){return x.pic && x.pic.indexOf('/view/subject/')>=0;});
+      if(first){ var u=first.pic.replace(/\\/g,'').replace('/s/public/','/l/public/'); resolve(u); }
+      else resolve(null);
+    }).catch(function(){resolve(null);});
+  }); }
   function olIsbn(){ return new Promise(function(resolve){ if(!is){resolve(null);return;} var u='https://covers.openlibrary.org/b/isbn/'+encodeURIComponent(is)+'-M.jpg?default=false'; fetch(u,{method:'HEAD',mode:'cors'}).then(function(r){ resolve(r.ok?u:null); }).catch(function(){resolve(null);}); }); }
   function gbIsbn(){ return new Promise(function(resolve){ if(!is){resolve(null);return;} fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:'+encodeURIComponent(is)+'&maxResults=1&fields=items(volumeInfo(imageLinks))').then(function(r){return r.json();}).then(function(j){ var links=j&&j.items&&j.items[0]&&j.items[0].volumeInfo&&j.items[0].volumeInfo.imageLinks; var u=links&&(links.thumbnail||links.smallThumbnail); resolve(u?u.replace('http:','https:'):null); }).catch(function(){resolve(null);}); }); }
-  function olSearch(){ return new Promise(function(resolve){ if(!t){resolve(null);return;} fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(t)+(a?('&author='+encodeURIComponent(a)):'')+'&fields=cover_i&limit=1').then(function(r){return r.json();}).then(function(j){ var id=j&&j.docs&&j.docs[0]&&j.docs[0].cover_i; resolve(id?'https://covers.openlibrary.org/b/id/'+id+'-M.jpg':null); }).catch(function(){resolve(null);}); }); }
+  function olSearch(){ return new Promise(function(resolve){ if(!t){resolve(null);return;} var q=t+(a?' '+a:''); if(q.length<3){ q=q+' 书籍'; } fetch('https://openlibrary.org/search.json?q='+encodeURIComponent(q)+'&fields=cover_i&limit=1').then(function(r){return r.json();}).then(function(j){ var id=j&&j.docs&&j.docs[0]&&j.docs[0].cover_i; resolve(id?'https://covers.openlibrary.org/b/id/'+id+'-M.jpg':null); }).catch(function(){resolve(null);}); }); }
   function gbSearch(){ return new Promise(function(resolve){ if(!t){resolve(null);return;} var q=encodeURIComponent(t+(a?' '+a:'')); fetch('https://www.googleapis.com/books/v1/volumes?q='+q+'&maxResults=1&fields=items(volumeInfo(imageLinks))').then(function(r){return r.json();}).then(function(j){ var links=j&&j.items&&j.items[0]&&j.items[0].volumeInfo&&j.items[0].volumeInfo.imageLinks; var u=links&&(links.thumbnail||links.smallThumbnail); resolve(u?u.replace('http:','https:'):null); }).catch(function(){resolve(null);}); }); }
-  Promise.all([timed(8000,olIsbn()),timed(8000,gbIsbn()),timed(8000,olSearch()),timed(8000,gbSearch())]).then(function(results){ finish(results.find(function(x){return !!x;})); });
+  Promise.all([timed(6000,doubanProxy()),timed(6000,olIsbn()),timed(6000,gbIsbn()),timed(6000,olSearch()),timed(6000,gbSearch())]).then(function(results){ finish(results.find(function(x){return !!x;})); });
 }
 function ensureCovers(scope){
   if(!scope||!scope.querySelectorAll) return;
@@ -1649,8 +1769,9 @@ function bookLibrary(body){
   else { html+=emptyState('📚','该分类下还没有书籍','',null); }
   body.innerHTML=html;
   $$('[data-f]',body).forEach(function(c){c.onclick=function(){ body._f=c.getAttribute('data-f'); bookLibrary(body); };});
-  $$('[data-bk]',body).forEach(function(c){c.onclick=function(e){ if(e.target.closest('[data-act]'))return; openBookModal(c.getAttribute('data-bk')); };});
+  $$('[data-bk]',body).forEach(function(c){c.onclick=function(e){ if(e.target.closest('[data-act]')||e.target.closest('.cover-search-menu'))return; openBookModal(c.getAttribute('data-bk')); };});
   $$('[data-act]',body).forEach(function(btn){btn.onclick=function(){ const p=btn.getAttribute('data-act').split(':'); const act=p[0],id=p[1]; if(act==='edit')openBookForm(id); else if(act==='prog')openProgressForm(id); else if(act==='note')openNoteForm({bookId:id}); else if(act==='del')delBook(id); else if(act==='arch')archBook(id); };});
+  bindCoverSearchMenu(body);
 }
 function bookCard(b){
   let h='<div class="card clickable" data-bk="'+b.id+'">';
@@ -1659,12 +1780,13 @@ function bookCard(b){
   h+='<div class="muted-small">'+esc(b.author||'佚名')+(b.translator?' 译':'')+'</div>';
   h+='<div class="progress" style="margin:8px 0"><i style="width:'+bookProgress(b)+'%"></i></div>';
   h+='<div class="muted-small" style="margin-bottom:8px">'+(b.currentPage||0)+'/'+(b.totalPages||0)+' 页 · '+bookProgress(b)+'%</div>';
-  h+='<div class="flex flex-wrap" style="gap:5px">';
+  h+='<div class="flex flex-wrap" style="gap:5px;align-items:center">';
   h+='<button class="mini-btn" data-act="edit:'+b.id+'">编辑</button>';
   h+='<button class="mini-btn" data-act="prog:'+b.id+'">进度</button>';
   h+='<button class="mini-btn" data-act="note:'+b.id+'">笔记</button>';
   h+='<button class="mini-btn" data-act="arch:'+b.id+'">'+(b.archived?'取消归档':'归档')+'</button>';
   h+='<button class="mini-btn danger" data-act="del:'+b.id+'">删</button>';
+  h+=coverSearchMenuHtml(b.title,b.author,b.isbn);
   h+='</div></div></div></div>';
   return h;
 }
@@ -2048,7 +2170,7 @@ function topCard(b){
     '<div class="muted-small">'+esc(b.author||'')+(b.year?(' · '+b.year):'')+'</div>'+
     '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分'+(b.doubanRaters?(' · '+esc(b.doubanRaters)+' 人评'):'')+'</div>'+
     '<div class="row-actions mt" style="gap:6px"><button class="btn sm primary" data-addtop="'+esc(b.title)+'">＋书架</button>'+
-    coverSearchMenuHtml(b.title)+'</div></div></div></div>';
+    coverSearchMenuHtml(b.title,b.author,b.isbn)+'</div></div></div></div>';
 }
 function defaultTopHtml(){
   const data=defaultTopByCategory(); let h='';
@@ -2078,7 +2200,7 @@ function smartCard(b,i){
     '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分 · '+(b.doubanRaters?esc(b.doubanRaters)+'人评':'')+'</div>'+
     '<div class="muted-small">分类：'+esc(b.category)+' · '+(b.tags||[]).slice(0,3).map(function(t){return esc(t);}).join('/')+'</div>'+
     '<div class="row-actions mt"><button class="btn sm primary" data-addbook="'+i+'">＋书架</button>'+
-    coverSearchMenuHtml(b.title)+'</div>'+
+    coverSearchMenuHtml(b.title,b.author,b.isbn)+'</div>'+
     '</div></div></div>';
 }
 function openSmartRec(){
