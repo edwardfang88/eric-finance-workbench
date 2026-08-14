@@ -157,8 +157,8 @@ function seedSampleData(){
   if(!store.get('seededBook')){
     store.set('seededBook',true);
     SAVE.books([
-      {id:uid('bk'),title:'投资中最简单的事',author:'邱国鹭',publisher:'中国人民大学出版社',status:'已读',currentPage:248,totalPages:248,myRating:9,recommendLevel:'强烈推荐',category:'投资',doubanRating:8.5,doubanRaters:'12000',doubanUrl:'https://book.douban.com/subject/25752977/',readingLog:[{date:'2026-08-01',minutes:60}],relatedStocks:['688777.SH'],summary:'价值投资框架：便宜是硬道理，定价权与护城河优先。',tags:[],sample:true,createdAt:Date.now()-86400000*20},
-      {id:uid('bk'),title:'穷查理宝典',author:'查理·芒格',publisher:'中信出版社',status:'在读',currentPage:120,totalPages:460,myRating:9,recommendLevel:'强烈推荐',category:'投资',doubanRating:8.7,doubanRaters:'30000',doubanUrl:'https://book.douban.com/subject/10786655/',readingLog:[{date:'2026-08-10',minutes:40}],relatedStocks:[],summary:'多元思维模型与逆向思考，能力圈原则。',tags:[],sample:true,createdAt:Date.now()-86400000*5}
+      {id:uid('bk'),title:'投资中最简单的事',author:'邱国鹭',publisher:'中国人民大学出版社',isbn:'9787300240464',status:'已读',currentPage:248,totalPages:248,myRating:9,recommendLevel:'强烈推荐',category:'投资',doubanRating:8.5,doubanRaters:'12000',doubanUrl:'https://book.douban.com/subject/25752977/',cover:'https://img3.doubanio.com/view/subject/l/public/s27185773.jpg',readingLog:[{date:'2026-08-01',minutes:60}],relatedStocks:['688777.SH'],summary:'价值投资框架：便宜是硬道理，定价权与护城河优先。',tags:[],sample:true,createdAt:Date.now()-86400000*20},
+      {id:uid('bk'),title:'穷查理宝典',author:'查理·芒格',publisher:'中信出版社',isbn:'9787508664316',status:'在读',currentPage:120,totalPages:460,myRating:9,recommendLevel:'强烈推荐',category:'投资',doubanRating:8.7,doubanRaters:'30000',doubanUrl:'https://book.douban.com/subject/10786655/',cover:'https://img2.doubanio.com/view/subject/l/public/s24597511.jpg',readingLog:[{date:'2026-08-10',minutes:40}],relatedStocks:[],summary:'多元思维模型与逆向思考，能力圈原则。',tags:[],sample:true,createdAt:Date.now()-86400000*5}
     ]);
     const nb=COL.books()[0];
     SAVE.booknotes([
@@ -169,7 +169,7 @@ function seedSampleData(){
       {id:uid('rv'),noteId:sn.id,noteTitle:sn.title,nextDate:todayStr(),stage:0,done:false,history:[]}
     ]);
     SAVE.bookrecs([
-      {id:uid('rc'),title:'聪明的投资者',author:'本杰明·格雷厄姆',cover:'',doubanRating:9.0,doubanRaters:'80000',year:2016,category:'投资',recReason:'价值投资圣经，市场先生与安全边际概念的基础。',suitableStage:'入门到进阶',difficulty:'中',relatedDirection:'价值投资/估值',doubanUrl:'https://book.douban.com/subject/26786391/',fetchedAt:'(示例数据)',status:'推荐',sample:true,createdAt:Date.now()-86400000*2}
+      {id:uid('rc'),title:'聪明的投资者',author:'本杰明·格雷厄姆',isbn:'9787115234957',cover:'https://img3.doubanio.com/view/subject/l/public/s6462582.jpg',doubanRating:9.0,doubanRaters:'80000',year:2016,category:'投资',recReason:'价值投资圣经，市场先生与安全边际概念的基础。',suitableStage:'入门到进阶',difficulty:'中',relatedDirection:'价值投资/估值',doubanUrl:'https://book.douban.com/subject/5243775/',fetchedAt:'(示例数据)',status:'推荐',sample:true,createdAt:Date.now()-86400000*2}
     ]);
   }
   // 个人知识库示例数据（独立标记，即使主线已播种也会注入一次）
@@ -1314,10 +1314,10 @@ const BOOK_BRAIN=[
  {title:'何以中国',author:'许宏',category:'历史',tags:['历史','中国','考古','先秦'],doubanRating:8.5,doubanRaters:'10000',year:2014,summary:'最早的中国从何而来'},
  {title:'史记',author:'司马迁',category:'历史',tags:['历史','中国','正史','经典'],doubanRating:9.5,doubanRaters:'100000',year:-91,summary:'中国第一部纪传体通史',classic:true},
 
- {title:'聪明的投资者',author:'本杰明·格雷厄姆',category:'投资',tags:['投资','价值投资','经典','股票'],doubanRating:9.0,doubanRaters:'80000',year:2016,summary:'价值投资圣经，安全边际与市场先生',classic:true},
- {title:'穷查理宝典',author:'查理·芒格',category:'投资',tags:['投资','多元思维','芒格','智慧'],doubanRating:8.9,doubanRaters:'100000',year:2010,summary:'芒格的智慧与多元思维模型',classic:true},
+ {title:'聪明的投资者',author:'本杰明·格雷厄姆',category:'投资',tags:['投资','价值投资','经典','股票'],doubanRating:9.0,doubanRaters:'80000',year:2016,summary:'价值投资圣经，安全边际与市场先生',classic:true,cover:'https://img3.doubanio.com/view/subject/l/public/s6462582.jpg'},
+ {title:'穷查理宝典',author:'查理·芒格',category:'投资',tags:['投资','多元思维','芒格','智慧'],doubanRating:8.9,doubanRaters:'100000',year:2010,summary:'芒格的智慧与多元思维模型',classic:true,cover:'https://img2.doubanio.com/view/subject/l/public/s24597511.jpg'},
  {title:'巴菲特致股东的信',author:'沃伦·巴菲特',category:'投资',tags:['投资','巴菲特','价值','股票'],doubanRating:9.0,doubanRaters:'40000',year:2011,summary:'巴菲特历年股东信精华',classic:true},
- {title:'投资中最简单的事',author:'邱国鹭',category:'投资',tags:['投资','价值','A股','入门'],doubanRating:8.7,doubanRaters:'40000',year:2014,summary:'化繁为简的价值投资'},
+ {title:'投资中最简单的事',author:'邱国鹭',category:'投资',tags:['投资','价值','A股','入门'],doubanRating:8.7,doubanRaters:'40000',year:2014,summary:'化繁为简的价值投资',cover:'https://img3.doubanio.com/view/subject/l/public/s27185773.jpg'},
  {title:'投资最重要的事',author:'霍华德·马克斯',category:'投资',tags:['投资','周期','风险','价值'],doubanRating:8.8,doubanRaters:'30000',year:2015,summary:'逆向投资与风险控制'},
  {title:'漫步华尔街',author:'伯顿·马尔基尔',category:'投资',tags:['投资','指数','随机漫步','经典'],doubanRating:8.5,doubanRaters:'30000',year:2012,summary:'随机漫步与指数投资的经典论述',classic:true},
  {title:'彼得·林奇的成功投资',author:'彼得·林奇',category:'投资',tags:['投资','成长股','选股','入门'],doubanRating:8.7,doubanRaters:'30000',year:2010,summary:'业余投资者的选股法则',classic:true},
@@ -2047,7 +2047,7 @@ function openBookForm(id,preset){
     '<div class="modal-body">'+
     '<div class="field-row"><div class="field"><label>书名 *</label><input id="f_title" value="'+esc(b?b.title:(preset.title||''))+'"></div><div class="field"><label>作者</label><input id="f_author" value="'+esc(b?b.author:(preset.author||''))+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>译者</label><input id="f_trans" value="'+esc(b?b.translator:'')+'"></div><div class="field"><label>出版社</label><input id="f_pub" value="'+esc(b?b.publisher:'')+'"></div></div>'+
-    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><div class="flex" style="gap:6px"><input id="f_cover" value="'+esc(b?b.cover:'')+'" style="flex:1"><button class="btn sm" id="autoCover" type="button">自动获取</button><button class="btn sm ghost" id="searchDoubanCover" type="button">去豆瓣搜</button></div></div></div>'+
+    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><div class="flex" style="gap:6px"><input id="f_cover" value="'+esc(b?b.cover:'')+'" style="flex:1" placeholder="粘贴豆瓣/京东等封面图片地址"><button class="btn sm" id="autoCover" type="button">自动获取</button><button class="btn sm ghost" id="searchDoubanCover" type="button">去豆瓣搜</button></div><div class="muted-small" style="margin-top:4px">提示：国内网络下自动获取常失败，最稳做法是去豆瓣书籍页 → 右键封面 → 复制图片地址，贴到上方。</div></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣评分</label><input id="f_drate" placeholder="可选" value="'+esc(b&&b.doubanRating!=null?b.doubanRating:'')+'"></div><div class="field"><label>评分人数</label><input id="f_draters" value="'+esc(b?b.doubanRaters:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣链接</label><input id="f_durl" value="'+esc(b?b.doubanUrl:'')+'"></div><div class="field"><label>书籍分类</label><input id="f_cat" value="'+esc(b?b.category:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>总页数</label><input id="f_total" type="number" value="'+(b?b.totalPages:'')+'"></div><div class="field"><label>已读页数</label><input id="f_cur" type="number" value="'+(b?b.currentPage:0)+'"></div></div>'+
@@ -2067,7 +2067,11 @@ function openBookForm(id,preset){
     fetchBookCover(title,author,isbn,function(u){
       btn.disabled=false; btn.textContent='自动获取';
       if(u){ $('#f_cover').value=u; toast('已获取封面'); }
-      else { toast('未找到封面，可点击「去豆瓣搜」手动复制图片地址'); }
+      else {
+        var q=title||isbn;
+        toast('自动获取失败，已打开豆瓣搜索，请复制封面图片地址');
+        window.open('https://www.douban.com/search?q='+encodeURIComponent(q),'_blank','noopener,noreferrer');
+      }
     });
   };
   $('#searchDoubanCover').onclick=function(){ window.open('https://www.douban.com/search?q='+encodeURIComponent($('#f_title').value.trim()||$('#f_isbn').value.trim()||''),'_blank','noopener,noreferrer'); };
@@ -3025,11 +3029,24 @@ async function maybeLoadCloudSnapshot(){
   }catch(e){}
   return false;
 }
+function fixSampleBookCovers(){
+  const map={
+    '投资中最简单的事':'https://img3.doubanio.com/view/subject/l/public/s27185773.jpg',
+    '穷查理宝典':'https://img2.doubanio.com/view/subject/l/public/s24597511.jpg',
+    '聪明的投资者':'https://img3.doubanio.com/view/subject/l/public/s6462582.jpg'
+  };
+  let changed=false;
+  const books=COL.books().map(function(b){ if(b.sample && !b.cover && map[b.title]){ b.cover=map[b.title]; changed=true; } return b; });
+  if(changed) SAVE.books(books);
+  const recs=COL.bookrecs().map(function(r){ if(r.sample && !r.cover && map[r.title]){ r.cover=map[r.title]; changed=true; } return r; });
+  if(changed) SAVE.bookrecs(recs);
+}
 async function init(){
   applyTheme();
   const snapped=await maybeLoadCloudSnapshot();
   if(snapped) return;
   seedSampleData();
+  fixSampleBookCovers();
   ensureDefaultTopics();
   ensureDefaultKbThemes();
   // 载入隔夜外盘（若存在）供首页市场提醒参考
