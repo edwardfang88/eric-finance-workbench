@@ -656,21 +656,21 @@ const NAV=[
 ];
 const SUBNAV={
   stock:[
-    {key:'holdings',label:'持仓管理'},{key:'quotes',label:'行情速览'},{key:'diag',label:'个股诊断'},
-    {key:'review',label:'复盘记录'},{key:'ann',label:'公告事件'},{key:'sector',label:'板块数据'},{key:'ipo',label:'新股申购'}
+    {key:'holdings',label:'持仓管理',ico:'💼'},{key:'quotes',label:'行情速览',ico:'📊'},{key:'diag',label:'个股诊断',ico:'🔍'},
+    {key:'review',label:'复盘记录',ico:'📝'},{key:'ann',label:'公告事件',ico:'📢'},{key:'sector',label:'板块数据',ico:'🗂️'},{key:'ipo',label:'新股申购',ico:'🆕'}
   ],
   book:[
-    {key:'home',label:'阅读首页'},{key:'library',label:'我的书架'},{key:'notes',label:'读书笔记'},{key:'review',label:'待复习'},{key:'topics',label:'主题地图'},{key:'recs',label:'书籍推荐'}
+    {key:'home',label:'阅读首页',ico:'🏠'},{key:'library',label:'我的书架',ico:'📚'},{key:'notes',label:'读书笔记',ico:'📝'},{key:'review',label:'待复习',ico:'⏰'},{key:'topics',label:'主题地图',ico:'🗺️'},{key:'recs',label:'书籍推荐',ico:'⭐'}
   ],
   kb:[
-    {key:'home',label:'知识库首页'},{key:'inbox',label:'待整理'},{key:'collection',label:'全部收藏'},
-    {key:'themes',label:'主题分类'},{key:'practice',label:'待实践'},{key:'featured',label:'精选内容'},{key:'archive',label:'归档'}
+    {key:'home',label:'知识库首页',ico:'🏠'},{key:'inbox',label:'待整理',ico:'📥'},{key:'collection',label:'全部收藏',ico:'🗃️'},
+    {key:'themes',label:'主题分类',ico:'🏷️'},{key:'practice',label:'待实践',ico:'🛠️'},{key:'featured',label:'精选内容',ico:'✨'},{key:'archive',label:'归档',ico:'📦'}
   ],
   task:[
-    {key:'list',label:'任务列表'},{key:'reminder',label:'提醒'},{key:'calendar',label:'日历'}
+    {key:'list',label:'任务列表',ico:'✅'},{key:'reminder',label:'提醒',ico:'🔔'},{key:'calendar',label:'日历',ico:'📅'}
   ],
   settings:[
-    {key:'general',label:'通用'},{key:'tags',label:'标签管理'},{key:'data',label:'数据备份与恢复'},{key:'about',label:'关于'}
+    {key:'general',label:'通用',ico:'⚙️'},{key:'tags',label:'标签管理',ico:'🏷️'},{key:'data',label:'数据备份与恢复',ico:'💾'},{key:'about',label:'关于',ico:'ℹ️'}
   ]
 };
 
@@ -790,7 +790,7 @@ function openAdd(kind){
 
 /* ----------------------------- 通用 UI 片段 ----------------------------- */
 function pageHead(title,sub,actions,icon){ return `<div class="page-head"><div class="ph-main">${icon?`<span class="ph-ico">${esc(icon)}</span>`:''}<div class="ph-titles"><h1>${title}</h1>${sub?`<div class="sub">${sub}</div>`:''}</div></div><div class="flex">${actions||''}</div></div>`; }
-function subnav(module,active){ const items=SUBNAV[module]||[]; return `<div class="subnav">${items.map(s=>`<button data-sub="${s.key}" class="${s.key===active?'active':''}">${s.label}</button>`).join('')}</div>`; }
+function subnav(module,active){ const items=SUBNAV[module]||[]; return `<div class="subnav">${items.map(s=>`<button data-sub="${s.key}" class="subnav-item ${s.key===active?'active':''}"><span class="si-ico">${s.ico||''}</span><span class="si-label">${esc(s.label)}</span></button>`).join('')}</div>`; }
 function bindSubnav(module){ $$('.subnav [data-sub]').forEach(b=>b.onclick=()=>{ location.hash=`#/${module}/${b.getAttribute('data-sub')}`; }); }
 function emptyState(ico,text,actionLabel,onClick){ return `<div class="empty"><div class="e-ico">${ico}</div><div>${esc(text)}</div>${actionLabel?`<span class="e-link" data-empty-act>${esc(actionLabel)}</span>`:''}</div>`; }
 function loadingState(text){ return `<div class="loading"><div class="spin"></div>${esc(text||'加载中…')}</div>`; }

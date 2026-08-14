@@ -148,11 +148,13 @@
   .ph-main{display:flex;align-items:center;gap:12px}
   .ph-ico{width:42px;height:42px;border-radius:var(--radius-sm);background:var(--primary-weak);color:var(--primary);display:grid;place-items:center;font-size:20px;flex:none;box-shadow:0 2px 8px rgba(var(--shadow-color),.14)}
   .ph-titles{display:flex;flex-direction:column;gap:2px}
-  .subnav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;background:var(--subnav-bg);border:1px solid var(--subnav-border);border-radius:14px;padding:6px;box-shadow:inset 0 1px 3px rgba(var(--shadow-color),.08)}
-  .subnav button{background:none;border:none;padding:10px 16px;font-size:13.5px;color:var(--chip-text);border-radius:10px;font-weight:600;transition:all .15s;cursor:pointer}
-  .subnav button:hover{background:var(--card);color:var(--text)}
-  .subnav button.active{background:var(--card);color:var(--primary);box-shadow:0 2px 8px rgba(var(--shadow-color),.18);font-weight:700}
-  .subnav button.active:hover{background:var(--card)}
+  .subnav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;background:none;border:none;padding:0;box-shadow:none}
+  .subnav button{display:inline-flex;align-items:center;gap:7px;background:var(--chip-bg);border:1px solid var(--line);padding:12px 20px;font-size:14px;color:var(--chip-text);border-radius:999px;font-weight:600;transition:all .15s ease;cursor:pointer;line-height:1;white-space:nowrap}
+  .subnav button:hover{background:var(--card);color:var(--text);border-color:var(--line-strong);transform:translateY(-1px)}
+  .subnav button.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 4px 12px rgba(var(--shadow-color),.28);font-weight:700}
+  .subnav button.active:hover{background:var(--primary);color:#fff;transform:translateY(-1px)}
+  .subnav .si-ico{font-size:15px;line-height:1}
+  .subnav .si-label{line-height:1}
 
   /* cards & grid */
   .grid{display:grid;gap:var(--gap)}
@@ -317,8 +319,8 @@
     .modal{max-width:100%}
     .modal-mask{padding:14px 10px;align-items:flex-start}
     .modal{margin-bottom:70px}
-    .subnav{margin-bottom:16px;padding:5px;gap:5px}
-    .subnav button{padding:9px 12px;font-size:12.5px}
+    .subnav{margin-bottom:16px;gap:8px}
+    .subnav button{padding:10px 15px;font-size:13px}
     .cal-cell{min-height:62px;padding:4px;font-size:11px}
     .cal-dow{font-size:10px}
     .cal-chip{font-size:9px;padding:1px 4px}
