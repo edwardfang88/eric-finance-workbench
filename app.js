@@ -69,8 +69,12 @@ const SAVE={
 function defaultSettings(){
   return {
     name:'Eric', marketRiskPct:-8, reviewIntervalDays:7,
-    disclaimer:true, createdAt:nowStr()
+    disclaimer:true, theme:'fresh', createdAt:nowStr()
   };
+}
+function applyTheme(theme){
+  const t=theme||(getSettings().theme)||'fresh';
+  document.documentElement.setAttribute('data-theme',t);
 }
 function getSettings(){ let s=COL.settings(); if(!s){ s=defaultSettings(); SAVE.settings(s);} return s; }
 
@@ -2803,12 +2807,26 @@ function renderSettings(sub){
 }
 function setGeneral(body){
   const s=getSettings();
+  const themes=[
+    {key:'fresh',label:'🌿 清新绿',desc:'柔和护眼，自然绿意'},
+    {key:'classic',label:'🔷 原版蓝',desc:'经典白底，蓝色高亮'},
+    {key:'tech',label:'🌃 科技感',desc:'深色背景，霓虹蓝调'}
+  ];
   body.innerHTML=`<div class="panel"><h2>⚙️ 通用设置</h2>
     <div class="field"><label>用户名 / 称呼</label><input id="f_name" value="${esc(s.name||'')}"></div>
     <div class="field-row"><div class="field"><label>股票浮亏风险阈值（%）</label><input id="f_risk" type="number" step="1" value="${s.marketRiskPct!=null?s.marketRiskPct:-8}"></div>
     <div class="field"><label>笔记复习间隔（天）</label><input id="f_rev" type="number" value="${s.reviewIntervalDays||7}"></div></div>
     <label class="flex" style="gap:8px;font-size:13px"><input type="checkbox" id="f_dis" ${s.disclaimer?'checked':''}> 首页/关键页面显示投资免责声明</label>
     <div class="mt"><button class="btn primary" id="saveS">保存设置</button></div>
+  </div>
+  <div class="panel mt"><h2>🎨 主题配色</h2>
+    <div class="theme-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      ${themes.map(t=>`<div class="theme-card ${s.theme===t.key?'active':''}" data-theme="${t.key}" style="border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;background:var(--card);transition:border-color .15s,box-shadow .15s">
+        <div style="font-size:20px;margin-bottom:6px">${t.label.split(' ')[0]}</div>
+        <div style="font-weight:700;font-size:13px;color:var(--text)">${t.label.split(' ')[1]}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">${t.desc}</div>
+      </div>`).join('')}
+    </div>
   </div>
   <div class="panel mt"><h2>📊 数据概览</h2>
     <div class="kv"><span class="k">持仓</span><span class="v">${COL.holdings().length}</span></div>
@@ -2819,6 +2837,13 @@ function setGeneral(body){
     <div class="kv"><span class="k">提醒</span><span class="v">${COL.reminders().length}</span></div>
   </div>`;
   $('#saveS').onclick=()=>{ const ns=getSettings(); ns.name=$('#f_name').value.trim()||'Eric'; ns.marketRiskPct=parseFloat($('#f_risk').value)||-8; ns.reviewIntervalDays=parseInt($('#f_rev').value)||7; ns.disclaimer=$('#f_dis').checked; SAVE.settings(ns); toast('已保存'); };
+  $$('.theme-card',body).forEach(c=>c.onclick=()=>{
+    const key=c.getAttribute('data-theme');
+    const ns=getSettings(); ns.theme=key; SAVE.settings(ns);
+    applyTheme(key);
+    $$('.theme-card',body).forEach(x=>x.classList.toggle('active',x.getAttribute('data-theme')===key));
+    toast('主题已切换');
+  });
 }
 function setTags(body){
   const tags=COL.tags();
@@ -2957,6 +2982,7 @@ async function maybeLoadCloudSnapshot(){
   return false;
 }
 async function init(){
+  applyTheme();
   const snapped=await maybeLoadCloudSnapshot();
   if(snapped) return;
   seedSampleData();
