@@ -1,7 +1,7 @@
 /* =========================================================================
    个人研究与知识工作台  app.js
    纯前端 / 离线 / localStorage 持久化 / 零外链
-   模块：首页 | 股票复盘 | 读书笔记 | 个人知识库 | 任务与提醒 | 全局搜索 | 设置
+   模块：首页 | 股票复盘 | 读书笔记 | 收藏和灵感 | 任务与提醒 | 全局搜索 | 设置
    ========================================================================= */
 (function(){
 'use strict';
@@ -172,7 +172,7 @@ function seedSampleData(){
       {id:uid('rc'),title:'聪明的投资者',author:'本杰明·格雷厄姆',isbn:'9787115234957',cover:'https://img3.doubanio.com/view/subject/l/public/s6462582.jpg',doubanRating:9.0,doubanRaters:'80000',year:2016,category:'投资',recReason:'价值投资圣经，市场先生与安全边际概念的基础。',suitableStage:'入门到进阶',difficulty:'中',relatedDirection:'价值投资/估值',doubanUrl:'https://book.douban.com/subject/5243775/',fetchedAt:'(示例数据)',status:'推荐',sample:true,createdAt:Date.now()-86400000*2}
     ]);
   }
-  // 个人知识库示例数据（独立标记，即使主线已播种也会注入一次）
+  // 收藏和灵感示例数据（独立标记，即使主线已播种也会注入一次）
   if(!store.get('seededKb')){
     store.set('seededKb',true);
     const nb=COL.books()[0];
@@ -649,7 +649,7 @@ const NAV=[
   {id:'home',label:'工作台首页',ico:'🏠',hash:'#/home',bottom:true},
   {id:'stock',label:'股票复盘',ico:'📈',hash:'#/stock',bottom:true},
   {id:'book',label:'读书笔记',ico:'📚',hash:'#/book',bottom:true},
-  {id:'kb',label:'个人知识库',ico:'🔗',hash:'#/kb',bottom:true},
+  {id:'kb',label:'收藏和灵感',ico:'💡',hash:'#/kb',bottom:true},
   {id:'task',label:'任务与提醒',ico:'✅',hash:'#/task'},
   {id:'search',label:'全局搜索',ico:'🔍',hash:'#/search'},
   {id:'settings',label:'设置',ico:'⚙️',hash:'#/settings'}
@@ -663,7 +663,7 @@ const SUBNAV={
     {key:'home',label:'阅读首页',ico:'🏠'},{key:'library',label:'我的书架',ico:'📚'},{key:'notes',label:'读书笔记',ico:'📝'},{key:'review',label:'待复习',ico:'⏰'},{key:'topics',label:'主题地图',ico:'🗺️'},{key:'recs',label:'书籍推荐',ico:'⭐'}
   ],
   kb:[
-    {key:'home',label:'知识库首页',ico:'🏠'},{key:'inbox',label:'收件箱',ico:'📥'},{key:'collection',label:'我的收藏',ico:'🗃️'},
+    {key:'home',label:'收藏首页',ico:'🏠'},{key:'inbox',label:'收件箱',ico:'📥'},{key:'collection',label:'我的收藏',ico:'🗃️'},
     {key:'practice',label:'待实践',ico:'🛠️'}
   ],
   task:[
@@ -709,7 +709,7 @@ function moduleCounts(){
 }
 
 /* ----------------------------- 关联解析 ----------------------------- */
-const MODULE_LABEL={book:'读书',kb:'知识库',stock:'股票',task:'任务',topic:'主题'};
+const MODULE_LABEL={book:'读书',kb:'收藏',stock:'股票',task:'任务',topic:'主题'};
 function assocHtml(link){ if(!link||!link.type) return ''; const map={book:'📚',kb:'🔗',stock:'📈',task:'✅',booktopic:'🏷️',kbtopic:'🏷️'};
   return `<div class="assoc-row"><span class="a-ico">${map[link.type]||'🔗'}</span><span>关联${MODULE_LABEL[link.type.replace('topic','')]||''}：${esc(link.title)}</span><span class="muted-small" style="margin-left:auto">${esc(link.sub||'')}</span></div>`;
 }
@@ -760,7 +760,7 @@ function router(){
   pushRecentSafe(module,sub);
 }
 function pushRecentSafe(module,sub){
-  const titles={home:'工作台首页',stock:'股票复盘',book:'读书笔记',kb:'个人知识库',task:'任务与提醒',search:'全局搜索',settings:'设置'};
+  const titles={home:'工作台首页',stock:'股票复盘',book:'读书笔记',kb:'收藏和灵感',task:'任务与提醒',search:'全局搜索',settings:'设置'};
   let title=titles[module]||module;
   if(sub&&SUBNAV[module]){ const sn=SUBNAV[module].find(s=>s.key===sub); if(sn) title+=` / ${sn.label}`; }
   pushRecent(module,title,sub||'');
@@ -830,7 +830,7 @@ function renderHome(){
         <div class="stat-row"><div class="stat-ico" style="background:#fff7ed;color:#ea580c">🔁</div><div><div class="stat-num">${dueRev}</div><div class="stat-label">待读笔记复习</div></div></div>
       </div>
       <div class="card clickable" data-go="#/kb/inbox">
-        <div class="stat-row"><div class="stat-ico" style="background:#faf5ff;color:#9333ea">🔗</div><div><div class="stat-num">${kbTodo}</div><div class="stat-label">待整理收藏</div></div></div>
+        <div class="stat-row"><div class="stat-ico" style="background:#faf5ff;color:#9333ea">💡</div><div><div class="stat-num">${kbTodo}</div><div class="stat-label">待整理收藏</div></div></div>
       </div>
       <div class="card clickable" data-go="#/kb/practice">
         <div class="stat-row"><div class="stat-ico" style="background:#ecfeff;color:#0891b2">🛠️</div><div><div class="stat-num">${practice}</div><div class="stat-label">待实践内容</div></div></div>
@@ -867,7 +867,7 @@ function renderHome(){
         <button class="chip" data-go="#/stock/review">📝 写复盘</button>
         <button class="chip" data-go="#/book/library">📚 书库</button>
         <button class="chip" data-go="#/book/notes">✏️ 读书笔记</button>
-        <button class="chip" data-go="#/kb/home">🔗 知识库</button>
+        <button class="chip" data-go="#/kb/home">💡 收藏和灵感</button>
         <button class="chip" data-go="#/task/list">✅ 任务</button>
         <button class="chip" data-go="#/search">🔍 搜索</button>
         <button class="chip" data-go="#/settings">⚙️ 设置</button>
@@ -1843,7 +1843,7 @@ function openBookModal(id){
   html+='<div style="margin:8px 0">'+tagsHtml(b.tags)+'</div>';
   if(b.relatedStocks&&b.relatedStocks.length) html+=kvRaw('关联股票',b.relatedStocks.map(stockName).join('、'));
   if(b.relatedIndustries&&b.relatedIndustries.length) html+=kvRaw('关联行业',b.relatedIndustries.join('、'));
-  if(b.relatedKb&&b.relatedKb.length){ const ks=b.relatedKb.map(function(kid){const k=COL.kb().find(function(x){return x.id===kid;});return k?k.title:null;}).filter(Boolean); if(ks.length) html+=kvRaw('关联知识库',ks.join('、')); }
+  if(b.relatedKb&&b.relatedKb.length){ const ks=b.relatedKb.map(function(kid){const k=COL.kb().find(function(x){return x.id===kid;});return k?k.title:null;}).filter(Boolean); if(ks.length) html+=kvRaw('关联收藏',ks.join('、')); }
   if(b.updatedAt) html+='<div class="src-line">最近更新：'+esc(b.updatedAt)+'</div>';
   html+='<div class="row-actions mt"><button class="btn sm" id="mEdit">编辑</button><button class="btn sm" id="mProg">更新进度</button><button class="btn sm" id="mNote">写笔记</button><button class="btn sm" id="mRem">添加提醒</button></div>';
   html+='</div>';
@@ -1998,7 +1998,7 @@ function openReviewModal(rId){
     '<div class="field"><label>② 是否仍然认同？</label><select id="q2"><option value="是">是</option><option value="部分">部分</option><option value="否">否</option></select></div>'+
     '<div class="field"><label>③ 是否出现新的支持证据？</label><input id="q3" placeholder="可选，简述"></div>'+
     '<div class="field"><label>④ 是否出现反例？</label><input id="q4" placeholder="可选，简述"></div>'+
-    '<div class="field"><label>⑤ 是否需要关联到股票或知识库？</label><input id="q5" placeholder="可选，如 荣昌生物 / 某收藏"></div>'+
+    '<div class="field"><label>⑤ 是否需要关联到股票或收藏？</label><input id="q5" placeholder="可选，如 荣昌生物 / 某收藏"></div>'+
     '<div class="field"><label>⑥ 是否需要修改原笔记？</label><select id="q6"><option value="否">否</option><option value="是">是，将标记为待修订</option></select></div>'+
     '<div class="field"><label>更新笔记状态</label><select id="qStatus">'+NOTE_STATUS.map(function(s){return '<option '+(n&&n.noteStatus===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></div>'+
     '</div><div class="modal-foot"><button class="btn" data-x>取消</button><button class="btn primary" id="saveRv">完成本次复习</button></div>');
@@ -2044,7 +2044,7 @@ function topicDetailHtml(t){
   h+='<div><h3 style="font-size:13px">📚 相关书籍（'+c.books.length+'）</h3>'+(c.books.length?c.books.map(function(b){return '<div class="kv"><span class="k"><b>'+esc(b.title)+'</b></span><span class="v">'+esc(b.status)+'</span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
   h+='<div><h3 style="font-size:13px">✏️ 相关笔记（'+c.notes.length+'）</h3>'+(c.notes.length?c.notes.map(function(n){return '<div class="kv"><span class="k"><b>'+esc(n.title||'(无标题)')+'</b></span><span class="v"><a class="link" href="#/book/notes">查看</a></span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
   h+='<div><h3 style="font-size:13px">📈 关联股票（'+c.stocks.length+'）</h3>'+(c.stocks.length?c.stocks.map(function(s){return '<div class="kv"><span class="k">'+esc(stockName(s))+'</span><span class="v"><a class="link" href="#/stock/holdings">查看</a></span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
-  h+='<div><h3 style="font-size:13px">🔗 关联知识库（'+c.kb.length+'）</h3>'+(c.kb.length?c.kb.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b></span><span class="v"><a class="link" href="#/kb/collection">查看</a></span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
+  h+='<div><h3 style="font-size:13px">💡 关联收藏（'+c.kb.length+'）</h3>'+(c.kb.length?c.kb.map(function(k){return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b></span><span class="v"><a class="link" href="#/kb/collection">查看</a></span></div>';}).join(''):'<p class="muted-small">暂无</p>')+'</div>';
   h+='</div>';
   h+='<div class="grid cards-2 mt">';
   h+='<div class="panel"><h2>💭 我的观点变化</h2><p style="white-space:pre-wrap">'+esc(t.note||'（暂无，点击编辑填写）')+'</p></div>';
@@ -2263,7 +2263,7 @@ function relatedPickerHtml(b){
   const kbOpts=COL.kb().map(function(k){return '<option value="'+k.id+'" '+((b&&b.relatedKb&&b.relatedKb.indexOf(k.id)>=0)?'selected':'')+'>'+esc(k.title)+'</option>';}).join('');
   return '<div class="field"><label>关联股票（代码逗号分隔）</label><input id="f_relstocks" value="'+esc(stocks)+'" placeholder="如 688331.SH,002891.SZ"></div>'+
     '<div class="field"><label>关联行业（逗号分隔）</label><input id="f_relind" value="'+esc(inds)+'" placeholder="如 创新药,宠物经济"></div>'+
-    '<div class="field"><label>关联知识库内容（可多选）</label><select id="f_relkb" multiple size="3" style="height:auto">'+kbOpts+'</select></div>';
+    '<div class="field"><label>关联收藏内容（可多选）</label><select id="f_relkb" multiple size="3" style="height:auto">'+kbOpts+'</select></div>';
 }
 function readRelatedPicker(){
   const parse=function(v){return v.split(',').map(function(s){return s.trim();}).filter(Boolean);};
@@ -2376,7 +2376,7 @@ function openNoteForm(opts){
 }
 
 /* =========================================================================
-   个人知识库模块
+   收藏和灵感模块
    发现 → 保存 → 整理 → 提炼 → 实践 → 归档
    ========================================================================= */
 const KB_PLATFORMS=['小红书','抖音','微信公众号','普通网页','视频平台','图片/截图','PDF或文件','手动输入'];
@@ -2632,7 +2632,7 @@ function bindKbBody(body){
 }
 function renderKb(sub){
   sub=sub||'home'; const view=$('#view');
-  view.innerHTML=pageHead('个人知识库','先收进来 → AI 自动整理 → 你确认 → 需要时再实践', `<button class="btn primary" id="kbAdd">＋ 快速保存</button>`,'🔗')+subnav('kb',sub);
+  view.innerHTML=pageHead('收藏和灵感','先收进来 → AI 自动整理 → 你确认 → 需要时再实践', `<button class="btn primary" id="kbAdd">＋ 快速保存</button>`,'💡')+subnav('kb',sub);
   const body=document.createElement('div'); view.appendChild(body);
   ({home:kbHome,inbox:kbInbox,collection:kbCollection,themes:kbThemes,practice:kbPracticePage,featured:kbFeatured,archive:kbArchive})[sub](body);
   bindSubnav('kb');
@@ -3039,7 +3039,7 @@ function relatedKbHtml(){
   const items=COL.kb().filter(function(k){return k.relatedStocks && k.relatedStocks.some(function(s){return codes.indexOf(s)>=0;});});
   if(!items.length) return '';
   const list=items.slice(0,6).map(function(k){ return '<div class="kv"><span class="k"><b>'+esc(k.title)+'</b><br><span class="muted-small">'+(k.platform||'')+' · 主题：'+(k.theme||'待分类')+'</span></span><span class="v muted-small">'+k.relatedStocks.map(stockName).join('、')+'</span></div>'; }).join('');
-  return '<div class="panel mt"><div class="panel-head"><h2>🔗 相关资料库内容</h2><span class="badge '+(items.some(function(k){return !k.archived;})?'':'gray')+'">'+items.length+' 条</span></div>'+list+'<div class="mt"><a class="link" href="#/kb/collection">查看全部收藏 →</a></div></div>';
+  return '<div class="panel mt"><div class="panel-head"><h2>💡 相关收藏内容</h2><span class="badge '+(items.some(function(k){return !k.archived;})?'':'gray')+'">'+items.length+' 条</span></div>'+list+'<div class="mt"><a class="link" href="#/kb/collection">查看全部收藏 →</a></div></div>';
 }
 /* 读书笔记页面：统计关联到某笔记的知识库内容数量 */
 function kbCountForNote(noteId){ return COL.kb().filter(function(k){return k.relatedNotes && k.relatedNotes.indexOf(noteId)>=0;}).length; }
@@ -3214,7 +3214,7 @@ function renderSearch(sub,params){
       sec('书籍',res.books,'📚',it=>'#/book/library')+
       sec('读书笔记',res.notes,'✏️',it=>'#/book/notes')+
       sec('股票持仓',res.stocks,'📈',it=>'#/stock/holdings')+
-      sec('知识库收藏',res.kb,'🔗',it=>'#/kb/collection')+
+      sec('收藏内容',res.kb,'💡',it=>'#/kb/collection')+
       sec('任务',res.tasks,'✅',it=>'#/task/list');
     $$('[data-go]',box).forEach(el=>el.onclick=()=>location.hash=el.getAttribute('data-go'));
   };
@@ -3270,7 +3270,7 @@ function setGeneral(body){
     <div class="kv"><span class="k">持仓</span><span class="v">${COL.holdings().length}</span></div>
     <div class="kv"><span class="k">书籍</span><span class="v">${COL.books().length}</span></div>
     <div class="kv"><span class="k">读书笔记</span><span class="v">${COL.booknotes().length}</span></div>
-    <div class="kv"><span class="k">知识库收藏</span><span class="v">${COL.kb().length}</span></div>
+    <div class="kv"><span class="k">收藏内容</span><span class="v">${COL.kb().length}</span></div>
     <div class="kv"><span class="k">任务</span><span class="v">${COL.tasks().length}</span></div>
     <div class="kv"><span class="k">提醒</span><span class="v">${COL.reminders().length}</span></div>
   </div>`;
@@ -3337,7 +3337,7 @@ function setAbout(body){
   const s=getSettings();
   body.innerHTML=`<div class="panel"><h2>ℹ️ 关于</h2>
     <p>个人研究与知识工作台 · 离线版</p>
-    <p class="muted-small mt">面向个人的综合工作台：股票复盘、读书笔记、个人知识库、任务提醒统一管理。数据 100% 保存在本地浏览器，不依赖网络与服务器。</p>
+    <p class="muted-small mt">面向个人的综合工作台：股票复盘、读书笔记、收藏和灵感、任务提醒统一管理。数据 100% 保存在本地浏览器，不依赖网络与服务器。</p>
     ${s.disclaimer?`<div class="banner warn mt"><span class="b-ico">⚠️</span><div><b>免责声明：</b>本工作台提供的行情、诊断、板块等外部/参考数据如标注为「示例数据」，均为非实时模拟，仅供演示与学习，<b>不构成任何投资建议</b>，亦不自动执行任何交易。请勿据此进行真实投资决策。</div></div>`:''}
     <div class="kv mt"><span class="k">创建于</span><span class="v">${esc(s.createdAt||'—')}</span></div>
     <div class="kv"><span class="k">数据存储</span><span class="v">浏览器本地 (localStorage)</span></div>
@@ -3361,7 +3361,7 @@ function renderRightbar(){
   } else { html+='<p class="muted-small">暂无今日待办</p>'; }
   if(reviews.length){ html+='<div class="rem-item"><span class="rem-dot urgent"></span><div><div style="font-size:13px">'+reviews.length+' 条笔记待复习</div><a class="link muted-small" href="#/book/review">去复习 →</a></div></div>'; }
   if(rem.length){ html+=rem.slice(0,3).map(function(r){ return '<div class="rem-item"><span class="rem-dot"></span><div><div style="font-size:13px">'+esc(r.title)+'</div><div class="muted-small">'+esc(r.time||'')+'</div></div></div>'; }).join(''); }
-  html+='<div class="divider"></div><h4>📌 快捷</h4><div class="flex flex-wrap" style="gap:6px"><button class="chip" data-go="#/task/list">＋任务</button><button class="chip" data-go="#/book/notes">✏️笔记</button><button class="chip" data-go="#/kb/collection">🔗收藏</button></div>';
+  html+='<div class="divider"></div><h4>📌 快捷</h4><div class="flex flex-wrap" style="gap:6px"><button class="chip" data-go="#/task/list">＋任务</button><button class="chip" data-go="#/book/notes">✏️笔记</button><button class="chip" data-go="#/kb/collection">💡收藏和灵感</button></div>';
   bar.innerHTML=html;
   $$('[data-go]',bar).forEach(el=>el.onclick=()=>location.hash=el.getAttribute('data-go'));
   const dot=$('#remDot'); const hasUrgent=tasks.some(t=>t.priority==='高')||reviews.length||rem.length; if(dot) dot.style.display=hasUrgent?'block':'none';
