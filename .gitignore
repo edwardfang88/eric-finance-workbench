@@ -17,3 +17,8 @@ overview.md
 .DS_Store
 Thumbs.db
 *.log
+
+# 测试依赖（仅在本地运行 smoke-test.js 时安装）
+node_modules/
+package-lock.json
+package.json

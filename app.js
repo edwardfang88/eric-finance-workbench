@@ -1408,11 +1408,84 @@ const BOOK_BRAIN=[
 
 ];
 
+/* 为本地精选书库补一批真实豆瓣封面（高频/经典书）。若 URL 失效，会自动回退到书名占位图。 */
+const KNOWN_COVERS={
+'投资最重要的事':'https://img3.doubanio.com/view/subject/l/public/s27208395.jpg',
+'原则':'https://img3.doubanio.com/view/subject/l/public/s29725125.jpg',
+'股票作手回忆录':'https://img3.doubanio.com/view/subject/l/public/s11107717.jpg',
+'彼得·林奇的成功投资':'https://img3.doubanio.com/view/subject/l/public/s11102839.jpg',
+'漫步华尔街':'https://img3.doubanio.com/view/subject/l/public/s10270623.jpg',
+'证券分析':'https://img3.doubanio.com/view/subject/l/public/s10514401.jpg',
+'价值':'https://img3.doubanio.com/view/subject/l/public/s33645299.jpg',
+'万历十五年':'https://img3.doubanio.com/view/subject/l/public/s1067912.jpg',
+'明朝那些事儿':'https://img3.doubanio.com/view/subject/l/public/s1032527.jpg',
+'人类简史':'https://img3.doubanio.com/view/subject/l/public/s27102920.jpg',
+'活着':'https://img3.doubanio.com/view/subject/l/public/s10746750.jpg',
+'百年孤独':'https://img3.doubanio.com/view/subject/l/public/s10734280.jpg',
+'三体':'https://img3.doubanio.com/view/subject/l/public/s3251339.jpg',
+'围城':'https://img3.doubanio.com/view/subject/l/public/s1072685.jpg',
+'平凡的世界':'https://img3.doubanio.com/view/subject/l/public/s1087321.jpg',
+'小王子':'https://img3.doubanio.com/view/subject/l/public/s1083255.jpg',
+'追风筝的人':'https://img3.doubanio.com/view/subject/l/public/s1077647.jpg',
+'1984':'https://img3.doubanio.com/view/subject/l/public/s1008145.jpg',
+'白夜行':'https://img3.doubanio.com/view/subject/l/public/s3259499.jpg',
+'时间简史':'https://img3.doubanio.com/view/subject/l/public/s10339360.jpg',
+'思考，快与慢':'https://img3.doubanio.com/view/subject/l/public/s10339397.jpg',
+'乌合之众':'https://img3.doubanio.com/view/subject/l/public/s10346374.jpg',
+'非暴力沟通':'https://img3.doubanio.com/view/subject/l/public/s10340684.jpg',
+'活出生命的意义':'https://img3.doubanio.com/view/subject/l/public/s10340840.jpg',
+'刻意练习':'https://img3.doubanio.com/view/subject/l/public/s29589009.jpg',
+'终身成长':'https://img3.doubanio.com/view/subject/l/public/s29483596.jpg',
+'高效能人士的七个习惯':'https://img3.doubanio.com/view/subject/l/public/s10339833.jpg',
+'从0到1':'https://img3.doubanio.com/view/subject/l/public/s28012352.jpg',
+'精益创业':'https://img3.doubanio.com/view/subject/l/public/s10339498.jpg',
+'影响力':'https://img3.doubanio.com/view/subject/l/public/s10340726.jpg',
+'定位':'https://img3.doubanio.com/view/subject/l/public/s10324840.jpg',
+'创新者的窘境':'https://img3.doubanio.com/view/subject/l/public/s10329020.jpg'
+};
+BOOK_BRAIN.forEach(function(b){ if(!b.cover && KNOWN_COVERS[b.title]) b.cover=KNOWN_COVERS[b.title]; });
+
 function bookProgress(b){ if(!b) return 0; if(b.status==='已读') return 100; const t=Number(b.totalPages)||0, c=Number(b.currentPage)||0; return t?Math.min(100,Math.round(c/t*100)):0; }
 function addDays(ds,n){ const d=new Date(ds+'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
 function tagsToNames(ids){ if(!ids||!ids.length) return []; return ids.map(id=>{const t=tagById(id);return t?t.name:null;}).filter(Boolean); }
 function stockName(code){ const h=COL.holdings().find(x=>x.code===code); return h?h.name+'('+code+')':code; }
 function attrEsc(v){ return esc(String(v==null?'':v)).replace(/"/g,'&quot;'); }
+/* 封面搜索源：豆瓣/京东/当当/Bing图片/百度图片。国内网络下优先用京东/当当/Bing图片。 */
+const COVER_SEARCH={
+  jd:{label:'京东图书',url:function(q){return 'https://search.jd.com/Search?keyword='+encodeURIComponent(q)+'&enc=utf-8&wq='+encodeURIComponent(q);}},
+  dangdang:{label:'当当网',url:function(q){return 'http://search.dangdang.com/?key='+encodeURIComponent(q);}},
+  bing:{label:'Bing图片',url:function(q){return 'https://www.bing.com/images/search?q='+encodeURIComponent(q+' 封面');}},
+  baidu:{label:'百度图片',url:function(q){return 'https://image.baidu.com/search/index?tn=baiduimage&word='+encodeURIComponent(q+' 封面');}},
+  douban:{label:'豆瓣读书',url:function(q){return 'https://book.douban.com/subject_search?search_text='+encodeURIComponent(q);}}
+};
+function coverSearchUrl(engine,q){
+  const e=COVER_SEARCH[engine]||COVER_SEARCH.jd;
+  return e.url(q);
+}
+function openCoverSearch(engine,q){
+  window.open(coverSearchUrl(engine,q),'_blank','noopener,noreferrer');
+}
+/* 弹出一个微型搜索源菜单（用于卡片上的“找书”按钮）。target 为触发元素，query 为书名。 */
+function showCoverSearchMenu(target, query){
+  query=query||'';
+  var existing=document.getElementById('coverSearchMenu'); if(existing) existing.remove();
+  var menu=document.createElement('div'); menu.id='coverSearchMenu';
+  menu.style.cssText='position:absolute;z-index:10000;background:var(--card);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:6px 0;min-width:140px;';
+  menu.innerHTML=Object.keys(COVER_SEARCH).map(function(k){var e=COVER_SEARCH[k];return '<div class="cover-menu-item" data-engine="'+k+'" style="padding:8px 14px;cursor:pointer;font-size:13px;color:var(--text);white-space:nowrap;" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'transparent\'">'+esc(e.label)+'</div>';}).join('');
+  var rect=target.getBoundingClientRect();
+  menu.style.left=(rect.left+window.scrollX)+'px';
+  menu.style.top=(rect.bottom+window.scrollY+4)+'px';
+  document.body.appendChild(menu);
+  menu.addEventListener('click',function(ev){ var it=ev.target.closest('[data-engine]'); if(!it) return; openCoverSearch(it.getAttribute('data-engine'),query); menu.remove(); });
+  setTimeout(function(){ function close(ev){ if(!ev.target.closest('#coverSearchMenu')){ menu.remove(); document.removeEventListener('click',close); } } document.addEventListener('click',close); },0);
+}
+function coverSearchMenuHtml(query){
+  return '<span class="cover-search-menu" data-csmenu="'+attrEsc(query)+'" style="position:relative;display:inline-block;"><button class="btn sm" type="button" data-csbtn>找书 ▼</button></span>';
+}
+function bindCoverSearchMenu(scope){
+  if(!scope) scope=document;
+  $$('[data-csbtn]',scope).forEach(function(btn){ btn.onclick=function(ev){ ev.stopPropagation(); var wrap=btn.closest('[data-csmenu]'); var q=wrap?wrap.getAttribute('data-csmenu'):''; showCoverSearchMenu(btn,q); }; });
+}
 function coverImg(url, title, author, isbn){
   var t=String(title||'书');
   var init=esc(t.slice(0,2));
@@ -1925,7 +1998,7 @@ function openRecForm(id){
 /* ---------- 智能找书（本地精选书库） ---------- */
 let lastSmartResults=[];
 const SMART_SYN={ '人物传记':'传记','传记':'传记','传记类':'传记','人物':'传记','理财':'投资','炒股':'投资','股票':'投资','基金':'投资','价值':'投资','投资':'投资','投资类':'投资','投资入门':'投资','创业':'商业管理','经商':'商业管理','管理':'商业管理','营销':'商业管理','商业':'商业管理','商业类':'商业管理','沟通':'心理学','人际':'心理学','认知':'心理学','思维':'心理学','心理':'心理学','心理学':'心理学','心理学类':'心理学','自我':'自我成长','成长':'自我成长','习惯':'自我成长','励志':'自我成长','自我成长':'自我成长','自我成长类':'自我成长','小说':'文学小说','文学':'文学小说','科幻':'文学小说','小说类':'文学小说','历史':'历史','中国史':'历史','历史类':'历史','哲学':'哲学','哲学类':'哲学','科学':'科学','科普':'科学','物理':'科学','科学类':'科学','经济':'经济','经济类':'经济','社会':'社会学','社会学':'社会学','社会学类':'社会学' };
-function doubanSearch(t){ return 'https://book.douban.com/subject_search?search_text='+encodeURIComponent(t); }
+function doubanSearch(t){ return COVER_SEARCH.douban.url(t); }
 function tokenizeQuery(q){
   const out=[]; const raw=(q||'').replace(/[\s,，。、；;：:！!？?\n()（）]/g,'');
   Object.keys(SMART_SYN).forEach(function(k){ if(q && q.indexOf(k)>=0) out.push(SMART_SYN[k]); });
@@ -1970,13 +2043,12 @@ function defaultTopByCategory(){
   });
 }
 function topCard(b){
-  const durl=b.doubanUrl||doubanSearch(b.title);
-  return '<div class="card clickable" data-top="'+esc(b.title)+'" title="点击跳转到豆瓣"><div class="flex" style="gap:8px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
+  return '<div class="card clickable" data-top="'+esc(b.title)+'" title="点击查看详情"><div class="flex" style="gap:8px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
     '<div style="min-width:0;flex:1"><div><b>'+esc(b.title)+'</b></div>'+
     '<div class="muted-small">'+esc(b.author||'')+(b.year?(' · '+b.year):'')+'</div>'+
     '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分'+(b.doubanRaters?(' · '+esc(b.doubanRaters)+' 人评'):'')+'</div>'+
     '<div class="row-actions mt" style="gap:6px"><button class="btn sm primary" data-addtop="'+esc(b.title)+'">＋书架</button>'+
-    '<a class="btn sm" href="'+esc(durl)+'" target="_blank" rel="noopener" data-douban="'+esc(b.title)+'" onclick="event.stopPropagation();">豆瓣↗</a></div></div></div></div>';
+    coverSearchMenuHtml(b.title)+'</div></div></div></div>';
 }
 function defaultTopHtml(){
   const data=defaultTopByCategory(); let h='';
@@ -1994,9 +2066,10 @@ function bindDefaultTop(body){
   $$('[data-top]',body).forEach(function(c){
     const b=BOOK_BRAIN.find(function(x){return x.title===c.getAttribute('data-top');});
     if(!b) return;
-    c.onclick=function(){ window.open(b.doubanUrl||doubanSearch(b.title),'_blank','noopener,noreferrer'); };
+    c.onclick=function(){ window.open(b.doubanUrl||coverSearchUrl('jd',b.title),'_blank','noopener,noreferrer'); };
   });
   $$('[data-addtop]',body).forEach(function(btn){ btn.onclick=function(event){ event.stopPropagation(); const b=BOOK_BRAIN.find(function(x){return x.title===btn.getAttribute('data-addtop');}); if(!b) return; var img=btn.closest('[data-top]').querySelector('img.cov-img'); var cov=(img&&img.getAttribute('src')&&img.getAttribute('src').indexOf('openlibrary')>=0)?img.getAttribute('src'):(b.cover||''); openBookForm(null,{title:b.title,author:b.author,category:b.category,doubanRating:b.doubanRating,doubanRaters:b.doubanRaters,year:b.year,doubanUrl:b.doubanUrl,cover:cov}); }; });
+  bindCoverSearchMenu(body);
 }
 function smartCard(b,i){
   return '<div class="card"><div class="flex" style="gap:10px">'+coverImg(b.cover,b.title,b.author,b.isbn)+
@@ -2005,7 +2078,7 @@ function smartCard(b,i){
     '<div class="muted-small">豆瓣 '+esc(b.doubanRating)+' 分 · '+(b.doubanRaters?esc(b.doubanRaters)+'人评':'')+'</div>'+
     '<div class="muted-small">分类：'+esc(b.category)+' · '+(b.tags||[]).slice(0,3).map(function(t){return esc(t);}).join('/')+'</div>'+
     '<div class="row-actions mt"><button class="btn sm primary" data-addbook="'+i+'">＋书架</button>'+
-    '<a class="btn sm" href="'+esc(b.doubanUrl||doubanSearch(b.title))+'" target="_blank" rel="noopener">豆瓣↗</a></div>'+
+    coverSearchMenuHtml(b.title)+'</div>'+
     '</div></div></div>';
 }
 function openSmartRec(){
@@ -2022,6 +2095,7 @@ function openSmartRec(){
     if(!res.length){ box.innerHTML='<div class="muted-small">没找到匹配书籍，换个说法试试，例如「投资入门」「心理学」「科幻小说」「中国历史人物」。</div>'; return; }
     box.innerHTML='<div class="muted-small mb">为你匹配到 '+res.length+' 本（按相关度 + 评分排序）</div><div class="grid cards-3">'+res.map(function(b,i){return smartCard(b,i);}).join('')+'</div>';
     $$('[data-addbook]',box).forEach(function(el){ el.onclick=function(){ const b=lastSmartResults[parseInt(el.getAttribute('data-addbook'))]; if(b){ var card=el.closest('.card'); var img=card?card.querySelector('img.cov-img'):null; var cov=(img&&img.getAttribute('src')&&img.getAttribute('src').indexOf('openlibrary')>=0)?img.getAttribute('src'):(b.cover||''); openBookForm(null,{title:b.title,author:b.author,category:b.category,doubanRating:b.doubanRating,doubanRaters:b.doubanRaters,year:b.year,doubanUrl:b.doubanUrl,cover:cov}); } }; });
+    bindCoverSearchMenu(box);
   };
 }
 
@@ -2047,7 +2121,7 @@ function openBookForm(id,preset){
     '<div class="modal-body">'+
     '<div class="field-row"><div class="field"><label>书名 *</label><input id="f_title" value="'+esc(b?b.title:(preset.title||''))+'"></div><div class="field"><label>作者</label><input id="f_author" value="'+esc(b?b.author:(preset.author||''))+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>译者</label><input id="f_trans" value="'+esc(b?b.translator:'')+'"></div><div class="field"><label>出版社</label><input id="f_pub" value="'+esc(b?b.publisher:'')+'"></div></div>'+
-    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><div class="flex" style="gap:6px"><input id="f_cover" value="'+esc(b?b.cover:'')+'" style="flex:1" placeholder="粘贴豆瓣/京东等封面图片地址"><button class="btn sm" id="autoCover" type="button">自动获取</button><button class="btn sm ghost" id="searchDoubanCover" type="button">去豆瓣搜</button></div><div class="muted-small" style="margin-top:4px">提示：国内网络下自动获取常失败，最稳做法是去豆瓣书籍页 → 右键封面 → 复制图片地址，贴到上方。</div></div></div>'+
+    '<div class="field-row"><div class="field"><label>ISBN</label><input id="f_isbn" value="'+esc(b?b.isbn:'')+'"></div><div class="field"><label>封面URL</label><div class="flex" style="gap:6px"><input id="f_cover" value="'+esc(b?b.cover:'')+'" style="flex:1" placeholder="粘贴豆瓣/京东/Bing等封面图片地址"><button class="btn sm" id="autoCover" type="button">自动获取</button><span id="searchCoverMenuWrap" style="position:relative;display:inline-block;"><button class="btn sm ghost" id="searchCoverMenuBtn" type="button">搜索封面 ▼</button></span></div><div class="muted-small" style="margin-top:4px">提示：国内网络下 Open Library/Google Books 常被墙，自动获取可能失败。最稳做法：点「搜索封面」→ 在京东/当当/Bing图片里找到封面 → 右键「复制图片地址」→ 贴到上方。</div></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣评分</label><input id="f_drate" placeholder="可选" value="'+esc(b&&b.doubanRating!=null?b.doubanRating:'')+'"></div><div class="field"><label>评分人数</label><input id="f_draters" value="'+esc(b?b.doubanRaters:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>豆瓣链接</label><input id="f_durl" value="'+esc(b?b.doubanUrl:'')+'"></div><div class="field"><label>书籍分类</label><input id="f_cat" value="'+esc(b?b.category:'')+'"></div></div>'+
     '<div class="field-row"><div class="field"><label>总页数</label><input id="f_total" type="number" value="'+(b?b.totalPages:'')+'"></div><div class="field"><label>已读页数</label><input id="f_cur" type="number" value="'+(b?b.currentPage:0)+'"></div></div>'+
@@ -2069,12 +2143,12 @@ function openBookForm(id,preset){
       if(u){ $('#f_cover').value=u; toast('已获取封面'); }
       else {
         var q=title||isbn;
-        toast('自动获取失败，已打开豆瓣搜索，请复制封面图片地址');
-        window.open('https://www.douban.com/search?q='+encodeURIComponent(q),'_blank','noopener,noreferrer');
+        toast('自动获取失败，请用「搜索封面」在京东/当当/Bing里找');
+        showCoverSearchMenu($('#searchCoverMenuBtn'),q);
       }
     });
   };
-  $('#searchDoubanCover').onclick=function(){ window.open('https://www.douban.com/search?q='+encodeURIComponent($('#f_title').value.trim()||$('#f_isbn').value.trim()||''),'_blank','noopener,noreferrer'); };
+  $('#searchCoverMenuBtn').onclick=function(){ showCoverSearchMenu(this,$('#f_title').value.trim()||$('#f_isbn').value.trim()||''); };
   const sel=b?b.tags.slice():[]; renderTagsInput(sel,$('#tagBox'));
   $('#saveB').onclick=function(){
     const title=$('#f_title').value.trim(); if(!title){toast('请填写书名');return;}
