@@ -974,7 +974,7 @@ function recordPnlSnapshot(silent){
 function pnlChart(){
   let pnl=COL.pnl()||[];
   pnl=pnl.slice(-30);
-  const w=680,h=180,padL=46,padR=46,padT=16,padB=28;
+  const w=700,h=220,padL=56,padR=56,padT=18,padB=44;
   let chart='';
   if(pnl.length){
     const vals=pnl.map(p=>p.totalValue); const minV=Math.min(...vals),maxV=Math.max(...vals); const rngV=(maxV-minV)||1;
@@ -985,22 +985,31 @@ function pnlChart(){
     const Yp=v=>h-padB-(h-padT-padB)*(v-minP)/rngP;
     const line=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yv(p.totalValue).toFixed(1)}`).join(' ');
     const line2=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yp(p.totalPnl).toFixed(1)}`).join(' ');
+    const area=pnl.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Yv(p.totalValue).toFixed(1)}`).join(' ')
+      +` L${X(n-1).toFixed(1)},${h-padB} L${X(0).toFixed(1)},${h-padB} Z`;
     const fmtY=v=>v>=10000?(v/10000).toFixed(1)+'万':Math.round(v).toLocaleString();
+    const fmtDate=d=>String(d||'').slice(5).replace('-','/');
     const ticksV=[minV,(minV+maxV)/2,maxV].map(v=>fmtY(v));
     const ticksP=[minP,(minP+maxP)/2,maxP].map(v=>fmtY(v));
+    const xDates=pnl.map((p,i)=>{ const x=X(i); const d=fmtDate(p.date); return `<text x="${x}" y="${h-padB+18}" font-size="10" fill="var(--muted)" text-anchor="middle">${d}</text>`; }).join('');
+    const gridH=(h-padT-padB)/2;
     chart=`<svg viewBox="0 0 ${w} ${h}">`
-      +`<line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="var(--line)"/>`
-      +`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="var(--line)"/>`
-      +`<line x1="${w-padR}" y1="${padT}" x2="${w-padR}" y2="${h-padB}" stroke="var(--line)"/>`
-      +ticksV.map((t,i)=>`<text x="${padL-8}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="var(--muted)" text-anchor="end">${t}</text>`).join('')
-      +ticksP.map((t,i)=>`<text x="${w-padR+8}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="var(--muted)" text-anchor="start">${t}</text>`).join('')
-      +`<path d="${line}" fill="none" stroke="#2563eb" stroke-width="2.5"/>`
-      +`<path d="${line2}" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="5 4"/>`
+      +`<defs><linearGradient id="pnlArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563eb" stop-opacity="0.18"/><stop offset="100%" stop-color="#2563eb" stop-opacity="0.02"/></linearGradient></defs>`
+      +`<rect x="${padL}" y="${padT}" width="${w-padL-padR}" height="${h-padT-padB}" fill="var(--card)" stroke="var(--line)" rx="6"/>`
+      +[0,1,2].map(i=>`<line x1="${padL}" y1="${padT+gridH*i}" x2="${w-padR}" y2="${padT+gridH*i}" stroke="var(--line)" stroke-dasharray="2 3" opacity="0.6"/>`).join('')
+      +ticksV.map((t,i)=>`<text x="${padL-10}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="#2563eb" text-anchor="end" font-weight="600">${t}</text>`).join('')
+      +ticksP.map((t,i)=>`<text x="${w-padR+10}" y="${h-padB-(h-padT-padB)*i/2+4}" font-size="10" fill="#9333ea" text-anchor="start" font-weight="600">${t}</text>`).join('')
+      +xDates
+      +`<path d="${area}" fill="url(#pnlArea)" stroke="none"/>`
+      +`<path d="${line}" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`
+      +pnl.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Yv(p.totalValue).toFixed(1)}" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>`).join('')
+      +`<path d="${line2}" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/>`
+      +pnl.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Yp(p.totalPnl).toFixed(1)}" r="3" fill="#9333ea"/>`).join('')
       +`</svg>`;
   } else {
     chart=`<div class="empty" style="padding:24px 0"><div class="e-ico" style="font-size:28px">📈</div><p class="muted-small">暂无历史快照，点击右上角按钮记录第一条</p></div>`;
   }
-  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:6px">蓝线=总市值（左轴，单位 ¥）　紫线=累计盈亏（右轴，单位 ¥）　（A+H 按港币→人民币折算）</div></div>`;
+  return `<div class="panel mt"><div class="panel-head"><h2>📊 市值 / 盈亏曲线</h2><button class="btn sm" id="recPnl">记录今日快照</button></div><div class="chart-wrap">${chart}</div><div class="muted-small" style="margin-top:8px">🔵 总市值（左轴，单位 ¥）　🟣 累计浮动盈亏（右轴，单位 ¥）　（A+H 按港币→人民币折算）</div></div>`;
 }
 function stockQuotes(body){
   const q=COL.stockQuotes();
