@@ -678,12 +678,13 @@ function renderSidebar(){
   const s=$('#sidebar');
   const counts=moduleCounts();
   let html='<div class="nav-group-label">主导航</div>';
-  NAV.forEach(n=>{ if(n.id==='search') return;
+  NAV.forEach(n=>{ if(n.id==='search'||n.id==='settings') return;
     const c=counts[n.id]; const badge=c?`<span class="ni-count">${c}</span>`:'';
     html+=`<a class="nav-item" data-nav="${n.id}" href="${n.hash}"><span class="ni-ico">${n.ico}</span>${n.label}${badge}</a>`;
   });
   html+='<div class="nav-group-label">工具</div>';
   html+=`<a class="nav-item" data-nav="search" href="#/search"><span class="ni-ico">🔍</span>全局搜索</a>`;
+  html+=`<a class="nav-item" data-nav="settings" href="#/settings"><span class="ni-ico">⚙️</span>设置</a>`;
   s.innerHTML=html;
   $$('.nav-item',s).forEach(a=>a.addEventListener('click',()=>{ location.hash=a.getAttribute('href').slice(1); }));
 }
