@@ -156,6 +156,16 @@
   .subnav .si-ico{font-size:15px;line-height:1}
   .subnav .si-label{line-height:1}
 
+  /* segment control */
+  .seg{display:flex;gap:8px;flex-wrap:wrap;padding:6px;background:var(--chip-bg);border:1px solid var(--line);border-radius:999px;width:fit-content;max-width:100%;margin-bottom:18px}
+  .seg button{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;transition:all .15s ease;cursor:pointer;line-height:1}
+  .seg button:hover{background:var(--card);color:var(--text)}
+  .seg button.on{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 3px 10px rgba(var(--shadow-color),.28)}
+  .seg button.on .seg-code{opacity:1}
+  .seg-name{font-weight:600}
+  .seg-code{font-family:ui-monospace,monospace;font-size:12px;opacity:.85}
+  @media (max-width:820px){ .seg button{padding:8px 12px;font-size:12px} }
+
   /* cards & grid */
   .grid{display:grid;gap:var(--gap)}
   .cards-2{grid-template-columns:repeat(2,1fr)}
