@@ -1069,7 +1069,7 @@ function stockDiag(body){
   const s=diagSuggest(d);
   const cs=compositeScore(h);
   let html='<div class="banner warn"><span class="b-ico">⚠️</span><div>个股诊断基于实时/示例行情与 K 线技术指标计算，仅供参考，<b>不构成投资建议</b>。K线为公开前复权数据，离线时以示例走势演示。</div></div>';
-  html+='<div id="diagSeg" class="seg">'+(COL.holdings().map(function(x){ return '<button class="'+(x.id===id?'on':'')+'" data-did="'+x.id+'">'+esc(x.name)+' '+esc(x.code)+'</button>'; }).join(''))+'</div>';
+  html+='<div id="diagSeg" class="seg">'+(COL.holdings().map(function(x){ return '<button class="'+(x.id===id?'on':'')+'" data-did="'+x.id+'"><span class="seg-name">'+esc(x.name)+'</span> <span class="seg-code">'+esc(x.code)+'</span></button>'; }).join(''))+'</div>';
   html+='<div class="grid cards-2" style="margin-top:10px"><div class="card"><div class="stat-label">'+esc(h.name)+' '+esc(h.code)+'</div><div class="stat-num '+(d.q?clsForPct(d.q.pct):'')+'" style="font-size:22px">'+fmtMoney(d.price,c)+'</div><div class="muted-small">现价 · '+(d.q?pct2(d.q.pct):'示例')+'</div></div>'+
     '<div class="card"><div class="stat-label">成本价 / 持仓</div><div class="stat-num" style="font-size:18px">'+fmtMoney(h.cost,c)+' · '+fmt2(h.shares)+'股</div><div class="muted-small">行业 '+(h.sector||'—')+'</div></div></div>';
   html+='<div class="grid cards-2" style="margin-top:10px"><div class="card"><div class="stat-label">浮动盈亏</div><div class="stat-num '+(d.pnl>=0?'up':'down')+'" style="font-size:18px">'+money2(d.pnl,c)+' ('+pct2(d.pnlPct)+')</div></div>'+
