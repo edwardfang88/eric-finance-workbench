@@ -684,7 +684,6 @@ function renderSidebar(){
   });
   html+='<div class="nav-group-label">工具</div>';
   html+=`<a class="nav-item" data-nav="search" href="#/search"><span class="ni-ico">🔍</span>全局搜索</a>`;
-  html+=`<a class="nav-item" data-nav="settings" href="#/settings"><span class="ni-ico">⚙️</span>设置</a>`;
   s.innerHTML=html;
   $$('.nav-item',s).forEach(a=>a.addEventListener('click',()=>{ location.hash=a.getAttribute('href').slice(1); }));
 }
