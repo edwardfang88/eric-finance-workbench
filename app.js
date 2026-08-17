@@ -1037,7 +1037,7 @@ function stockQuotes(body){
   }
   if(b){
     const btime=store.raw(PREFIX+'stock_breadth_time',0);
-    html+='<div class="panel mt"><div class="panel-head"><h2>📊 涨跌家数 '+(btime?'<span class="badge">实时</span>':'<span class="badge sample">示例</span>')+'</h2></div><div class="grid cards-4"><div class="card"><div class="stat-num up">'+fmt2(b.up)+'</div><div class="stat-label">上涨</div></div><div class="card"><div class="stat-num down">'+fmt2(b.down)+'</div><div class="stat-label">下跌</div></div><div class="card"><div class="stat-num">'+fmt2(b.limitUp)+'</div><div class="stat-label">涨停</div></div><div class="card"><div class="stat-num">'+fmt2(b.limitDown)+'</div><div class="stat-label">跌停</div></div></div><div class="muted-small">市场宽度 '+(b.up>b.down?'偏强':b.down>b.up?'偏弱':'均衡')+(btime?'（实时）':'（示例）')+'</div></div>';
+    html+='<div class="panel mt"><div class="panel-head"><h2>📊 涨跌家数 '+(btime?'<span class="badge">实时</span>':'<span class="badge sample">示例</span>')+'</h2></div><div class="grid cards-4"><div class="card"><div class="stat-num up">'+fmt2(b.up,0)+'</div><div class="stat-label">上涨</div></div><div class="card"><div class="stat-num down">'+fmt2(b.down,0)+'</div><div class="stat-label">下跌</div></div><div class="card"><div class="stat-num">'+fmt2(b.limitUp,0)+'</div><div class="stat-label">涨停</div></div><div class="card"><div class="stat-num">'+fmt2(b.limitDown,0)+'</div><div class="stat-label">跌停</div></div></div><div class="muted-small">市场宽度 '+(b.up>b.down?'偏强':b.down>b.up?'偏弱':'均衡')+(btime?'（实时）':'（示例）')+'</div></div>';
   }
   if(q&&q.data&&Object.keys(q.data).length){
     html+='<div class="panel mt"><h2>💼 持仓行情</h2><table><thead><tr><th>名称/代码</th><th class="num">现价</th><th class="num">涨跌幅</th><th class="num">昨收</th></tr></thead><tbody>';
